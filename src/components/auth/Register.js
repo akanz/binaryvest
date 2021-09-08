@@ -10,6 +10,8 @@ import { register } from "../../redux/actions/auth";
 import { initialValues, validationSchema } from "../../helpers/register";
 import { clearMessage } from "../../redux/actions/message";
 import signupImg from "../../img/signup.svg";
+import Errormessage from "../otherComps/Errormessage";
+import Successmessage from "../otherComps/Successmessage";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -17,38 +19,19 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 const Register = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const msg = useSelector((state) => state.msg);
-  const [display, setDisplay] = useState(true);
+  const msg = useSelector((state) => state.message);
   const history = useHistory();
 
   // Onsubmit of form, dispatch register action with the form values
   const onSubmit = async (values) => {
     dispatch(clearMessage());
     dispatch(register(values));
-    showErr();
-    
-    // try {
-    //   const response = await axios.post("/signup", values);
-    //   console.log(response.data);
-    //   toast.success(
-    //     `Welcome, ${response.data.data.username}. You will be redirected to login shortly`
-    //   );
-    //   setTimeout(() => {
-    //     history.push("/login");
-    //   }, 8000);
-    // } catch (err) {
-    //   console.log(err.response);
-    //   toast.error(err.response.data.error).toString();
-    // }
-  };
-  function showErr() {
     setTimeout(() => {
-      setDisplay(false);
+      dispatch(clearMessage());
     }, 3000);
-    setDisplay(true);
-  }
 
-  console.log(isAuthenticated, msg);
+  };
+
   return (
     <div className="flex min-h-screen h-screen overflow-hidden">
       <div className="w-3/15 lg:w-3/10 hidden md:block bg-signup h-full text-white p-8">
@@ -74,22 +57,14 @@ const Register = () => {
 
           <div className="my-8">
             {msg.status === 400 && (
-              <div
-                className={`${
-                  display === true ? " opacity-100 " : " opacity-0 hidden "
-                }bg-red-600 transform transition ease-in-out duration-500 font-medium text-center rounded text-white p-2`}
-              >
+              <Errormessage>
                 {msg.message}
-              </div>
+              </Errormessage>
             )}
             {msg.status === 200 && (
-              <div
-                className={`${
-                  display === true ? " opacity-100 " : " opacity-0 hidden "
-                } bg-blue-600 transform transition ease-in-out duration-500 font-medium text-center rounded text-white p-2`}
-              >
+              <Successmessage>
                 {msg.message}
-              </div>
+              </Successmessage>
             )}
             <Formik
               initialValues={initialValues}
@@ -156,6 +131,11 @@ const Register = () => {
                 );
               }}
             </Formik>
+            <div className='text-blueish underline text-right text-sm md:hidden'>
+              <Link to='/login'>
+              Already registered? sign in
+              </Link>
+            </div>
           </div>
         </div>
       </div>

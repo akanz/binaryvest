@@ -2,8 +2,6 @@ import {
   DEPOSIT_FAILURE,
   DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
-  PROOF_OF_PAY_FAIL,
-  PROOF_OF_PAY_SUCCESS,
 } from "../actionTypes";
 
 const initialState = {
@@ -33,18 +31,6 @@ const depositReducer = (state = initialState, action) => {
         ...state,
         amount: null,
         isLoading: false,
-      };
-    case PROOF_OF_PAY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        proof_of_payment: action.payload,
-      };
-    case PROOF_OF_PAY_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        proof_of_payment: null,
       };
     default:
       return state;

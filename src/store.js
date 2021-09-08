@@ -1,14 +1,19 @@
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducer from "./redux/reducers";
-import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./redux/reducers/auth";
+import depositReducer from "./redux/reducers/deposit";
+import messageReducer from "./redux/reducers/message";
+import userReducer from "./redux/reducers/user";
+import verificationReducer from "./redux/reducers/verify";
 
-const middleware = [thunk];
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(
-    applyMiddleware(...middleware),
-  )
-);
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        message: messageReducer,
+        user: userReducer,
+        deposit: depositReducer,
+        verify: verificationReducer,
+    }
+})
 
-export default store;
+export default store
+ 

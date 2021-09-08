@@ -7,7 +7,7 @@
         @apply transform hover:scale-110 transition duration-300 ease-in-out;
     }
     .button {
-        @apply px-8 md:px-12 lg:px-16 uppercase rounded transform hover:scale-110 transition duration-300 ease-in-out  bg-pink-600 text-center py-2 text-white;
+        @apply px-8 lg:px-16 uppercase rounded transform hover:scale-110 transition duration-300 ease-in-out  bg-pink-600 text-center py-2 text-white;
     }
     .button:disabled {
         @apply bg-gray-400 hover:scale-100;
@@ -62,5 +62,8 @@
     }
     .menu .img {
         @apply w-1/5;
+    }
+    .message {
+        @apply opacity-100 transform transition ease-in-out duration-500 mt-2 font-medium capitalize rounded-sm text-sm text-center text-white p-1.5;
     }
 }

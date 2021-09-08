@@ -1,19 +1,21 @@
 import { Form, Formik } from "formik";
-import React, { useState, createContext } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Switch, Route, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
+import { BiArrowBack } from "react-icons/bi";
 import {
+  getPlans,
   initialValues,
   packageOptions,
-  payOptions,
   validationSchema,
 } from "../../helpers/invest";
 import Crypto from "./Crypto";
 import Card from "./Card";
 import { deposit, proofOfPayment } from "../../redux/actions/deposit";
+import { clearMessage } from "../../redux/actions/message";
 
 export const payContext = createContext();
 
@@ -21,12 +23,29 @@ const Payment = () => {
   const [payMethod, setPayMethod] = useState("");
   const [step, setsStep] = useState(1);
   const [proofOfPay, setProofOfPay] = useState("");
+  const [packageOption, setPackageOption] = useState({
+    name: "",
+    id: null,
+    roi: null,
+    minAmount: null,
+    maxAmount: null,
+  });
+
   const dispatch = useDispatch("");
-  console.log(step);
+  console.log(packageOption);
+
+  useEffect(() => {
+    getPlans();
+  }, []);
 
   const onSubmit = async (values) => {
-    dispatch(deposit(values));
-    dispatch(proofOfPayment(proofOfPay));
+    const data = { ...values, packageOption, proofOfPay };
+    console.log(data);
+    dispatch(deposit(data));
+    
+    setTimeout(() => {
+      dispatch(clearMessage());
+    }, 3000);
   };
 
   return (
@@ -35,13 +54,7 @@ const Payment = () => {
         <h2 className="text-3xl text-center text-gray-600 tracking-wider">
           Invest
         </h2>
-        {/* <payContext.Provider value={[payMethod, setPayMethod]}>
-          <Switch>
-            <Route exact path={path} component={Paytype} />
-            <Route exact path={`${path}/plan`} component={Plan} />
-            <Route exact path={`${path}/confirm`} component={Confirm} />
-          </Switch>
-        </payContext.Provider> */}
+
         {step === 1 && (
           <div className="my-5">
             <div className="border-b flex justify-between items-center border-gray-300 p-2 py-3">
@@ -93,7 +106,7 @@ const Payment = () => {
         >
           {(formik) => (
             <Form>
-              {/* {console.log(formik)} */}
+              {console.log(formik)}
               <div>
                 {step === 2 && (
                   <div>
@@ -109,11 +122,38 @@ const Payment = () => {
                     <div>
                       <h3>Please select your preferred investment plan</h3>
                       <div className="grid">
-                        <Formikcontrol
+                        {/* <Formikcontrol
                           control="radio"
                           name="packageOption"
                           options={packageOptions}
-                        />
+                        /> */}
+                        {packageOptions.map((option) => (
+                          <div
+                            className="flex items-center my-1.5 text-gray-700"
+                            key={option._id}
+                          >
+                            <input
+                              color="teal"
+                              className="form-radio mr-2.5"
+                              type="radio"
+                              id={option._id}
+                              name={option.name}
+                              value={option._id}
+                              checked={option.id}
+                              onChange={() =>
+                                setPackageOption({
+                                  ...packageOption,
+                                  id: option._id,
+                                  name: option.name,
+                                  roi: option.roi,
+                                  minAmount: option.minAmount,
+                                  maxAmount: option.maxAmount,
+                                })
+                              }
+                            />
+                            <label htmlFor={option.name}>{option.name}</label>
+                          </div>
+                        ))}
                       </div>
 
                       <div className="my-4">
@@ -125,16 +165,25 @@ const Payment = () => {
                       </div>
 
                       <div className="text-right mt-8">
-                        {formik.values.amount !== "" &&
-                          formik.values.amount !== "" && isNaN(formik.values.amount) === false &&
-                          formik.values.packageOption !== "" && (
-                            <Link
-                              to="#"
-                              onClick={() => setsStep(3)}
-                              className="button"
-                            >
-                              next
-                            </Link>
+                        {formik.values.email !== "" &&
+                          formik.values.amount !== "" &&
+                          isNaN(formik.values.amount) === false && (
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <Link to="#" onClick={() => setsStep(1)}>
+                                  <BiArrowBack className="w-10 h-8 text-gray-500" />
+                                </Link>
+                              </div>
+                              <div>
+                                <Link
+                                  to="#"
+                                  onClick={() => setsStep(3)}
+                                  className="button"
+                                >
+                                  next
+                                </Link>
+                              </div>
+                            </div>
                           )}
                       </div>
                     </div>
@@ -144,6 +193,7 @@ const Payment = () => {
                   <Crypto
                     handleProofOfPay={setProofOfPay}
                     amount={formik.values.amount}
+                    handleStep={setsStep}
                   />
                 )}
                 {step === 3 && payMethod === 2 && <Card />}

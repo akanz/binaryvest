@@ -9,6 +9,8 @@ import axios from "axios";
 import { login } from "../../redux/actions/auth";
 import { initialValues, validationSchema } from "../../helpers/login";
 import { clearMessage } from "../../redux/actions/message";
+import Errormessage from "../otherComps/Errormessage";
+import Successmessage from "../otherComps/Successmessage";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -17,50 +19,22 @@ const date = new Date();
 
 const Login = () => {
   const dispatch = useDispatch();
-  const msg = useSelector((state) => state.msg);
+  const msg = useSelector((state) => state.message);
   const user = useSelector((state) => state.auth);
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState(true);
   const { state } = useLocation();
 
   const onSubmit = async (values) => {
     dispatch(clearMessage());
     dispatch(login(values));
-    setDisplay(true);
 
-  };
-  useEffect(() => {
     setTimeout(() => {
-      setDisplay(true)
+      dispatch(clearMessage());
     }, 3000);
-  }, [display])
-  // try {
-  //   const response = await axios.post("/login", values);
-  //   console.log(response);
-
-  //   localStorage.setItem("userToken", JSON.stringify(response.data.token));
-  //   setUserToken(JSON.stringify(response.data.token));
-  //   toast.success(`welcome back, ${response.data.data.username}`);
-  //   //   history.push("/dashboard");
-  // } catch (err) {
-  //   console.log(err.response);
-  //   toast.error(err.response.data.error);
-  // }
-
-  // useEffect(() => {
-  //   const loggedinuser = localStorage.getItem("userToken");
-  //   if (loggedinuser) {
-  //     const userDetails = JSON.parse(loggedinuser);
-  //     setUserToken(userDetails);
-  //   }
-  // }, []);
-
-  // if (userToken) {
-  //     console.log('Authentication successful, You will be redirected to the dashboard')
-  //   return <Redirect to='/dashboard' />
-  // }
+  };
 
   if (user.isAuthenticated === true) {
-    return <Redirect to={state?.from || "/"} />;
+      return <Redirect to={state?.from || "/"} />;
   }
 
   return (
@@ -73,7 +47,7 @@ const Login = () => {
             <p> To stay connected please enter your login details. </p>
             <p>Don’t have an account yet?</p>
           </div>
-          <Link to="/login">
+          <Link to="/register">
             <button className="border-white lg:px-16 px-4 text-white text-xl hover:bg-white hover:text-darkblue btnTrans">
               SIGN UP
             </button>
@@ -87,23 +61,10 @@ const Login = () => {
           </h1>
 
           <div className="my-8">
-            {msg.status === 400 && (
-              <div
-                className={`${
-                  display === true ? " opacity-100 " : " opacity-0 hidden "
-                }bg-red-600 transform transition ease-in-out duration-500 mt-2 font-medium capitalize rounded text-white p-1.5`}
-              >
-                {msg.message}
-              </div>
-            )}
+            {msg.status === 400 && <Errormessage>{msg.message}</Errormessage>}
+
             {msg.status === 200 && (
-              <div
-                className={`${
-                  display === true ? " opacity-100 " : " opacity-0 hidden "
-                } bg-blue-600 transform transition ease-in-out duration-500 font-medium rounded text-white p-2`}
-              >
-                {msg.message}
-              </div>
+              <Successmessage>{msg.message}</Successmessage>
             )}
             <Formik
               initialValues={initialValues}
@@ -139,12 +100,19 @@ const Login = () => {
               )}
             </Formik>
             <div className="my-4 text-right">
-              <Link
-                to="/forgot"
-                className="font-semibold text-blueish cursor-pointer"
-              >
-                Forgot Password?
-              </Link>
+              <div>
+                <Link
+                  to="/forgot"
+                  className="font-semibold text-blueish cursor-pointer"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              <div className="md:hidden text-sm my-2 text-blueish underline">
+                <Link to="/register">
+                  Don't have an account with us? sign up.
+                </Link>
+              </div>
             </div>
           </div>
         </div>

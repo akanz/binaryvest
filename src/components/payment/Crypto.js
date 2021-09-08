@@ -1,8 +1,14 @@
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import cp from "../../img/c&p.svg";
-import add from "../../img/add.svg";
+import uploadIcon from "../../img/upload.svg";
+import { BiArrowBack } from "react-icons/bi";
+import { Link } from "@material-ui/core";
+import Errormessage from "../otherComps/Errormessage";
+import Successmessage from "../otherComps/Successmessage";
 
-const Crypto = ({ handleProofOfPay, amount }) => {
+const Crypto = ({ handleProofOfPay, amount, handleStep }) => {
+  const message = useSelector((state) => state.message);
   const [copy, setCopy] = useState("");
   const [copyState, setCopyState] = useState(false);
   const inpRef = useRef("");
@@ -16,15 +22,18 @@ const Crypto = ({ handleProofOfPay, amount }) => {
   const handleFileChange = (e) => {
     let files = e.target.files;
     // handleFile(files[0]);
-
     if (files.length > 0) {
-      let fileReader = new FileReader();
-      fileReader.readAsDataURL(files[0]);
-      fileReader.onload = (e) => {
-        const result = e.target.result;
-        handleProofOfPay(result);
-      };
+      handleProofOfPay(files[0].name);
     }
+    console.log(files);
+    // if (files.length > 0) {
+    //   let fileReader = new FileReader();
+    //   fileReader.readAsDataURL(files[0]);
+    //   fileReader.onload = (e) => {
+    //     const result = e.target.result;
+    //     handleProofOfPay(result);
+    //   };
+    // }
   };
   const copyToClip = (e) => {
     if (e.target.name === "erc") {
@@ -46,9 +55,13 @@ const Crypto = ({ handleProofOfPay, amount }) => {
   }, 2000);
   return (
     <div>
+      {message.status === 400 && <Errormessage>{message.message}</Errormessage>}
+      {message.status === 200 && (
+        <Successmessage>{message.message}</Successmessage>
+      )}
       <h3 className="text-sm mt-5 text-gray-500 font-light">
-        Deposit the sum of ${amount} into any of the following USDT wallet addresses
-        listed below
+        Deposit the sum of ${amount} into any of the following USDT wallet
+        addresses listed below
       </h3>
       <div className="my-3 flex justify-between">
         <span className="font-semibold">ERC20</span>
@@ -92,37 +105,41 @@ const Crypto = ({ handleProofOfPay, amount }) => {
           <img name="bep" src={cp} alt="copy wallet address" />
         </span>
       </div>
+      {copyState && (
+        <span className="flex justify-center items-center w-5/10 mx-auto mt-5 bg-blue-500 rounded text-white text-sm capitalize p-2 px-12">
+          {copy}
+        </span>
+      )}
       <h3 className="text-gray-500 my-3 text-xs font-light">
         Please Upload a screenshot of the sucessful transaction and a
         confirmation email will be sent to you after the money has been
         received.
       </h3>
-      <div className="border border-gray-200 my-2 p-2">
+      <div className="border border-gray-200 hover:border-lightteal border-dashed my-2 p-2">
         <input
           ref={inpRef}
           className="hidden"
           type="file"
-          onClick={(e) => handleFileChange(e)}
+          onChange={(e) => handleFileChange(e)}
         />
-        <div className="flex justify-center">
-          <img
-            className="w-16"
-            src={add}
-            alt="upload file"
-            onClick={click}
-          />
+        <div className="flex justify-center py-2">
+          <img className="w-16" src={uploadIcon} onClick={click} alt="upload" />
         </div>
       </div>
-      <div className="text-right mt-8">
-        <button type='submit' className="button">confirm</button>
+      <div className="flex items-center justify-between mt-8">
+        <div className="">
+          <Link to="#" onClick={() => handleStep(2)}>
+            <BiArrowBack className="w-10 h-8 text-gray-500" />
+          </Link>
+        </div>
+        <div className="">
+          <button type="submit" className="button">
+            confirm
+          </button>
+        </div>
       </div>
-      <div>
-      {copyState && (
-          <span className="flex justify-center items-center w-5/10 mx-auto mt-5 bg-blue-500 rounded text-white text-sm capitalize p-2 px-12">
-            {copy}
-          </span>
-        )}
-      </div>
+
+      <div></div>
     </div>
   );
 };

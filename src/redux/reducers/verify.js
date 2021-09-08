@@ -5,7 +5,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  user: null,
+  email: null,
   phone_no: null,
   ssn: null,
   id_type: null,

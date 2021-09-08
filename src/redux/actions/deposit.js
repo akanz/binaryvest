@@ -1,41 +1,66 @@
 import {
+  CONFIRM_DEP_SUCCESS,
   DEPOSIT_FAILURE,
+  DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
   PROOF_OF_PAY_FAIL,
   PROOF_OF_PAY_SUCCESS,
 } from "../actionTypes";
 import { setMessage } from "./message";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import { tokenConfig } from "./auth";
+import { data } from "autoprefixer";
 
-export const deposit = (data) => (dispatch) => {
-  try {
-    dispatch({
-      type: DEPOSIT_SUCCESS,
-      payload: data,
-    });
-    dispatch(setMessage("Deposit was successful", 200, DEPOSIT_SUCCESS));
-    console.log(data);
-  } catch (err) {
-    dispatch({
-      type: DEPOSIT_FAILURE,
-    });
-    dispatch(setMessage("Transaction failed", 403, DEPOSIT_FAILURE));
-  }
-};
+axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
-export const proofOfPayment = (data) => (dispatch) => {
-  try {
-    dispatch({
-      type: PROOF_OF_PAY_SUCCESS,
-      payload: data,
+export const deposit =
+  (values) =>
+  (dispatch, getState) => {
+    // let id = uuidv4(),
+    //   stripId = id
+    //     .replace(/(?!\w|\s)./g, "")
+    //     .replace(/\s+/g, " ")
+    //     .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, "$2").slice(0,24);
+
+    const data = JSON.stringify({
+      planId: values.packageOption.id,
+      email: values.email,
+      amount: values.amount,
     });
-    dispatch(
-      setMessage("Proof of payment uploaded", 200, PROOF_OF_PAY_SUCCESS)
-    );
-    console.log(data);
-  } catch (error) {
+
     dispatch({
-      type: PROOF_OF_PAY_FAIL,
+      type: DEPOSIT_LOADING,
     });
-    dispatch(setMessage("Unable to upload", 403, PROOF_OF_PAY_FAIL));
-  }
-};
+    axios
+      .post("/user/invest", data, tokenConfig(getState))
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: DEPOSIT_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(
+          setMessage(
+            "Deposit successful, It will be verified shortly",
+            200,
+            DEPOSIT_SUCCESS
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err.response);
+        dispatch({
+          type: DEPOSIT_FAILURE,
+        });
+        dispatch(
+          setMessage(
+            err.response.data.error,
+            err.response.status,
+            DEPOSIT_FAILURE
+          )
+        );
+      });
+  };
+

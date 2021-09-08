@@ -25,7 +25,8 @@ const requirements = [
 
 const Verify = () => {
   const [showId, setShowId] = useState("");
-  const uploadref = useRef("");
+  const uploadref1 = useRef("");
+  const uploadref2 = useRef("");
   const userDetails = useSelector((state) => state.auth.data);
   const dispatch = useDispatch("");
 
@@ -38,7 +39,7 @@ const Verify = () => {
 
   // Formik initial states
   const initialValues = {
-    username: userDetails.username,
+    email: userDetails.email,
     phone_no: "",
     ssn: "",
   };
@@ -59,8 +60,34 @@ const Verify = () => {
     setShowId(2);
     setOtherState({ ...otherState, id_type: "d_license" });
   };
-  console.log(uploadref);
+  console.log(uploadref1);
+  const handleFrontPage = (e) => {
+    let files = e.target.files[0];
+    // handleFile(files[0]);
+    setOtherState({ ...otherState, frontPage: files.name });
+    // if (files.length > 0) {
+    //   let fileReader = new FileReader();
+    //   fileReader.readAsDataURL(files[0]);
+    //   fileReader.onload = (e) => {
+    //     const result = e.target.result;
+    //     setOtherState({ ...otherState, frontPage: result });
+    //   };
+    // }
+  };
 
+  const handleBackPage = (e) => {
+    let files = e.target.files[0]; 
+    // handleFile(files[0]);
+    setOtherState({ ...otherState, backPage: files.name });
+    // if (files.length > 0) {
+    //   let fileReader = new FileReader();
+    //   fileReader.readAsDataURL(files[0]);
+    //   fileReader.onload = (e) => {
+    //     const result = e.target.result;
+    //     setOtherState({ ...otherState, backPage: result });
+    //   };
+    // }
+  };
   const onSubmit = async (values) => {
     dispatch(verify(values));
     dispatch(verify(otherState));
@@ -85,7 +112,7 @@ const Verify = () => {
                   type="text"
                   value={userDetails.username}
                   className="form-input my-2 border-gray-300 rounded"
-                  name="username"
+                  name="email"
                   readOnly
                 />
                 <Formikcontrol
@@ -107,6 +134,7 @@ const Verify = () => {
                   Use a Valid government issued document, Only the following
                   documents will be accepted.
                 </h3>
+
                 <div className="grid">
                   <span
                     onClick={handleIdtype1}
@@ -122,36 +150,63 @@ const Verify = () => {
                     <AiOutlineIdcard className="h-6 w-6 mr-2" />
                     <span> Driver’s License</span>
                   </span>
-
-                  <div>
-                    <h3>
-                      {showId === 1 && "Upload Image of the ID Card"}
-                      {showId === 2 && "Upload Image of Driver's License"}
-                    </h3>
-                    <div className="my-2 md:w-3/5 text-sm text-gray-600">
-                      {requirements.map((data, i) => (
-                        <div key={i} className="flex items-center my-1">
-                          <div className="w-1/50">
-                            <img src={data.img} alt="requirements" />
+                  {otherState.id_type !== "" && (
+                    <div>
+                      <h3>
+                        {showId === 1 && "Upload Image of the ID Card"}
+                        {showId === 2 && "Upload Image of Driver's License"}
+                      </h3>
+                      <div className="my-2 md:w-3/5 text-sm text-gray-600">
+                        {requirements.map((data, i) => (
+                          <div key={i} className="flex items-center my-1">
+                            <div className="w-1/50">
+                              <img src={data.img} alt="requirements" />
+                            </div>
+                            <div className="ml-3">{data.desc}</div>
                           </div>
-                          <div className="ml-3">{data.desc}</div>
+                        ))}
+                      </div>
+                      <div className="mt-1 text-gray-600">Front page</div>
+                      <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
+                        <input
+                          className="hidden"
+                          type="file"
+                          ref={uploadref1}
+                          onChange={(e) => handleFrontPage(e)}
+                        />
+                        <div
+                          className=""
+                          onClick={() => uploadref1.current.click()}
+                        >
+                          <img className="w-16" src={uploadIcon} alt="upload" />
                         </div>
-                      ))}
-                    </div>
-                    <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 my-4 rounded-md flex items-center justify-center">
-                      <input className="hidden" type="file" ref={uploadref} />
-                      <div
-                        className=""
-                        onClick={() => uploadref.current.click()}
-                      >
-                        <img className="w-16" src={uploadIcon} alt="upload" />
+                      </div>
+                      <div className="mt-1 text-gray-600">Back page</div>
+                      <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
+                        <input
+                          className="hidden"
+                          type="file"
+                          ref={uploadref2}
+                          onChange={(e) => handleBackPage(e)}
+                        />
+                        <div
+                          className=""
+                          onClick={() => uploadref2.current.click()}
+                        >
+                          <img className="w-16" src={uploadIcon} alt="upload" />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   <button
                     disabled={
-                      !formik.isValid || formik.isSubmitting || !formik.dirty || otherState.id_type === ""
+                      !formik.isValid ||
+                      formik.isSubmitting ||
+                      !formik.dirty ||
+                      otherState.id_type === "" ||
+                      otherState.frontPage === "" ||
+                      otherState.backPage === ""
                     }
                     className="button w-full my-3 font-semibold"
                   >

@@ -1,16 +1,19 @@
 import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { verifyUser } from "../../redux/actions/admin";
 
 const Verify = () => {
   const user = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch("");
 
   const onSubmit = async (values) => {
     console.log(values);
+    dispatch(verifyUser(true));
   };
 
   return (
     <div>
-      <form className="grid">
+      <form className="grid" onSubmit={onSubmit}>
         <div className="my-3 grid">
           <label className="mb-1 text-gray-500 mx-1">User E-mail</label>
           <input

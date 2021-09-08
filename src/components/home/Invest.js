@@ -92,9 +92,6 @@ const Invest = () => {
           <button className="button">Get Started</button>
         </Link>
       </div>
-      <Link to="/dashboard">
-        <button className="button">profile</button>
-      </Link>
     </div>
   );
 };

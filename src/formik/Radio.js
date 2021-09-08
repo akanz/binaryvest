@@ -9,17 +9,17 @@ const RadioBtn = (props) => {
         {({ field }) => {
           return options.map((option) => {
             return (
-              <div className='flex items-center my-1.5 text-gray-700' key={option.key}>
+              <div className='flex items-center my-1.5 text-gray-700' key={option.name}>
                 <input
                   color="teal"
                   className="form-radio mr-2.5"
                   type="radio"
-                  id={option.value}
+                  id={option.id}
                   {...field}
-                  value={option.value}
-                  checked={field.value === option.value}
+                  value={option.name}
+                  checked={field.value === option.name}
                 />
-                <label htmlFor={option.value}>{option.key}</label>
+                <label htmlFor={option.name}>{option.name}</label>
               </div>
             );
           });
