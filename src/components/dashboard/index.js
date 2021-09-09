@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
 import Main from "./Main";
 import Sidebar from "./Sidebar";
 

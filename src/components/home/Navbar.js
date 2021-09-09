@@ -79,7 +79,7 @@ const Navbar = () => {
                 <GrClose className=" w-6 h-6" />
               </div>
             </div>
-            <div className="w-9/10 mx-auto text-gray-600 text-lg uppercase font-light tracking-wider my-5">
+            <div className="w-9/10 mx-auto text-gray-600 text-lg capitalize font-light tracking-wider my-5">
               <div
                 className={`${history === "/" ? "active" : ""} sideBar`}
                 onClick={handleClick}
@@ -92,11 +92,11 @@ const Navbar = () => {
                 } sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/education" className='flex items-center'>
+                <Link to="/education" className="flex items-center">
                   <div>
-                    <img src={navedu} className='w-6' alt="" />
+                    <img src={navedu} className="w-6" alt="" />
                   </div>
-                  <div className='ml-2'>Education</div>
+                  <div className="ml-2">Education</div>
                 </Link>
               </div>
               <div
@@ -107,7 +107,7 @@ const Navbar = () => {
                   <div>
                     <GiPayMoney />
                   </div>
-                  <div className='ml-2'>Deposit</div>
+                  <div className="ml-2">Deposit</div>
                 </Link>
               </div>
               <div
@@ -118,9 +118,23 @@ const Navbar = () => {
                   <div>
                     <GiReceiveMoney />
                   </div>
-                  <div className='ml-2'>Withdraw</div>
+                  <div className="ml-2">Withdraw</div>
                 </Link>
               </div>
+              {user.data && user.data.isAdmin && (
+                <div
+                  className={`${history === "/admin" ? "active" : ""} sideBar`}
+                  onClick={handleClick}
+                >
+                  <Link to="/admin" className="flex items-center">
+                    <div>
+                      <BiUser />
+                    </div>
+                    <div className="ml-2">Admin dashboard</div>
+                  </Link>
+                </div>
+              )}
+
               <div
                 className={`${history === "/profile" ? "active" : ""} sideBar`}
                 onClick={handleClick}
@@ -129,29 +143,29 @@ const Navbar = () => {
                   <div>
                     <BiUser />
                   </div>
-                  <div className='ml-2'>Profile</div>
+                  <div className="ml-2">Profile</div>
                 </Link>
               </div>
               <div
                 className={`${history === "/reviews" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/reviews" className='flex items-center'>
+                <Link to="/reviews" className="flex items-center">
                   <div>
-                    <img src={navReview} className='w-6' alt="" />
+                    <img src={navReview} className="w-6" alt="" />
                   </div>
-                  <div className='ml-2'>Reviews</div>
+                  <div className="ml-2">Reviews</div>
                 </Link>
               </div>
               <div
                 className={`${history === "/faq" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/faqs" className='flex items-center'>
+                <Link to="/faqs" className="flex items-center">
                   <div>
-                    <img src={navfaq} className='w-6' alt="" />
+                    <img src={navfaq} className="w-6" alt="" />
                   </div>
-                  <div className='ml-2'>FAQs</div>
+                  <div className="ml-2">FAQs</div>
                 </Link>
               </div>
             </div>
@@ -192,6 +206,14 @@ const Navbar = () => {
                 </div>
                 <div>withdraw</div>
               </Link>
+              {user.data && user.data.isAdmin && (
+                <Link className="capitalize items-center" to="/admin">
+                  <div className="mr-1">
+                    <BiUser className="w-6 h-6" />
+                  </div>
+                  <div>Admin</div>
+                </Link>
+              )}
               <Link className="capitalize items-center" to="/dashboard">
                 <div className="mr-1">
                   <BiUser className="w-6 h-6" />

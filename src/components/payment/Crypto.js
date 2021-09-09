@@ -7,7 +7,7 @@ import { Link } from "@material-ui/core";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
 
-const Crypto = ({ handleProofOfPay, amount, handleStep }) => {
+const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
   const message = useSelector((state) => state.message);
   const [copy, setCopy] = useState("");
   const [copyState, setCopyState] = useState(false);
@@ -133,7 +133,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep }) => {
           </Link>
         </div>
         <div className="">
-          <button type="submit" className="button">
+          <button disabled={proofOfPay === ""} type="submit" className="button">
             confirm
           </button>
         </div>

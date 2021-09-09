@@ -28,6 +28,7 @@ const Register = () => {
     dispatch(register(values));
     setTimeout(() => {
       dispatch(clearMessage());
+      history.push('/login');
     }, 3000);
 
   };

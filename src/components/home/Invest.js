@@ -1,10 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import roi1 from "../../img/roi1.svg";
-import roi2 from "../../img/roi2.svg";
-import roi3 from "../../img/roi3.svg";
-import roi4 from "../../img/roi4.svg";
-import roi5 from "../../img/roi5.svg";
 import giftIcon from "../../img/gift.svg";
 import bankIcon from "../../img/bank.svg";
 import chartIcon from "../../img/chart.svg";

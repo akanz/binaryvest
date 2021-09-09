@@ -12,6 +12,7 @@ export const AUTH_ERROR = 'AUTH_ERROR'
 export const SET_MESSAGE = 'SET_MESSAGE'
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE'
 
+
 // User deposit types
 export const DEPOSIT_LOADING = 'DEPOSIT_LOADING'
 export const DEPOSIT_SUCCESS = 'DEPOSIT_SUCCESS'
@@ -24,6 +25,27 @@ export const VERIFICATION_LOADING = 'VERIFICATION_LOADING'
 export const VERIFICATION_SUCCESS = 'VERIFICATION_SUCCESS'
 export const VERIFICATION_FAILURE = 'VERIFICATION_FAILURE'
 
+
+
+
+
+
+
+// ADMIN ACTIONS
+
+// get all users
+export const ALL_USERS_LOADING = 'ALL_USERS_LOADING'
+export const ALL_USERS_LOADED = 'ALL_USERS_LOADED'
+export const ALL_USERS_ERROR = 'ALL_USERS_ERROR'
+
+// 
+export const GET_USER_LOADING = 'GET_USER_LOADING'
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
+export const GET_USER_ERROR = 'GET_USER_ERROR'
+
+// create investment plan
+export const CREATE_PLAN_SUCCESS = 'CREATE_PLAN_SUCCESS'
+export const CREATE_PLAN_FAILURE = 'CREATE_PLAN_FAILURE'
 
 // admin authorize deposit
 export const CONFIRM_DEP_LOADING = 'CONFIRM_DEPOSIT_LOADING'

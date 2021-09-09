@@ -5,9 +5,8 @@ import {
 } from "../actionTypes";
 
 const initialState = {
+  userDetails : [],
   packageOption: "",
-  email: "",
-  amount: null,
   isUser: null,
   isLoading: false,
   proof_of_payment: null,
@@ -23,13 +22,13 @@ const depositReducer = (state = initialState, action) => {
     case DEPOSIT_SUCCESS:
       return {
         ...state,
-        ...action.payload,
+        userDetails: action.payload.data,
         isLoading: false,
       };
     case DEPOSIT_FAILURE:
       return {
         ...state,
-        amount: null,
+        userDetails: [],
         isLoading: false,
       };
     default:

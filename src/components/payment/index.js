@@ -7,14 +7,13 @@ import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
 import { BiArrowBack } from "react-icons/bi";
 import {
-  getPlans,
   initialValues,
   packageOptions,
   validationSchema,
 } from "../../helpers/invest";
 import Crypto from "./Crypto";
 import Card from "./Card";
-import { deposit, proofOfPayment } from "../../redux/actions/deposit";
+import { deposit } from "../../redux/actions/deposit";
 import { clearMessage } from "../../redux/actions/message";
 
 export const payContext = createContext();
@@ -35,14 +34,14 @@ const Payment = () => {
   console.log(packageOption);
 
   useEffect(() => {
-    getPlans();
+    dispatch(clearMessage());
   }, []);
 
   const onSubmit = async (values) => {
     const data = { ...values, packageOption, proofOfPay };
     console.log(data);
     dispatch(deposit(data));
-    
+
     setTimeout(() => {
       dispatch(clearMessage());
     }, 3000);
@@ -139,7 +138,7 @@ const Payment = () => {
                               id={option._id}
                               name={option.name}
                               value={option._id}
-                              checked={option.id}
+                              checked={packageOption.id === option._id}
                               onChange={() =>
                                 setPackageOption({
                                   ...packageOption,
@@ -157,34 +156,46 @@ const Payment = () => {
                       </div>
 
                       <div className="my-4">
-                        <Formikcontrol
-                          control="input"
-                          name="amount"
-                          placeholder={formik.values.packageOption}
-                        />
-                      </div>
-
-                      <div className="text-right mt-8">
-                        {formik.values.email !== "" &&
-                          formik.values.amount !== "" &&
-                          isNaN(formik.values.amount) === false && (
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <Link to="#" onClick={() => setsStep(1)}>
-                                  <BiArrowBack className="w-10 h-8 text-gray-500" />
-                                </Link>
-                              </div>
-                              <div>
-                                <Link
-                                  to="#"
-                                  onClick={() => setsStep(3)}
-                                  className="button"
-                                >
-                                  next
-                                </Link>
+                        {packageOptions
+                          .filter((option) => option._id === packageOption.id)
+                          .map((opt) => (
+                            <div key={opt._id}>
+                              <Formikcontrol
+                                control="input"
+                                name="amount"
+                                placeholder={`${opt.name} package. deposit an amount between  $${packageOption.minAmount} - $${packageOption.maxAmount}`}
+                              />
+                              <div className="text-right mt-8">
+                                {formik.values.email !== "" &&
+                                  formik.values.amount !== "" &&
+                                  isNaN(formik.values.amount) === false &&
+                                  parseFloat(formik.values.amount) >=
+                                    opt.minAmount &&
+                                  parseFloat(formik.values.amount) <=
+                                    opt.maxAmount && (
+                                    <div className="flex justify-between items-center">
+                                      <div>
+                                        <Link
+                                          to="#"
+                                          onClick={() => setsStep(1)}
+                                        >
+                                          <BiArrowBack className="w-10 h-8 text-gray-500" />
+                                        </Link>
+                                      </div>
+                                      <div>
+                                        <Link
+                                          to="#"
+                                          onClick={() => setsStep(3)}
+                                          className="button"
+                                        >
+                                          next
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  )}
                               </div>
                             </div>
-                          )}
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -192,6 +203,7 @@ const Payment = () => {
                 {step === 3 && payMethod === 1 && (
                   <Crypto
                     handleProofOfPay={setProofOfPay}
+                    proofOfPay={proofOfPay}
                     amount={formik.values.amount}
                     handleStep={setsStep}
                   />

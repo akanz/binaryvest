@@ -3,14 +3,11 @@ import {
   DEPOSIT_FAILURE,
   DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
-  PROOF_OF_PAY_FAIL,
-  PROOF_OF_PAY_SUCCESS,
 } from "../actionTypes";
 import { setMessage } from "./message";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { tokenConfig } from "./auth";
-import { data } from "autoprefixer";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";

@@ -21,17 +21,6 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_LOADING:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case USER_LOADED:
-      return {
-        ...state,
-        user_details: action.payload.data,
-        isLoading: false,
-      };
     case CONFIRM_DEP_LOADING:
       return {
         ...state,
@@ -41,7 +30,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        wallet: state.wallet + parseFloat(action.payload.amount) ,
+        user_details: action.payload,
+        wallet: state.wallet + parseFloat(action.payload.amount),
       };
     case VERIFICATION_SUCCESS:
       return {
@@ -53,13 +43,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-      }
+      };
     case CONFIRM_VER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         isVerified: true,
-      }
+      };
     case CONFIRM_DEP_FAILURE:
     case VERIFICATION_FAILURE:
       return {
