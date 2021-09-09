@@ -7,6 +7,7 @@ import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
 import { BiArrowBack } from "react-icons/bi";
 import {
+  getPlans,
   initialValues,
   packageOptions,
   validationSchema,
@@ -32,8 +33,10 @@ const Payment = () => {
 
   const dispatch = useDispatch("");
   console.log(packageOption);
+  console.log(packageOptions)
 
   useEffect(() => {
+    getPlans();
     dispatch(clearMessage());
   }, []);
 
@@ -105,7 +108,7 @@ const Payment = () => {
         >
           {(formik) => (
             <Form>
-              {console.log(formik)}
+              {/* {console.log(formik)} */}
               <div>
                 {step === 2 && (
                   <div>

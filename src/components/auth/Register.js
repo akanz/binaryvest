@@ -12,25 +12,25 @@ import { clearMessage } from "../../redux/actions/message";
 import signupImg from "../../img/signup.svg";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
+import { AiOutlineLoading } from "react-icons/ai";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth);
   const msg = useSelector((state) => state.message);
   const history = useHistory();
-
+  console.log(user)
   // Onsubmit of form, dispatch register action with the form values
   const onSubmit = async (values) => {
     dispatch(clearMessage());
     dispatch(register(values));
     setTimeout(() => {
       dispatch(clearMessage());
-      history.push('/login');
+      // history.push("/login");
     }, 3000);
-
   };
 
   return (
@@ -57,15 +57,9 @@ const Register = () => {
           </h1>
 
           <div className="my-8">
-            {msg.status === 400 && (
-              <Errormessage>
-                {msg.message}
-              </Errormessage>
-            )}
+            {msg.status === 400 && <Errormessage>{msg.message}</Errormessage>}
             {msg.status === 200 && (
-              <Successmessage>
-                {msg.message}
-              </Successmessage>
+              <Successmessage>{msg.message}</Successmessage>
             )}
             <Formik
               initialValues={initialValues}
@@ -75,7 +69,7 @@ const Register = () => {
               {(formik) => {
                 return (
                   <Form>
-                    {console.log(formik)}
+                    {/* {console.log(formik)} */}
                     <Formikcontrol
                       control="input"
                       type="text"
@@ -119,12 +113,18 @@ const Register = () => {
                       placeholder="Confirm Password"
                     />
                     <button
-                      className="button w-full my-5"
+                      className="button flex items-center justify-center w-full my-5"
                       type="submit"
                       disabled={
                         !formik.isValid || formik.isSubmitting || !formik.dirty
                       }
                     >
+                      {user.isLoading && (
+                        <span className="mr-2 animate-spin">
+                          <AiOutlineLoading className='text-white h-5 w-6' />
+                        </span>
+                      )}
+                      <span></span>
                       sign up
                     </button>
                     <ToastContainer />
@@ -132,10 +132,8 @@ const Register = () => {
                 );
               }}
             </Formik>
-            <div className='text-blueish underline text-right text-sm md:hidden'>
-              <Link to='/login'>
-              Already registered? sign in
-              </Link>
+            <div className="text-blueish underline text-right text-sm md:hidden">
+              <Link to="/login">Already registered? sign in</Link>
             </div>
           </div>
         </div>

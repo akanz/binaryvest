@@ -11,6 +11,7 @@ import { initialValues, validationSchema } from "../../helpers/login";
 import { clearMessage } from "../../redux/actions/message";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
+import { AiOutlineLoading, AiOutlineLoading3Quarters } from "react-icons/ai";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -34,7 +35,7 @@ const Login = () => {
   };
 
   if (user.isAuthenticated === true) {
-      return <Redirect to={state?.from || "/"} />;
+    return <Redirect to={state?.from || "/"} />;
   }
 
   return (
@@ -92,9 +93,15 @@ const Login = () => {
                     disabled={
                       !formik.isValid || formik.isSubmitting || !formik.dirty
                     }
-                    className="button w-full my-3"
+                    className="button w-full flex items-center justify-center my-3"
                   >
-                    login
+                    {user.isLoading && (
+                      <span className="mr-2">
+                        <AiOutlineLoading className="text-white w-6 h-5 animate-spin" />
+                      </span>
+                    )}
+
+                    <span>login</span>
                   </button>
                 </Form>
               )}

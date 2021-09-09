@@ -18,6 +18,9 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 export const register = (data) => (dispatch) => {
   const body = JSON.stringify(data);
 
+  dispatch({
+    type: USER_LOADING,
+  })
   axios
     .post("/signup", body)
     .then((response) => {
@@ -51,6 +54,9 @@ export const register = (data) => (dispatch) => {
 
 // Post request to Login
 export const login = (data) => (dispatch) => {
+  dispatch({
+    type: USER_LOADING,
+  })
   const body = JSON.stringify(data);
   axios
     .post("/login", body)
