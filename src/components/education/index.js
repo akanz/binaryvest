@@ -1,9 +1,10 @@
 import React from 'react'
+import Package from './Package'
 
 const Education = () => {
     return (
         <div>
-            Education route
+            <Package />
         </div>
     )
 }

@@ -36,7 +36,7 @@ const Packagelist = [
 ];
 const Package = () => {
   return (
-    <div className="p-8 bg-intro">
+    <div className="p-8">
       <div className="my-4 mb-8">
         <h2>Learn how to Trade and Invest in Crypto</h2>
         <h3>
@@ -44,14 +44,17 @@ const Package = () => {
           you
         </h3>
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="w-8/10 mx-auto grid md:grid-cols-2 gap-4 md:gap-x-24">
         {Edupackages.map((menu, i) => (
-          <div className="shadow">
+          <div key={i} className="shadow-lg border border-gray-200 bg-white text-black">
+            {console.log(menu)}
             <div className="border-b p-2 border-gray-300">{menu.title}</div>
             <div className="p-2">
               <h3>{menu.header} </h3>
               <div>
-                <h4>{menu.list.item}</h4>
+                {menu.list.map((list, i) => (
+                  <h4 key={i}>{list.item}</h4>
+                ))}
               </div>
             </div>
           </div>
