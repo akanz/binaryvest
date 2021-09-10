@@ -24,6 +24,7 @@
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
     "redux-devtools-extension": "^2.13.9",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
     "uuid": "^3.4.0",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.9"
@@ -54,7 +55,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
+    "postcss": "^7.0.36"
   }
 }
