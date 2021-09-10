@@ -44,14 +44,14 @@ const User = () => {
           </div>
           <div className="p-4 grid md:flex justify-between">
             <Link to="/admin/deposit">
-              <button className="button mb-4 w-full md:w-3/10 text-xs">
+              <button className="button mb-4 min-w-full md:w-3/10 text-xs">
                 Add to user wallet
               </button>
             </Link>
             <Link
               to="/admin/verify"
             >
-              <button className="button text-xs w-full md:w-3/10">
+              <button className="button text-xs min-w-full md:w-3/10">
                 verify user
               </button>
             </Link>

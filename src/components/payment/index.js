@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useState, useEffect, createContext } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
@@ -34,6 +34,7 @@ const Payment = () => {
   const dispatch = useDispatch("");
   console.log(packageOption);
   console.log(packageOptions)
+  const history = useHistory()
 
   useEffect(() => {
     getPlans();
@@ -47,7 +48,8 @@ const Payment = () => {
 
     setTimeout(() => {
       dispatch(clearMessage());
-    }, 3000);
+      history.push('/dashboard')
+    }, 5000);
   };
 
   return (

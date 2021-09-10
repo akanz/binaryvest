@@ -9,6 +9,7 @@ import Verify from "../verify";
 import Admin from "../admin";
 import Error from "../otherComps/404";
 import AdminRoute from "../routes/AdminRoute";
+import Education from "../education";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Main} />
+        <Route exact path='/education' component={Education} />
         <AdminRoute Route path="/admin" component={Admin} />
         <Route path="/invest" component={Payment} />
         <PrivateRoute exact path="/verification" component={Verify} />

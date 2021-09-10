@@ -6,9 +6,11 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link } from "@material-ui/core";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
+import BtnLoader from "../otherComps/BtnLoader";
 
 const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
   const message = useSelector((state) => state.message);
+  const deposit = useSelector((state) => state.deposit);
   const [copy, setCopy] = useState("");
   const [copyState, setCopyState] = useState(false);
   const inpRef = useRef("");
@@ -133,7 +135,12 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
           </Link>
         </div>
         <div className="">
-          <button disabled={proofOfPay === ""} type="submit" className="button">
+          <button
+            disabled={proofOfPay === ""}
+            type="submit"
+            className="button flex items-center justify-center"
+          >
+            {deposit.isLoading && <BtnLoader />}
             confirm
           </button>
         </div>

@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { confirmDeposit } from "../../redux/actions/admin";
 import { clearMessage, setMessage } from "../../redux/actions/message";
+import BtnLoader from "../otherComps/BtnLoader";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
 import { userContext } from "./index";
 
 const ConfirmDeposit = () => {
   const message = useSelector((state) => state.message);
+  const admin = useSelector((state) => state.admin);
   const dispatch = useDispatch("");
   const user = useContext(userContext)[0];
   const history = useHistory();
@@ -42,24 +44,24 @@ const ConfirmDeposit = () => {
       {message.status === 400 && <Errormessage>{message.message}</Errormessage>}
       <form className="grid" onSubmit={onSubmit}>
         <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">User E-mail</label>
+          <label className="mb-1 text-gray-500 px-2">User E-mail</label>
           <input
-            className="form-input border-gray-300 rounded"
+            className="form-input border-transparent focus:outline-none"
             value={user.data.email}
             readOnly
           />
         </div>
 
         <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">Id</label>
+          <label className="mb-1 text-gray-500 px-2">username</label>
           <input
-            className="form-input border-gray-300 rounded"
-            value={user.data._id}
+            className="form-input border-transparent focus:outline-none"
+            value={user.data.username}
             readOnly
           />
         </div>
         <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">Amount</label>
+          <label className="mb-1 text-gray-500 px-2">Amount</label>
           <input
             className="form-input border-gray-300 rounded"
             value={pckg.amount}
@@ -71,11 +73,12 @@ const ConfirmDeposit = () => {
         <div className="grid md:grid-cols-2 place-items-center">
           <button
             type="submit"
-            className="button font-semibold my-5 w-full md:w-4/5 uppercase"
+            className="button flex items-center justify-center font-semibold my-5 w-full md:w-4/5 uppercase"
           >
+            {admin.isLoading && <BtnLoader />}
             authorize deposit
           </button>
-          <button className="font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
+          <button className="flex items-center justify-center font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
             deny
           </button>
         </div>

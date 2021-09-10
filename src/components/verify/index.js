@@ -50,8 +50,13 @@ const Verify = () => {
     frontPage: "",
     backPage: "",
   });
+  console.log(otherState);
 
   // set state of the ID type
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setOtherState({ ...otherState, [name]: value });
+  };
   const handleIdtype1 = () => {
     setShowId(1);
     setOtherState({ ...otherState, id_type: "id_card" });
@@ -60,37 +65,10 @@ const Verify = () => {
     setShowId(2);
     setOtherState({ ...otherState, id_type: "d_license" });
   };
-  console.log(uploadref1);
-  const handleFrontPage = (e) => {
-    let files = e.target.files[0];
-    // handleFile(files[0]);
-    setOtherState({ ...otherState, frontPage: files.name });
-    // if (files.length > 0) {
-    //   let fileReader = new FileReader();
-    //   fileReader.readAsDataURL(files[0]);
-    //   fileReader.onload = (e) => {
-    //     const result = e.target.result;
-    //     setOtherState({ ...otherState, frontPage: result });
-    //   };
-    // }
-  };
 
-  const handleBackPage = (e) => {
-    let files = e.target.files[0]; 
-    // handleFile(files[0]);
-    setOtherState({ ...otherState, backPage: files.name });
-    // if (files.length > 0) {
-    //   let fileReader = new FileReader();
-    //   fileReader.readAsDataURL(files[0]);
-    //   fileReader.onload = (e) => {
-    //     const result = e.target.result;
-    //     setOtherState({ ...otherState, backPage: result });
-    //   };
-    // }
-  };
   const onSubmit = async (values) => {
-    dispatch(verify(values));
-    dispatch(verify(otherState));
+    // dispatch(verify(values));
+    // dispatch(verify(otherState));
   };
 
   return (
@@ -110,8 +88,8 @@ const Verify = () => {
               <div className="grid mt-5">
                 <input
                   type="text"
-                  value={userDetails.username}
-                  className="form-input my-2 border-gray-300 rounded"
+                  value={`@${userDetails.username}`}
+                  className="form-input border-transparent text-2xl"
                   name="email"
                   readOnly
                 />
@@ -166,34 +144,52 @@ const Verify = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="mt-1 text-gray-600">Front page</div>
-                      <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
-                        <input
-                          className="hidden"
-                          type="file"
-                          ref={uploadref1}
-                          onChange={(e) => handleFrontPage(e)}
-                        />
-                        <div
-                          className=""
-                          onClick={() => uploadref1.current.click()}
-                        >
-                          <img className="w-16" src={uploadIcon} alt="upload" />
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <div className="mt-1 text-gray-600">Front page</div>
+                          <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
+                            <input
+                              className="hidden"
+                              type="file"
+                              ref={uploadref1}
+                              name="frontPage"
+                              value={otherState.frontPage}
+                              onChange={(e) => handleChange(e)}
+                            />
+                            <div
+                              className=""
+                              onClick={() => uploadref1.current.click()}
+                            >
+                              <img
+                                className="w-16"
+                                src={uploadIcon}
+                                alt="upload"
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="mt-1 text-gray-600">Back page</div>
-                      <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
-                        <input
-                          className="hidden"
-                          type="file"
-                          ref={uploadref2}
-                          onChange={(e) => handleBackPage(e)}
-                        />
-                        <div
-                          className=""
-                          onClick={() => uploadref2.current.click()}
-                        >
-                          <img className="w-16" src={uploadIcon} alt="upload" />
+                        <div>
+                          <div className="mt-1 text-gray-600">Back page</div>
+                          <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
+                            <input
+                              className="hidden"
+                              type="file"
+                              name="backPage"
+                              value={otherState.backPage}
+                              ref={uploadref2}
+                              onChange={(e) => handleChange(e)}
+                            />
+                            <div
+                              className=""
+                              onClick={() => uploadref2.current.click()}
+                            >
+                              <img
+                                className="w-16"
+                                src={uploadIcon}
+                                alt="upload"
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

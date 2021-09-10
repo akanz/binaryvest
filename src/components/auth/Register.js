@@ -4,7 +4,6 @@ import { Formik, Form } from "formik";
 import Formikcontrol from "../../formik/Formikcontrol";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { register } from "../../redux/actions/auth";
 import { initialValues, validationSchema } from "../../helpers/register";
@@ -12,7 +11,7 @@ import { clearMessage } from "../../redux/actions/message";
 import signupImg from "../../img/signup.svg";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
-import { AiOutlineLoading } from "react-icons/ai";
+import BtnLoader from "../otherComps/BtnLoader";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -120,14 +119,11 @@ const Register = () => {
                       }
                     >
                       {user.isLoading && (
-                        <span className="mr-2 animate-spin">
-                          <AiOutlineLoading className='text-white h-5 w-6' />
-                        </span>
+                        <BtnLoader />
                       )}
                       <span></span>
                       sign up
                     </button>
-                    <ToastContainer />
                   </Form>
                 );
               }}

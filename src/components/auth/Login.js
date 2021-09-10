@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useLocation, Link } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 
 import { login } from "../../redux/actions/auth";
@@ -11,7 +10,7 @@ import { initialValues, validationSchema } from "../../helpers/login";
 import { clearMessage } from "../../redux/actions/message";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
-import { AiOutlineLoading, AiOutlineLoading3Quarters } from "react-icons/ai";
+import BtnLoader from "../otherComps/BtnLoader";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -96,9 +95,7 @@ const Login = () => {
                     className="button w-full flex items-center justify-center my-3"
                   >
                     {user.isLoading && (
-                      <span className="mr-2">
-                        <AiOutlineLoading className="text-white w-6 h-5 animate-spin" />
-                      </span>
+                      <BtnLoader />
                     )}
 
                     <span>login</span>
