@@ -1,5 +1,5 @@
 import React from "react";
-
+import { FaDotCircle } from "react-icons/fa";
 const Edupackages = [
   {
     title: "STANDARD",
@@ -46,15 +46,25 @@ const Package = () => {
       </div>
       <div className="w-8/10 mx-auto grid md:grid-cols-2 gap-4 md:gap-x-24">
         {Edupackages.map((menu, i) => (
-          <div key={i} className="shadow-lg border border-gray-200 bg-white text-black">
+          <div
+            key={i}
+            className="shadow-lg border border-gray-200 bg-white text-black"
+          >
             {console.log(menu)}
-            <div className="border-b p-2 border-gray-300">{menu.title}</div>
-            <div className="p-2">
-              <h3>{menu.header} </h3>
-              <div>
+            <div className="border-b p-2 border-gray-300 text-xl text-center">
+              {menu.title}
+            </div>
+            <div className="p-4 w-9/15 mx-auto">
+              <h3 className='text-center text-lg'>{menu.header} </h3>
+              <div className='w-9/10 mx-auto my-4 text-sm text-gray-600'>
                 {menu.list.map((list, i) => (
-                  <h4 key={i}>{list.item}</h4>
+                  <h4 className='flex items-center my-2' key={i}>
+                    <FaDotCircle className='text-blueish' /><span className='ml-2'> {list.item}</span>
+                  </h4>
                 ))}
+              </div>
+              <div>
+                  <button className='button'>Enroll now</button>
               </div>
             </div>
           </div>
