@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { createPlan } from "../../redux/actions/admin";
+import { createPlan } from "../../../redux/actions/admin";
 
 const Plan = () => {
+
   const dispatch = useDispatch("");
   const [plan, setPlan] = useState({
     name: "",
@@ -15,6 +16,7 @@ const Plan = () => {
     e.preventDefault();
     dispatch(createPlan(plan));
   };
+  
   return (
     <div>
       <form onSubmit={onSubmit}>

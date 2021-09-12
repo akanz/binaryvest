@@ -5,7 +5,7 @@ import review from "../../img/review.svg";
 const Reviews = () => {
   return (
     <div className="bg-darkblue lg:w-9/15 p-12 pb-24 text-white mx-auto">
-      <h1 className="capitalize text-center text-2xl mb-8 tracking-wide">
+      <h1 className="capitalize text-center text-3xl mb-8 tracking-wide">
         Reviews
       </h1>
       <div className=" grid md:grid-cols-2 lg:grid-cols-4 gap-10">

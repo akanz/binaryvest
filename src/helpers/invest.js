@@ -1,6 +1,12 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { tokenConfig } from "../redux/actions/auth";
+import {
+  GET_PLANS_FAILURE,
+  GET_PLANS_LOADING,
+  GET_PLANS_SUCCESS,
+} from "../redux/actionTypes";
+import { setMessage } from "../redux/actions/message";
 
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -57,13 +63,23 @@ export const payOptions = [
 //   },
 // ];
 export let packageOptions = [];
-export const getPlans = async () => {
+export const getPlans = () => async (dispatch) => {
+  dispatch({
+    type: GET_PLANS_LOADING,
+  });
   try {
     const res = await axios.get("/admin/investmentPlans");
     const data = await res.data.data;
     packageOptions = data.map((data) => data);
-    console.log(packageOptions)
+    console.log(packageOptions);
+    dispatch({
+      type: GET_PLANS_SUCCESS,
+    });
   } catch (err) {
     console.log(err.response);
+    dispatch({
+      type: GET_PLANS_FAILURE,
+    });
+    dispatch(setMessage("Unable to Get plans", 400, GET_PLANS_FAILURE));
   }
 };

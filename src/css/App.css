@@ -1,4 +1,8 @@
 @layer components {
+    .form-input {
+        @apply focus:ring-transparent border-0 rounded-none border-b border-gray-300 focus:border-pink-600 !important;
+        
+      }
     .genFont {
         font-family: 'Open Sans', sans-serif;
         @apply tracking-wide;

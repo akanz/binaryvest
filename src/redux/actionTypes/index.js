@@ -43,9 +43,18 @@ export const GET_USER_LOADING = 'GET_USER_LOADING'
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
 export const GET_USER_ERROR = 'GET_USER_ERROR'
 
+// get investment plans
+export const GET_PLANS_LOADING = 'GET_PLANS_LOADING'
+export const GET_PLANS_SUCCESS = 'GET_PLANS_SUCCESS'
+export const GET_PLANS_FAILURE = 'GET_PLANS_FAILURE'
+
 // create investment plan
 export const CREATE_PLAN_SUCCESS = 'CREATE_PLAN_SUCCESS'
 export const CREATE_PLAN_FAILURE = 'CREATE_PLAN_FAILURE'
+
+// update investment plan
+export const UPDATE_PLAN_SUCCESS = 'UPDATE_PLAN_SUCCESS'
+export const UPDATE_PLAN_FAILURE = 'UPDATE_PLAN_FAILURE'
 
 // admin authorize deposit
 export const CONFIRM_DEP_LOADING = 'CONFIRM_DEPOSIT_LOADING'

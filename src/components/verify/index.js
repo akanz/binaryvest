@@ -7,7 +7,7 @@ import correctIcon from "../../img/correct.svg";
 import wrongIcon from "../../img/wrong.svg";
 import uploadIcon from "../../img/upload.svg";
 import { Form, Formik } from "formik";
-import { validationSchema } from "../../helpers/verify";
+import { validationSchema, initialValues } from "../../helpers/verify";
 import Formikcontrol from "../../formik/Formikcontrol";
 import { verify } from "../../redux/actions/verify";
 
@@ -37,15 +37,9 @@ const Verify = () => {
     username: "akanz",
   });
 
-  // Formik initial states
-  const initialValues = {
-    email: userDetails.email,
-    phone_no: "",
-    ssn: "",
-  };
-
   // Other states
   const [otherState, setOtherState] = useState({
+    username: userDetails.username,
     id_type: "",
     frontPage: "",
     backPage: "",
@@ -79,25 +73,19 @@ const Verify = () => {
       </div>
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {(formik) => (
           <Form>
             <div>
               <div className="grid mt-5">
-                <input
-                  type="text"
-                  value={`@${userDetails.username}`}
-                  className="form-input border-transparent text-2xl"
-                  name="email"
-                  readOnly
-                />
+                <h3 className='text-2xl text-gray-600'>@{userDetails.username}</h3>
                 <Formikcontrol
                   control="input"
                   type="text"
                   name="phone_no"
-                  placeholder="414564325"
+                  placeholder="(414) 564-0325"
                 />
                 <Formikcontrol
                   control="input"

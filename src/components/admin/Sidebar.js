@@ -33,8 +33,8 @@ const Sidebar = ({ user }) => {
     {
       img: "",
       alt: "",
-      name: "Confirm deposit",
-      url: `${url}/deposit`,
+      name: "Investment packages",
+      url: `${url}/plans`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
     {

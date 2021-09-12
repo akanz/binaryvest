@@ -1,28 +1,26 @@
 import { Form, Formik } from "formik";
 import React, { useState, useEffect, createContext } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
 import { BiArrowBack } from "react-icons/bi";
-import {
-  getPlans,
-  initialValues,
-  packageOptions,
-  validationSchema,
-} from "../../helpers/invest";
+import { initialValues, validationSchema } from "../../helpers/invest";
 import Crypto from "./Crypto";
 import Card from "./Card";
 import { deposit } from "../../redux/actions/deposit";
 import { clearMessage } from "../../redux/actions/message";
+import { getPlans } from "../../redux/actions/admin";
 
 export const payContext = createContext();
 
 const Payment = () => {
+  const admin = useSelector((state) => state.admin);
   const [payMethod, setPayMethod] = useState("");
   const [step, setsStep] = useState(1);
   const [proofOfPay, setProofOfPay] = useState("");
+  const [packageOptions, setPackageOptions] = useState('');
   const [packageOption, setPackageOption] = useState({
     name: "",
     id: null,
@@ -33,13 +31,17 @@ const Payment = () => {
 
   const dispatch = useDispatch("");
   console.log(packageOption);
-  console.log(packageOptions)
-  const history = useHistory()
+  console.log(packageOptions);
+  const history = useHistory();
 
   useEffect(() => {
-    getPlans();
+    dispatch(getPlans());
     dispatch(clearMessage());
   }, []);
+
+  useEffect(() => {
+    setPackageOptions(admin.allPackages);
+  }, [admin]);
 
   const onSubmit = async (values) => {
     const data = { ...values, packageOption, proofOfPay };
@@ -48,7 +50,7 @@ const Payment = () => {
 
     setTimeout(() => {
       dispatch(clearMessage());
-      history.push('/dashboard')
+      history.push("/dashboard");
     }, 5000);
   };
 
