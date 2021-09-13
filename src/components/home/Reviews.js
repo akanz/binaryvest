@@ -17,7 +17,7 @@ const Reviews = () => {
       <h1 className="capitalize text-center text-3xl mb-8 tracking-wide">
         Reviews
       </h1>
-      <div className=" grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className=" grid md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
         {reviews.map((opt, i) => (
           <div className='rounded' key={i}>
             <img className='h-72 w-80 rounded-xl shadow' src={opt.img} alt="" />
