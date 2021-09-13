@@ -3,13 +3,26 @@ import React, { useState, useEffect, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { IoWalletOutline } from "react-icons/io5";
+import BtnLoader from "../otherComps/BtnLoader";
+import { deposit } from "../../redux/actions/deposit";
+import { clearMessage } from "../../redux/actions/message";
+import Successmessage from "../otherComps/Successmessage";
 
 export const payContext = createContext();
 
 const Withdraw = () => {
+  const message = useSelector((state) => state.message);
+  const userDeposit = useSelector((state) => state.deposit);
+  const dispatch = useDispatch("");
   const user = useSelector((state) => state.auth);
+
   const [amount, setAmount] = useState(null);
-  const onSubmit = async (values) => {};
+  const onSubmit = async (e) => {
+    dispatch(clearMessage());
+    e.preventDefault();
+    console.log(`${"-"}${amount}`);
+    // dispatch(deposit(amount));
+  };
 
   return (
     <div>
@@ -17,19 +30,24 @@ const Withdraw = () => {
         <h2 className="text-3xl text-center text-gray-600 tracking-wider">
           Withdraw
         </h2>
-        <form>
+        <div>
+          {!userDeposit.isLoading && message.status === 400 && (
+            <Successmessage>{message.message}</Successmessage>
+          )}
+        </div>
+        <form onSubmit={onSubmit}>
           <div>
             <h3 className="text-2xl text-gray-600 my-2">
               @{user.data.username}
             </h3>
-            <div className="flex items-center">
+            <div className="flex items-center text-pink-700">
               <span className="mr-1.5">
                 <IoWalletOutline className="w-8 h-8" />
               </span>
-              : ${user.data.wallet}
+              : <span className="text-xl">${user.data.wallet}</span>
             </div>
 
-            <div className="grid my-3">
+            <div className="grid my-3 text-gray-600">
               <label>Amount you want to withdraw:</label>
               <input
                 type="text"
@@ -50,6 +68,7 @@ const Withdraw = () => {
                 }
                 className="button"
               >
+                {userDeposit.isLoading && <BtnLoader />}
                 Withdraw
               </button>
             </div>

@@ -7,6 +7,8 @@ import Routes from "./Routes";
 import Sidebar from "./Sidebar";
 import { createContext } from "react";
 import { clearMessage } from "../../redux/actions/message";
+import { getAllRequests } from "../../redux/actions/verify";
+import { getPlans } from "../../helpers/invest";
 
 export const userContext = createContext("");
 
@@ -17,12 +19,14 @@ const Admin = () => {
 
   useEffect(() => {
     dispatch(allUsers());
+    dispatch(getAllRequests());
+    
     setTimeout(() => {
       dispatch(clearMessage())
-    }, 3000);
+    }, 5000);
 
   }, []);
-
+ 
   return (
     <div className="flex text-sm">
       <userContext.Provider value={[user, admin]}>

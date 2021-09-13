@@ -15,7 +15,6 @@ const Sidebar = ({ user }) => {
   
   const sideMenu = [
     { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
-    { img: notifIcon, alt: "", name: "Notifications", url: "#", icon: "" },
     {
       img: "",
       alt: "",
@@ -33,6 +32,13 @@ const Sidebar = ({ user }) => {
     {
       img: "",
       alt: "",
+      name: "verify users",
+      url: `${url}/allRequests`,
+      icon: <VscVerified />,
+    },
+    {
+      img: "",
+      alt: "",
       name: "Investment packages",
       url: `${url}/plans`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
@@ -44,13 +50,7 @@ const Sidebar = ({ user }) => {
       url: `${url}/createPlan`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
-    {
-      img: "",
-      alt: "",
-      name: "verify user",
-      url: `${url}/verify`,
-      icon: <VscVerified />,
-    },
+   
     { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
     { img: logoutIcon, alt: "", name: "Logout", url: "#", icon: "" },
   ];

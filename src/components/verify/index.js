@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Cleave from "cleave.js/react";
 import "cleave.js/dist/addons/cleave-phone.us";
@@ -10,6 +10,11 @@ import { Form, Formik } from "formik";
 import { validationSchema, initialValues } from "../../helpers/verify";
 import Formikcontrol from "../../formik/Formikcontrol";
 import { verify } from "../../redux/actions/verify";
+import { MdClose } from "react-icons/md";
+import Successmessage from "../otherComps/Successmessage";
+import Errormessage from "../otherComps/Errormessage";
+import BtnLoader from "../otherComps/BtnLoader";
+import { clearMessage } from "../../redux/actions/message";
 
 const requirements = [
   { desc: "Government issued", img: correctIcon },
@@ -25,31 +30,69 @@ const requirements = [
 
 const Verify = () => {
   const [showId, setShowId] = useState("");
-  const uploadref1 = useRef("");
-  const uploadref2 = useRef("");
   const userDetails = useSelector((state) => state.auth.data);
+  const message = useSelector((state) => state.message);
+  const ver = useSelector((state) => state.verify);
   const dispatch = useDispatch("");
-
-  // dummy data
-  const [users, setUsers] = useState({
-    email: "sam@gmail.com",
-    name: { firstname: "Juwon", lastname: "akande" },
-    username: "akanz",
-  });
 
   // Other states
   const [otherState, setOtherState] = useState({
     username: userDetails.username,
     id_type: "",
-    frontPage: "",
-    backPage: "",
+    frontPage: null,
+    backPage: null,
   });
-  console.log(otherState);
+  const [imgPreview, setImgPreview] = useState({
+    frontPage: null,
+    backPage: null,
+  });
+  const [uploadErr, setuploadErr] = useState({
+    front: false,
+    back: false,
+  });
 
   // set state of the ID type
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setOtherState({ ...otherState, [name]: value });
+  const handleFrontPage = (e) => {
+    const selected = e.target.files[0];
+    const ALLOWED_TYPES = [
+      "image/png",
+      "image/jpeg",
+      "image/heic",
+      "application/pdf",
+    ];
+    if (selected && ALLOWED_TYPES.includes(selected.type)) {
+      console.log(selected);
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setOtherState({ ...otherState, frontPage: selected });
+        setImgPreview({ ...imgPreview, frontPage: reader.result });
+      };
+      reader.readAsDataURL(selected);
+    } else {
+      console.log("File not supported");
+      setuploadErr({ ...uploadErr, front: true });
+    }
+  };
+  const handleBackPage = (e) => {
+    const selected = e.target.files[0];
+    const ALLOWED_TYPES = [
+      "image/png",
+      "image/jpeg",
+      "image/heic",
+      "application/pdf",
+    ];
+    if (selected && ALLOWED_TYPES.includes(selected.type)) {
+      console.log(selected);
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setOtherState({ ...otherState, backPage: selected });
+        setImgPreview({ ...imgPreview, backPage: reader.result });
+      };
+      reader.readAsDataURL(selected);
+    } else {
+      console.log("File not supported");
+      setuploadErr({ ...uploadErr, back: true });
+    }
   };
   const handleIdtype1 = () => {
     setShowId(1);
@@ -61,8 +104,16 @@ const Verify = () => {
   };
 
   const onSubmit = async (values) => {
-    // dispatch(verify(values));
-    // dispatch(verify(otherState));
+    const front = new FormData();
+    front.append('file', otherState.frontPage)
+    dispatch(clearMessage())
+    const data = { ...values, ...otherState, front };
+    console.log(data);
+    dispatch(verify(data));
+
+    setTimeout(() => {
+      dispatch(clearMessage())
+    }, 3000);
   };
 
   return (
@@ -71,6 +122,10 @@ const Verify = () => {
       <div className="font-semibold text-xl text-blueish">
         <div>Verify Identity</div>
       </div>
+      {message.status === 200 && (
+        <Successmessage>{message.message}</Successmessage>
+      )}
+      {message.status === 400 && <Errormessage>{message.message}</Errormessage>}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -80,7 +135,9 @@ const Verify = () => {
           <Form>
             <div>
               <div className="grid mt-5">
-                <h3 className='text-2xl text-gray-600'>@{userDetails.username}</h3>
+                <h3 className="text-2xl text-gray-600">
+                  @{userDetails.username}
+                </h3>
                 <Formikcontrol
                   control="input"
                   type="text"
@@ -135,47 +192,114 @@ const Verify = () => {
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <div className="mt-1 text-gray-600">Front page</div>
-                          <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
-                            <input
-                              className="hidden"
-                              type="file"
-                              ref={uploadref1}
-                              name="frontPage"
-                              value={otherState.frontPage}
-                              onChange={(e) => handleChange(e)}
-                            />
-                            <div
-                              className=""
-                              onClick={() => uploadref1.current.click()}
-                            >
-                              <img
-                                className="w-16"
-                                src={uploadIcon}
-                                alt="upload"
-                              />
+                          <div className="border-dashed border hover:border-blue-800 border-gray-300 p-2 mt-2 mb-4 rounded-md flex items-center justify-center">
+                            {!otherState.frontPage && (
+                              <div className="p-4">
+                                <label htmlFor="customFile">
+                                  <img
+                                    className="w-16"
+                                    src={uploadIcon}
+                                    alt="upload"
+                                  />
+                                </label>
+                                <input
+                                  className="hidden"
+                                  id="customFile"
+                                  type="file"
+                                  onChange={(e) => handleFrontPage(e)}
+                                />
+                              </div>
+                            )}
+
+                            {uploadErr.front && (
+                              <div className="bg-red-600 text-white rounded p-2">
+                                File Not Supported
+                              </div>
+                            )}
+                            <div className="grid justify-items-center">
+                              {otherState.frontPage && (
+                                <div
+                                  className="w-40 h-40"
+                                  style={{
+                                    background: otherState.frontPage
+                                      ? `url("${imgPreview.frontPage}") no-repeat center/contain`
+                                      : "",
+                                  }}
+                                ></div>
+                              )}
+                              {otherState.frontPage && (
+                                <div
+                                  onClick={() => {
+                                    setOtherState({
+                                      ...otherState,
+                                      frontPage: null,
+                                    });
+                                    setuploadErr({
+                                      ...uploadErr,
+                                      front: false,
+                                    });
+                                  }}
+                                  className="bg-red-600 w-2/10 mx-0 px-2 flex justify-center items-center my-2 rounded-full text-white"
+                                >
+                                  <MdClose className="w-8 h-8" />
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
                         <div>
                           <div className="mt-1 text-gray-600">Back page</div>
-                          <div className="border-dashed border hover:border-blue-800 border-gray-300 px-4 py-6 mt-2 mb-4 rounded-md flex items-center justify-center">
-                            <input
-                              className="hidden"
-                              type="file"
-                              name="backPage"
-                              value={otherState.backPage}
-                              ref={uploadref2}
-                              onChange={(e) => handleChange(e)}
-                            />
-                            <div
-                              className=""
-                              onClick={() => uploadref2.current.click()}
-                            >
-                              <img
-                                className="w-16"
-                                src={uploadIcon}
-                                alt="upload"
-                              />
+                          <div className="border-dashed border hover:border-blue-800 border-gray-300 p-2 mt-2 mb-4 rounded-md flex items-center justify-center">
+                            {!otherState.backPage && (
+                              <div className="p-4">
+                                <label htmlFor="customFile2">
+                                  <img
+                                    className="w-16"
+                                    src={uploadIcon}
+                                    alt="upload"
+                                  />
+                                </label>
+                                <input
+                                  className="hidden"
+                                  id="customFile2"
+                                  type="file"
+                                  onChange={(e) => handleBackPage(e)}
+                                />
+                              </div>
+                            )}
+                            {uploadErr.back && (
+                              <div className="bg-red-600 text-white rounded p-2">
+                                File Not Supported
+                              </div>
+                            )}
+                            <div className="grid justify-items-center">
+                              {otherState.backPage && (
+                                <div
+                                  className="w-40 h-40"
+                                  style={{
+                                    background: otherState.backPage
+                                      ? `url("${imgPreview.backPage}") no-repeat center/contain`
+                                      : "",
+                                  }}
+                                ></div>
+                              )}
+                              {otherState.backPage && (
+                                <div
+                                  onClick={() => {
+                                    setOtherState({
+                                      ...otherState,
+                                      backPage: null,
+                                    });
+                                    setuploadErr({
+                                      ...uploadErr,
+                                      back: false,
+                                    });
+                                  }}
+                                  className="bg-red-600 w-2/10 mx-0 px-2 flex justify-center items-center my-2 rounded-full text-white"
+                                >
+                                  <MdClose className="w-8 h-8" />
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -192,8 +316,9 @@ const Verify = () => {
                       otherState.frontPage === "" ||
                       otherState.backPage === ""
                     }
-                    className="button w-full my-3 font-semibold"
+                    className="button flex justify-center items-center w-full my-3 font-semibold"
                   >
+                    {ver.isLoading && <BtnLoader />}
                     VERIFY NOW
                   </button>
                 </div>

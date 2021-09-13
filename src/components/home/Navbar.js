@@ -12,6 +12,8 @@ import navReview from "../../img/navreview.svg";
 import navedu from "../../img/navedu.svg";
 import navfaq from "../../img/navfaq.svg";
 import Dropdown from "../../helpers/Dropdown";
+import BVIcon from '../../img/bv_logo.jpg'
+import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {
   const [sideBar, setSideBar] = useState(false);
@@ -39,10 +41,11 @@ const Navbar = () => {
                 className="focus:outline-none md:hidden mr-4"
                 onClick={handleClick}
               >
-                <img src={menuIcon} alt="navbar menu" />
+                {/* <img src={menuIcon} alt="navbar menu" /> */}
+                <HiMenuAlt3 className='text-blueish h-8 w-8' />
               </button>
-              <Link to="/" className="text-blueish font-semibold">
-                BinaryVest
+              <Link to="/" className="text-blueish logo font-semibold">
+                <span>Binary</span><span className='text-red-600'>Vest</span>
               </Link>
             </div>
 
@@ -72,8 +75,8 @@ const Navbar = () => {
             } bg-white fixed top-0 z-10 shadow-xl rounded-l-lg left-0 p-5 h-full w-4/5 `}
           >
             <div className="flex justify-between items-center">
-              <Link to="/" className="text-blueish font-semibold">
-                BinaryVest
+            <Link to="/" className="text-blueish logo font-semibold">
+                <span>Binary</span><span className='text-red-600'>Vest</span>
               </Link>
               <div onClick={handleClick}>
                 <GrClose className=" w-6 h-6" />

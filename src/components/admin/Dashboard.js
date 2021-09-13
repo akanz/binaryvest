@@ -14,31 +14,39 @@ import { MdAccountBalanceWallet } from "react-icons/md";
 import { VscVerified } from "react-icons/vsc";
 
 const Dashboard = ({ user }) => {
-  const users = useSelector((state) => state.admin.allUsers);
+  const users = useSelector((state) => state.admin);
+  const ver = useSelector(state => state.verify)
   const dispatch = useDispatch("");
   const { url } = useRouteMatch();
-
+  console.log(users);
   const navMenu = [
     { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
     {
       img: "",
       alt: "",
       name: "Dashboard",
-      url: "/admin",
+      url: "",
       icon: <GrUserAdmin className="text-turquoise" />,
     },
     {
       img: "",
       alt: "",
       name: "All users",
-      url: `/admin/users`,
+      url: `${url}/users`,
       icon: <HiOutlineUsers className="text-turquoise" />,
+    },
+    {
+      img: notifIcon,
+      alt: "",
+      name: "All Verification requests",
+      url: `${url}/allRequests`,
+      icon: "",
     },
     {
       img: "",
       alt: "",
-      name: "Confirm deposit",
-      url: `/admin/deposit`,
+      name: "Investment packages",
+      url: `${url}/plans`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
     {
@@ -52,9 +60,10 @@ const Dashboard = ({ user }) => {
       img: "",
       alt: "",
       name: "verify user",
-      url: `/admin/verify`,
+      url: `${url}/verify`,
       icon: <VscVerified />,
     },
+    { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
     { img: logoutIcon, alt: "", name: "Logout", url: "#", icon: "" },
   ];
   return (
@@ -62,7 +71,7 @@ const Dashboard = ({ user }) => {
       <div className="my-6 lg:flex">
         <div className="flex w-screen md:hidden my-3 py-3 shadow border-b border-t border-gray-200 p-2 items-center overflow-x-scroll">
           {navMenu.map((menu, i) => (
-            <div className="min-w-4/10 h-full">
+            <div key={i} className="min-w-4/10 h-full">
               <Link className="flex" to={`${menu.url}`}>
                 <div className="mr-1 flex items-center">
                   <img src={menu.img} alt="" />
@@ -97,7 +106,7 @@ const Dashboard = ({ user }) => {
                 </Link>
 
                 <div className="flex items-center my-2">
-                  <span className="mr-2">28</span>
+                  <span className="mr-2">{users.allUsers.length}</span>
                   <img src={arrWhite} alt="" />
                 </div>
               </div>
@@ -112,46 +121,33 @@ const Dashboard = ({ user }) => {
           </div>
           <div className="border border-gray-100 shadow-md">
             <div className="flex items-center p-4 justify-between">
-              <div>User activities</div>
-              <div>View all</div>
+              <div>Binaryvest Information</div>
             </div>
             <div className="px-4">Today</div>
             <div className="my-3">
               <div className="flex items-center border-b px-4 py-2 border-gray-200">
-                <div className="mr-2">
-                  <img
-                    className="rounded-full w-10 h-10"
-                    src={userIcon}
-                    alt=""
-                  />
-                </div>
-                <div>
-                  Jessica Konye invested with Standard Package
-                  <Link
-                    className="ml-2 text-sm text-blueish"
-                    to="/admin/verify"
-                  >
-                    STD - 2394
-                  </Link>
-                </div>
+                <Link
+                  className="flex items-center justify-between w-full text-blueish text-lg"
+                  to="/admin/users"
+                >
+                  <div>All users</div> <div>{users.allUsers.length}</div>
+                </Link>
               </div>
               <div className="flex items-center border-b px-4 py-2 border-gray-200">
-                <div className="mr-2">
-                  <img
-                    className="rounded-full w-10 h-10"
-                    src={userIcon}
-                    alt=""
-                  />
-                </div>
-                <div>
-                  Jessica Konye invested with Standard Package
-                  <Link
-                    className="ml-2 text-sm text-blueish"
-                    to="/admin/deposit"
-                  >
-                    STD - 2394
-                  </Link>
-                </div>
+              <Link
+                className="flex items-center justify-between w-full text-blueish text-lg"
+                to="/admin/allRequests"
+              >
+                <div>Verification Requests</div> <div>{ver.allRequest.length}</div>
+              </Link>
+            </div>
+              <div className="flex items-center border-b px-4 py-2 border-gray-200">
+                <Link
+                  className="flex items-center justify-between w-full text-blueish text-lg"
+                  to="/admin/plans"
+                >
+                  <div>All Packages</div>
+                </Link>
               </div>
             </div>
           </div>
@@ -164,13 +160,22 @@ const Dashboard = ({ user }) => {
               </h2>
               <h4 className="text-blue-800 text-xs">View all</h4>
             </div>
-            <div className="flex items-center justify-between border-b p-3 border-gray-200">
-              <div>Withdrawal requests</div>
-              <div className="text-gray-500 text-xs">15</div>
+            <div className="flex items-center border-b px-4 py-2 border-gray-200">
+              <Link
+                className="flex items-center justify-between w-full text-blueish text-lg"
+                to="/admin/users"
+              >
+                <div>Deposit Requests</div> <div>0</div>
+              </Link>
             </div>
-            <div className="flex items-center justify-between border-b p-3 border-gray-200">
-              <div>Account Verification</div>
-              <div className="text-gray-500 text-xs">105</div>
+            
+            <div className="flex items-center border-b px-4 py-2 border-gray-200">
+              <Link
+                className="flex items-center justify-between w-full text-blueish text-lg"
+                to="/admin/users"
+              >
+                <div>Withdrawal Requests</div> <div>0</div>
+              </Link>
             </div>
           </div>
         </div>

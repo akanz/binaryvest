@@ -170,7 +170,7 @@ const Payment = () => {
                               <Formikcontrol
                                 control="input"
                                 name="amount"
-                                placeholder={`${opt.name} package. deposit an amount between  $${packageOption.minAmount} - $${packageOption.maxAmount}`}
+                                placeholder={`Deposit an amount between  $${packageOption.minAmount} - $${packageOption.maxAmount}`}
                               />
                               <div className="text-right mt-8">
                                 {formik.values.email !== "" &&

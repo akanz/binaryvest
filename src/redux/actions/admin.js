@@ -6,14 +6,24 @@ import {
   CONFIRM_DEP_LOADING,
   CONFIRM_DEP_SUCCESS,
   CONFIRM_VER_SUCCESS,
+  CREATE_PLAN_LOADING,
   CREATE_PLAN_FAILURE,
   CREATE_PLAN_SUCCESS,
   GET_PLANS_FAILURE,
   GET_PLANS_LOADING,
   GET_PLANS_SUCCESS,
+  GET_PLAN_FAILURE,
+  GET_PLAN_LOADING,
+  GET_PLAN_SUCCESS,
+  UPDATE_PLAN_LOADING,
   GET_USER_ERROR,
   GET_USER_LOADING,
   GET_USER_SUCCESS,
+  UPDATE_PLAN_SUCCESS,
+  UPDATE_PLAN_FAILURE,
+  DELETE_PLAN_LOADING,
+  DELETE_PLAN_SUCCESS,
+  DELETE_PLAN_FAILURE,
 } from "../actionTypes";
 import { setMessage } from "./message";
 import axios from "axios";
@@ -30,7 +40,6 @@ export const allUsers = () => async (dispatch, getState) => {
   try {
     const res = await axios.get("/admin/users", tokenConfig(getState));
     const data = await res.data;
-    console.log(data);
     dispatch({
       type: ALL_USERS_LOADED,
       payload: data,
@@ -62,7 +71,6 @@ export const getUserById = (id) => async (dispatch, getState) => {
   try {
     const res = await axios.get(`/user/${id}`, tokenConfig(getState));
     const data = await res.data;
-    console.log(data);
     dispatch({
       type: GET_USER_SUCCESS,
       payload: data,
@@ -84,6 +92,9 @@ export const getUserById = (id) => async (dispatch, getState) => {
 
 // create investment plan
 export const createPlan = (data) => (dispatch) => {
+  dispatch({
+    type: CREATE_PLAN_LOADING,
+  });
   axios
     .post("/admin/createInvestmentPlan", data)
     .then((res) => {
@@ -97,14 +108,21 @@ export const createPlan = (data) => (dispatch) => {
       );
     })
     .catch((err) => {
+      console.log(err.response);
       dispatch({
         type: CREATE_PLAN_FAILURE,
       });
-      dispatch(setMessage(err.response.data.error));
+      dispatch(
+        setMessage(
+          err.response.data.error,
+          err.response.status,
+          CREATE_PLAN_FAILURE
+        )
+      );
     });
 };
 
-// Get Investment plan
+// Get All Investment plans
 export const getPlans = () => async (dispatch) => {
   dispatch({
     type: GET_PLANS_LOADING,
@@ -112,7 +130,6 @@ export const getPlans = () => async (dispatch) => {
   try {
     const res = await axios.get("/admin/investmentPlans");
     const data = await res.data.data;
-    console.log(data)
     dispatch({
       type: GET_PLANS_SUCCESS,
       payload: data,
@@ -126,19 +143,80 @@ export const getPlans = () => async (dispatch) => {
   }
 };
 
-// Update Investment plan
-export const updatePlan = (id) => async (dispatch, getState) => {
+// Get An Investment plan
+export const getPlan = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_PLAN_LOADING,
+  });
   try {
-    // const res = await axios.post(
-    //   `admin/update-investmentPlan/${id}`,
-    //   data,
-    //   tokenConfig(getState)
-    // );
-    // const response = res.data;
-    // dispatch({
-    //   type:
-    // })
-  } catch (error) {}
+    const res = await axios.get(`admin/plan/${id}`);
+    const data = res.data;
+    dispatch({
+      type: GET_PLAN_SUCCESS,
+      payload: data,
+    });
+    dispatch(setMessage("Successfully Gotten plan", 200, GET_PLAN_SUCCESS));
+  } catch (err) {
+    console.log(err.response);
+    dispatch({
+      type: GET_PLAN_FAILURE,
+    });
+    dispatch(setMessage("Unable to get Plan", 400, GET_PLAN_FAILURE));
+  }
+};
+// Update Investment plan
+export const updatePlan = (values) => async (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_PLAN_LOADING,
+  });
+  const { name, roi, minAmount, maxAmount } = values;
+  const data = {
+    name: name,
+    roi: roi,
+    minAmount: minAmount,
+    maxAmount: maxAmount,
+  };
+  try {
+    const res = await axios.patch(
+      `admin/update-investmentPlan/${values.id}`,
+      data,
+      tokenConfig(getState)
+    );
+    const response = res.data;
+    dispatch({
+      type: UPDATE_PLAN_SUCCESS,
+      payload: response,
+    });
+    dispatch(
+      setMessage(response.message, response.status, UPDATE_PLAN_SUCCESS)
+    );
+  } catch (error) {
+    console.log(error.response);
+    dispatch(setMessage("Unable to update package", 400, UPDATE_PLAN_FAILURE));
+  }
+};
+
+// delete Investment plan
+export const deletePlan = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: DELETE_PLAN_LOADING,
+  });
+  try {
+    const res = await axios.delete(`/admin/plan/${id}`, tokenConfig(getState));
+    const response = await res.data;
+    console.log(response);
+    dispatch({
+      type: DELETE_PLAN_SUCCESS,
+      payload: response,
+    });
+    dispatch(setMessage("Deleted plan successfully", 200, DELETE_PLAN_SUCCESS));
+  } catch (error) {
+    console.log(error.response);
+    dispatch({
+      type: DELETE_PLAN_FAILURE,
+    });
+    dispatch(setMessage("Unable to delete plan", 400, DELETE_PLAN_FAILURE));
+  }
 };
 
 // confirm deposit
@@ -158,7 +236,6 @@ export const confirmDeposit = (value) => async (dispatch, getState) => {
       tokenConfig(getState)
     );
     const data = await res.data;
-    console.log(data);
 
     dispatch({
       type: CONFIRM_DEP_SUCCESS,

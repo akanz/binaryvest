@@ -1,4 +1,7 @@
 @layer components {
+    .logo {
+        font-family: 'Varela Round', sans-serif;
+    }
     .form-input {
         @apply focus:ring-transparent border-0 rounded-none border-b border-gray-300 focus:border-pink-600 !important;
         
@@ -69,5 +72,8 @@
     }
     .message {
         @apply opacity-100 transform transition ease-in-out duration-500 mt-2 font-medium capitalize rounded-sm text-sm text-center text-white p-1.5;
+    }
+    .confirmDelete {
+        @apply p-1 rounded transition transform ease-in-out duration-300 hover:scale-125;
     }
 }
