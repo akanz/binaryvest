@@ -20,15 +20,14 @@ const Register = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const msg = useSelector((state) => state.message);
-  const history = useHistory();
   console.log(user)
+  
   // Onsubmit of form, dispatch register action with the form values
   const onSubmit = async (values) => {
     dispatch(clearMessage());
     dispatch(register(values));
     setTimeout(() => {
       dispatch(clearMessage());
-      // history.push("/login");
     }, 3000);
   };
 

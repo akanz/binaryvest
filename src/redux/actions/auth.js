@@ -30,11 +30,14 @@ export const register = (data) => (dispatch) => {
       });
       dispatch(
         setMessage(
-          "signup successful, please proceed to login",
+          "signup successful, you will be redirected to login shortly",
           response.data.status,
           REGISTER_SUCCESS
         )
       );
+      setTimeout(() => {
+        window.location.replace('/login')
+      }, 2000);
     })
     .catch((err) => {
       if (err !== undefined) {

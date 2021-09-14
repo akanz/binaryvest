@@ -9,10 +9,12 @@ import Verify from "../verify";
 import Admin from "../admin";
 import Error from "../otherComps/404";
 import AdminRoute from "../routes/AdminRoute";
+import VerifiedRoute from '../routes/VerifiedRoute'
 import Education from "../education";
 import FAQ from "../more/FAQ";
 import Reviews from "../more/Reviews";
 import Withdraw from "../payment/Withdraw";
+import Card from "../payment/Card";
 
 const Index = () => {
   return (
@@ -24,8 +26,9 @@ const Index = () => {
         <Route exact path='/faqs' component={FAQ} />
         <Route exact path='/reviews' component={Reviews} />
         <AdminRoute Route path="/admin" component={Admin} />
-        <Route path="/invest" component={Payment} />
-        <PrivateRoute exact path='/withdraw' component={Withdraw} />
+        <Route exact path="/invest" component={Payment} />
+        <Route exact path='/invest/card' component={Card} />
+        <VerifiedRoute exact path='/withdraw' component={Withdraw} />
         <PrivateRoute exact path="/verification" component={Verify} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <Route component={Error} />

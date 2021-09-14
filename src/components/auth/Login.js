@@ -57,7 +57,7 @@ const Login = () => {
       <div className="md:w-7/10 w-full">
         <div className="w-8/10 md:w-7/10 mx-auto py-12 pt-32">
           <h1 className="text-xl md:text-3xl text-blueish text-center tracking-wider font-semibold">
-            Sign In to BinaryVest
+            Sign In to <span>Binary</span><span className='text-red-600'>Vest</span>
           </h1>
 
           <div className="my-8">

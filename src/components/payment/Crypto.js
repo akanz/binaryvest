@@ -65,7 +65,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
         Deposit the sum of ${amount} into any of the following USDT wallet
         addresses listed below
       </h3>
-      <div className="my-3 flex justify-between">
+      <div className="my-3 flex justify-between text-sm">
         <span className="font-semibold">ERC20</span>
         <span className="w-7/10">
           <input
@@ -79,7 +79,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
           <img name="erc" src={cp} alt="copy wallet address" />
         </span>
       </div>
-      <div className="my-3 flex justify-between">
+      <div className="my-3 flex justify-between text-sm">
         <span className="font-semibold">TRC20</span>
         <span className="w-7/10">
           <input
@@ -93,7 +93,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
           <img name="trc" src={cp} alt="copy wallet address" />
         </span>
       </div>
-      <div className="my-3 flex justify-between">
+      <div className="my-3 flex justify-between text-sm">
         <span className="font-semibold">BEP2</span>
         <span className="w-7/10">
           <input
@@ -108,7 +108,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
         </span>
       </div>
       {copyState && (
-        <span className="flex justify-center items-center w-5/10 mx-auto mt-5 bg-blue-500 rounded text-white text-sm capitalize p-2 px-12">
+        <span className="flex justify-center items-center w-5/10 mx-auto mt-5 bg-blue-500 rounded text-white text-sm capitalize p-2 md:px-12">
           {copy}
         </span>
       )}

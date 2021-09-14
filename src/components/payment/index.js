@@ -20,7 +20,7 @@ const Payment = () => {
   const [payMethod, setPayMethod] = useState("");
   const [step, setsStep] = useState(1);
   const [proofOfPay, setProofOfPay] = useState("");
-  const [packageOptions, setPackageOptions] = useState('');
+  const [packageOptions, setPackageOptions] = useState("");
   const [packageOption, setPackageOption] = useState({
     name: "",
     id: null,
@@ -28,10 +28,16 @@ const Payment = () => {
     minAmount: null,
     maxAmount: null,
   });
-
+  const [cardDets, setCardDets] = useState({
+    cardNo: "",
+    cardType: "",
+    expDate: "",
+    cvv: "",
+  });
+  const [cardMsg, setcardMsg] = useState(null);
   const dispatch = useDispatch("");
-  console.log(packageOption);
-  console.log(packageOptions);
+  // console.log(cardDets);
+  // console.log(cardMsg);
   const history = useHistory();
 
   useEffect(() => {
@@ -44,19 +50,31 @@ const Payment = () => {
   }, [admin]);
 
   const onSubmit = async (values) => {
-    const data = { ...values, packageOption, proofOfPay };
-    console.log(data);
-    dispatch(deposit(data));
+    if (payMethod === 1) {
+      const data = { ...values, packageOption, proofOfPay };
+      console.log(data);
+      dispatch(deposit(data));
 
-    setTimeout(() => {
-      dispatch(clearMessage());
-      history.push("/dashboard");
-    }, 5000);
+      setTimeout(() => {
+        dispatch(clearMessage());
+        history.push("/dashboard");
+      }, 5000);
+    } else {
+      console.log(cardDets);
+      setTimeout(() => {
+        setcardMsg(null);
+      }, 4000);
+    }
   };
 
   return (
-    <div>
-      <div className="w-9/15 md:w-7/10 m-auto mt-24 shadow-lg rounded-lg border border-gray-100 py-8 px-8 md:px-16">
+    <div className="pt-24">
+      {cardMsg && (
+        <div className="p-3 bg-red-500 w-9/15 md:w-6/10 rounded mx-auto text-sm text-white text-center">
+          {cardMsg}
+        </div>
+      )}
+      <div className="w-9/15 md:w-7/10 m-auto mt-6 shadow-lg rounded-lg border border-gray-100 py-8 px-4 md:px-8 lg:px-16">
         <h2 className="text-3xl text-center text-gray-600 tracking-wider">
           Invest
         </h2>
@@ -215,7 +233,17 @@ const Payment = () => {
                     handleStep={setsStep}
                   />
                 )}
-                {step === 3 && payMethod === 2 && <Card />}
+                {step === 3 && payMethod === 2 && (
+                  <Card
+                    amount={formik.values.amount}
+                    email={formik.values.email}
+                    handleStep={setsStep}
+                    handleCardDets={setCardDets}
+                    cardDets={cardDets}
+                    cardMsg={cardMsg}
+                    setcardMsg={setcardMsg}
+                  />
+                )}
               </div>
             </Form>
           )}

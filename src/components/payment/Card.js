@@ -1,25 +1,25 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Cleave from "cleave.js/react";
 import paystack from "../../img/paystack.svg";
 import paybg from "../../img/paybg.svg";
+import { BiArrowBack } from "react-icons/bi";
+import { SpaceBarOutlined } from "@material-ui/icons";
 
-const Card = () => {
-  const [creditNo, setCreditNo] = useState("");
-  const [cardType, setCardType] = useState("");
-  const [cardDate, setCardDate] = useState("");
-  const [cvv, setCvv] = useState("");
-
+const Card = ({
+  cardDets,
+  handleCardDets,
+  cardMsg,
+  setcardMsg,
+  handleStep,
+  ...props
+}) => {
   const handleChange = (e) => {
-    setCreditNo(e.target.value);
+    const { name, value } = e.target;
+    handleCardDets({ ...cardDets, [name]: value });
   };
   const handleCardType = (type) => {
-    setCardType(type);
-  };
-  const handleCardDate = (e) => {
-    setCardDate(e.target.value);
-  };
-  const handleCvv = (e) => {
-    setCvv(e.target.value);
+    handleCardDets({ ...cardDets, cardType: type });
   };
   return (
     <>
@@ -27,10 +27,11 @@ const Card = () => {
         <div>
           <img src={paystack} alt="paystack" />
         </div>
-        <div className="grid text-xs">
-          <span>johndoe@gmail.com</span>
-          <span>
-            pay <span className="text-blue-500 font-medium">$100</span>
+        <div className="grid text-xs text-blueish font-semibold">
+          <span>{props.email}</span>
+          <span className="font-medium">
+            <span className="text-gray-700">Pay</span>
+            <span className="text-red-700">${props.amount}</span>
           </span>
         </div>
       </div>
@@ -41,8 +42,10 @@ const Card = () => {
           </h4>
           <Cleave
             className="text-sm text-gray-600 font-light w-full focus:outline-none"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e)}
             placeholder="5473 6543 7865 4353"
+            name="cardNo"
+            value={cardDets.cardNo}
             options={{
               creditCard: true,
               handleCardType,
@@ -56,7 +59,9 @@ const Card = () => {
             </h4>
             <Cleave
               className="text-sm text-gray-600 font-light focus:outline-none"
-              onChange={handleCardDate}
+              onChange={(e) => handleChange(e)}
+              name="expDate"
+              value={cardDets.expDate}
               placeholder="07/21"
               options={{
                 date: true,
@@ -71,7 +76,9 @@ const Card = () => {
             <Cleave
               className="text-sm text-gray-600 font-light focus:outline-none"
               placeholder="cvv"
-              onChange={handleCvv}
+              onChange={(e) => handleChange(e)}
+              name="cvv"
+              value={cardDets.cvv}
               options={{
                 blocks: [3],
                 numericOnly: true,
@@ -79,13 +86,30 @@ const Card = () => {
             />
           </div>
         </div>
-
-        <div className="text-right mt-12">
-          <button className="button">pay</button>
-        </div>
       </div>
       <div className="text-center flex justify-center mt-12 mb-8">
         <img src={paybg} alt="payment background" />
+      </div>
+      <div className="flex justify-between items-center mt-6">
+        <Link to="#" onClick={() => handleStep(1)}>
+          <BiArrowBack className="w-10 h-8 text-gray-500" />
+        </Link>
+        <button
+          disabled={
+            cardDets.cardNo === "" ||
+            cardDets.cvv === "" ||
+            cardDets.date === ""
+          }
+          onClick={() =>
+            setcardMsg(
+              "Error occurred while paying with card. Try another payment method"
+            )
+          }
+          type="submit"
+          className="button cursor-pointer"
+        >
+          pay
+        </button>
       </div>
     </>
   );

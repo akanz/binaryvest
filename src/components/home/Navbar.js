@@ -12,7 +12,7 @@ import navReview from "../../img/navreview.svg";
 import navedu from "../../img/navedu.svg";
 import navfaq from "../../img/navfaq.svg";
 import Dropdown from "../../helpers/Dropdown";
-import BVIcon from '../../img/bv_logo.jpg'
+import BVIcon from '../../img/bv_logo.svg'
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {

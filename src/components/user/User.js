@@ -31,8 +31,8 @@ const User = () => {
       {loading && <Loader />}
       {!loading && user.status === 200 && (
         <div className="">
-          <div className="border-b p-4 border-gray-200">
-            <img src={profileIcon} alt="" />
+          <div className="border-b flex justify-center p-4 border-gray-200">
+            <img className='h-96 object-contain' src={user.data.imageUrl} alt="" />
           </div>
           <div className="grid px-4 py-2 content-between">
             <h2>

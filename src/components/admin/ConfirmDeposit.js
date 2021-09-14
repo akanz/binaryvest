@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import {Link, useHistory } from "react-router-dom";
 import { confirmDeposit } from "../../redux/actions/admin";
 import { clearMessage, setMessage } from "../../redux/actions/message";
 import BtnLoader from "../otherComps/BtnLoader";
@@ -78,9 +78,9 @@ const ConfirmDeposit = () => {
             {admin.isLoading && <BtnLoader />}
             authorize deposit
           </button>
-          <button className="flex items-center justify-center font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
+          <Link to='/admin' className="flex items-center justify-center font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
             deny
-          </button>
+          </Link>
         </div>
       </form>
     </div>

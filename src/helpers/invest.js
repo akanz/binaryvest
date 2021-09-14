@@ -12,11 +12,8 @@ axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export const initialValues = {
-  // payOption: "",
-  // packageOption: "",
   email: "",
   amount: "",
-  proof_of_payment: "",
 };
 export const validationSchema = Yup.object({
   // packageOption: Yup.string().required("Select a package"),

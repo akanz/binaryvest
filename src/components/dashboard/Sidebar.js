@@ -33,7 +33,7 @@ const Sidebar = ({ user }) => {
     <div className="bg-white shadow-xl min-h-screen h-full sticky top-10 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
         <div className="px-10">
-          <img src={profPic} alt="" />
+          <img src={user.imageUrl ? user.imageUrl : profPic} alt="" />
         </div>
         <div className="my-3 px-5 text-gray-800">
           <h2 className="text-xl font-medium capitalize">
@@ -48,7 +48,7 @@ const Sidebar = ({ user }) => {
             <div className="flex p-3 px-5 border-b border-gray-300 items-center">
               <div className="mr-4">
                 <img src={menu.img} alt={menu.alt} />
-                <div className='text-turquoise'>{menu.icon}</div>
+                <div className="text-turquoise">{menu.icon}</div>
               </div>
               <div className="text-center">{menu.name}</div>
             </div>

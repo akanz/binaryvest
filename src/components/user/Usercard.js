@@ -20,8 +20,8 @@ const Usercard = ({ username, wallet, ...user }) => {
       className="transform hover:scale-110 ease-in-out transition duration-300"
     >
       <div className="w-9/10 my-3 md:my-0 mx-auto md:w-full shadow rounded-sm">
-        <div className="border-b p-3 border-gray-300">
-          <img src={profilePic} alt="" />
+        <div className="border-b p-3 flex justify-center border-gray-300">
+          <img className='h-44 w-44 object-cover md:w-60 rounded-full' src={user.imageUrl} alt="" />
         </div>
         <div className="px-3 py-1.5 text-xs">
           <h3>@{username}</h3>
