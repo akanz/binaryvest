@@ -26,25 +26,26 @@ export const axiosType = (axios.defaults.headers.post["Content-Type"] =
 export const verify = (data) => async (dispatch, getState) => {
   const customHeader = {
     headers: {
-      "Content-type": "*/*",
-      "Authorization" : `Bearer ${getState().auth.token}`,
+      "Content-type": '*/*',
+      Authorization: `Bearer ${getState().auth.token}`,
     },
   };
-  const body = {
+  console.log(data);
+  const body = JSON.stringify({
     name: data.username,
     phone: data.phone_no,
     label: data.id_type,
     ssn: data.ssn,
-    avatar: data.frontPage.name,
+    avatar: data.imgData,
     // avatar: data.backPage,
-  };
-  console.log(body)
+  });
+  console.log(body);
   dispatch({
     type: VERIFICATION_LOADING,
   });
 
   try {
-    const res = await axios.post("/user/verify", body, tokenConfig(getState));
+    const res = await axios.post("/user/verify", body, customHeader);
     const response = await res.data;
     console.log(response);
     dispatch({

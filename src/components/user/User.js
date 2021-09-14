@@ -5,6 +5,7 @@ import profileIcon from "../../img/profile.svg";
 import { getUserById } from "../../redux/actions/admin";
 import Error from "../otherComps/404";
 import Loader from "../otherComps/Loader";
+import { VscVerified } from "react-icons/vsc";
 
 const User = () => {
   const user = useSelector((state) => state.admin.user);
@@ -35,12 +36,21 @@ const User = () => {
           </div>
           <div className="grid px-4 py-2 content-between">
             <h2>
-              Name: {user.data.name.firstname} {user.data.name.lastname}
+              {user.data.name.firstname} {user.data.name.lastname}
             </h2>
-            <h2>Username: {user.data.username} </h2>
+            <h2>@{user.data.username} </h2>
             <h2>E-mail: {user.data.email}</h2>
             <h2>Wallet Balance: {user.data.wallet}</h2>
-            <h2>Id: {user.data._id}</h2>
+            <h3 className='font-semibold my-1'>
+            {user.data.isVerified ? (
+              <div className='flex items-center text-green-700'>
+                <VscVerified />
+                Verified
+              </div>
+            ) : (
+              <div className='text-red-600'>Not Verified</div>
+            )}
+          </h3>
           </div>
           <div className="p-4 grid md:flex justify-between">
             <Link to="/admin/deposit">

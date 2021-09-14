@@ -1,14 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { clearMessage } from "../../redux/actions/message";
 import { getVerRequest } from "../../redux/actions/verify";
 
 const Reqcard = ({ ...req }) => {
   const dispatch = useDispatch("");
   const getRequest = () => {
+    dispatch(clearMessage());
     console.log(req._id);
     dispatch(getVerRequest(req._id));
+    dispatch(clearMessage());
   };
+
+  
   return (
     <Link
       to={`/admin/verify/${req._id}`}
@@ -17,11 +22,14 @@ const Reqcard = ({ ...req }) => {
     >
       <div className="shadow rounded" key={req._id}>
         <div className="p-2 h-56 border-b border-gray-300">
-          <img
-            className="w-full h-full object-cover"
-            src={req.metadata.path}
-            alt=""
-          />
+          {req.metadata.map((img, i) => (
+            <img
+              key={i}
+              className="w-full h-full object-cover"
+              src={img.path}
+              alt=""
+            />
+          ))}
         </div>
         <div className="p-2 text-lg">
           <h3>@{req.name}</h3>
@@ -33,7 +41,7 @@ const Reqcard = ({ ...req }) => {
           </h3>
           <h3>
             <span className="text-gray-600">Status:</span>{" "}
-            <span className="text-blueish">{req.status}</span>
+            <span className="text-yellow-600">{req.status}</span>
           </h3>
         </div>
         <div className="p-2">

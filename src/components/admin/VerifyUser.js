@@ -1,64 +1,30 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { userContext } from ".";
 import { verifyUser } from "../../redux/actions/admin";
 
 const Verify = () => {
-  const user = useSelector((state) => state.auth.data);
+  const user = useContext(userContext)[0].data;
+  const ver = useSelector((state) => state.verify);
   const dispatch = useDispatch("");
-
-  const onSubmit = async (values) => {
-    console.log(values);
-    dispatch(verifyUser(true));
-  };
+  console.log(user);
 
   return (
     <div>
-      <form className="grid" onSubmit={onSubmit}>
-        <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">User E-mail</label>
-          <input
-            className="form-input border-gray-300 rounded"
-            value={user.email}
-            readOnly
+      <div className="shadow rounded mb-20">
+        <div className="border-b flex justify-center border-gray-300 h-96">
+          <img
+            className="w-8/10 mx-auto object-contain h-full"
+            src={user.imageUrl}
+            alt=""
           />
         </div>
-
-        <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">
-            Social Security Number
-          </label>
-          <input
-            className="form-input border-gray-300 rounded"
-            value
-            readOnly
-          />
+        <div className="my-2 p-2">
+          <div>@{user.username}</div>
+          <div>{user.email}</div>
+          <div>{user.isVerified ? "verified" : "not verified"}</div>
         </div>
-        <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">Document type</label>
-          <input
-            className="form-input border-gray-300 rounded"
-            value
-            readOnly
-          />
-        </div>
-        <div className="my-3 grid">
-          <label className="mb-1 text-gray-500 mx-1">Document</label>
-          <input
-            className="form-input border-gray-300 rounded"
-            value
-            readOnly
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 place-items-center">
-          <button className="button font-semibold my-5 w-full md:w-4/5 uppercase">
-            verify user
-          </button>
-          <button className="font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
-            deny
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

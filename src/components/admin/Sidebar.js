@@ -55,7 +55,7 @@ const Sidebar = ({ user }) => {
     { img: logoutIcon, alt: "", name: "Logout", url: "#", icon: "" },
   ];
   return (
-    <div className="bg-white shadow-xl min-h-screen h-full top-20 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
+    <div className="bg-white shadow-xl min-h-screen h-full sticky top-10 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
         <div className="px-10">
           <img src={profPic} alt="" />

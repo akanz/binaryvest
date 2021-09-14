@@ -92,11 +92,11 @@ const Dashboard = ({ user }) => {
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="px-3 py-2 grid h-20 bg-yellow-400 text-gray-700 text-xs rounded-xl">
-                <h3>Guest Users</h3>
-                <div className="flex items-center my-2">
-                  <span className="mr-2">18</span>
-                  <img src={arrIcon} alt="" />
-                </div>
+              <Link to="/admin/users">
+                  <h3 className="cursor-pointer hover:underline">
+                    Deposit requests
+                  </h3>
+                </Link>
               </div>
               <div className="px-3 py-2 grid h-20 bg-lightteal text-white text-xs rounded-xl">
                 <Link to="/admin/users">
@@ -111,11 +111,11 @@ const Dashboard = ({ user }) => {
                 </div>
               </div>
               <div className="px-3 py-2 grid h-20 bg-blue-800 text-white text-xs rounded-xl">
-                <h3>Users who only invested</h3>
-                <div className="flex items-center my-2">
-                  <span className="mr-2">16</span>
-                  <img src={arrWhite} alt="" />
-                </div>
+              <Link to="/admin/allRequests">
+                  <h3 className="cursor-pointer hover:underline">
+                    Verification requests
+                  </h3>
+                </Link>
               </div>
             </div>
           </div>

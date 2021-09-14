@@ -50,10 +50,13 @@ const Verify = () => {
     front: false,
     back: false,
   });
+console.log(otherState)
+
 
   // set state of the ID type
   const handleFrontPage = (e) => {
     const selected = e.target.files[0];
+
     const ALLOWED_TYPES = [
       "image/png",
       "image/jpeg",
@@ -61,7 +64,6 @@ const Verify = () => {
       "application/pdf",
     ];
     if (selected && ALLOWED_TYPES.includes(selected.type)) {
-      console.log(selected);
       let reader = new FileReader();
       reader.onloadend = () => {
         setOtherState({ ...otherState, frontPage: selected });
@@ -82,7 +84,6 @@ const Verify = () => {
       "application/pdf",
     ];
     if (selected && ALLOWED_TYPES.includes(selected.type)) {
-      console.log(selected);
       let reader = new FileReader();
       reader.onloadend = () => {
         setOtherState({ ...otherState, backPage: selected });
@@ -104,15 +105,18 @@ const Verify = () => {
   };
 
   const onSubmit = async (values) => {
-    const front = new FormData();
-    front.append('file', otherState.frontPage)
-    dispatch(clearMessage())
-    const data = { ...values, ...otherState, front };
+    const imgData = new FormData();
+    imgData.append("file", otherState.frontPage);
+
+    const imgData2 = new FormData();
+    imgData2.append("file", otherState.backPage);
+    dispatch(clearMessage());
+    const data = { ...values, ...otherState, imgData, imgData2 };
     console.log(data);
     dispatch(verify(data));
 
     setTimeout(() => {
-      dispatch(clearMessage())
+      dispatch(clearMessage());
     }, 3000);
   };
 
@@ -313,8 +317,8 @@ const Verify = () => {
                       formik.isSubmitting ||
                       !formik.dirty ||
                       otherState.id_type === "" ||
-                      otherState.frontPage === "" ||
-                      otherState.backPage === ""
+                      !otherState.frontPage ||
+                      !otherState.backPage
                     }
                     className="button flex justify-center items-center w-full my-3 font-semibold"
                   >

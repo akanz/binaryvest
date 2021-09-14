@@ -252,21 +252,3 @@ export const confirmDeposit = (value) => async (dispatch, getState) => {
   }
 };
 
-// verify a user
-export const verifyUser = (value) => (dispatch) => {
-  try {
-    dispatch({
-      type: CONFIRM_VER_SUCCESS,
-      payload: value,
-    });
-    dispatch(
-      setMessage(
-        "User has been successfully verified",
-        200,
-        CONFIRM_VER_SUCCESS
-      )
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};

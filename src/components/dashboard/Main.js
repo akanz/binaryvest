@@ -1,26 +1,86 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import profIcon from "../../img/prof.svg";
+import passwordIcon from "../../img/password.svg";
+import logoutIcon from "../../img/logout.svg";
+import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
+import { VscVerified } from "react-icons/vsc";
+import { FcMoneyTransfer } from "react-icons/fc";
 
 const Main = ({ user }) => {
-  // const date = new Date(user.)
+  const navMenu = [
+    { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
+    { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
+    {
+      img: "",
+      icon: <VscVerified />,
+      alt: "",
+      name: "Verify account",
+      url: "/verification",
+    },
+    {
+      img: "",
+      icon: <GiReceiveMoney />,
+      alt: "",
+      name: "Withdraw",
+      url: "/withdraw",
+    },
+    { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
+    { img: logoutIcon, icon: "", alt: "", name: "Logout", url: "#" },
+  ];
+  console.log(user);
   return (
     <div className="w-9/10 mx-auto md:w-7/15 lg:w-8/10 py-6 md:pt-10 md:pl-6 md:pr-14 ">
       <div>
-        <div className="md:flex p-4 justify-between border-gray-100 rounded-sm border shadow-md">
-          <div>
-            <h3 className="capitalize text-2xl">Hello {user.username}, </h3>
-            <p className="my-4 text-gray-700">
-              We’re glad to have you back. See how much you’ve made so far and
-              remember to verify your account for easy withdrawal
-            </p>
-          </div>
-          <div className="p-2">
-            <Link to="/verification">
-              <button className="button w-full  rounded-md">VERIFY</button>
-            </Link>
-          </div>
+        <div className="flex w-full md:hidden my-3 py-3 shadow border-b border-t border-gray-200 p-2 items-center overflow-x-scroll">
+          {navMenu.map((menu, i) => (
+            <div key={i} className="h-full min-w-4/15">
+              <Link className="flex" to={`${menu.url}`}>
+                <div className="mr-1 flex items-center">
+                  <img src={menu.img} alt="" />
+                  <div>{menu.icon}</div>
+                </div>
+                <div className="text-sm">
+                  <div>{menu.name}</div>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
-
+        {user.isVerified && (
+          <div className="md:flex p-4 justify-between border-gray-100 rounded-sm border shadow-md">
+            <div>
+              <div className="flex text-green-700 items-center py-2 text-xl">
+                Status: <VscVerified />
+                <span className="ml-2">Verified</span>
+              </div>
+              <h3 className="capitalize text-2xl">Hello {user.username}, </h3>
+              <p className="my-4 text-gray-700">
+                We’re glad to have you back. See how much you’ve made so far
+              </p>
+            </div>
+          </div>
+        )}
+        {!user.isVerified && (
+          <div className="md:flex p-4 justify-between border-gray-100 rounded-sm border shadow-md">
+            <div>
+              <div className="flex text-gray-600 items-center py-2 text-xl">
+                Status: <VscVerified />
+                <span className="ml-2">Not Verified</span>
+              </div>
+              <h3 className="capitalize text-2xl">Hello {user.username}, </h3>
+              <p className="my-4 text-gray-700">
+                We’re glad to have you back. See how much you’ve made so far and
+                remember to verify your account for easy withdrawal
+              </p>
+            </div>
+            <div className="p-2">
+              <Link to="/verification">
+                <button className="button w-full  rounded-md">VERIFY</button>
+              </Link>
+            </div>
+          </div>
+        )}
         <div className="my-6 lg:flex">
           <div className="border-gray-100 rounded-sm border shadow-md lg:w-7/10 lg:mr-6 px-3 md:px-6 py-2 pb-6">
             <div className="flex justify-between my-1.5 mb-5">
@@ -44,7 +104,9 @@ const Main = ({ user }) => {
                 <div className="p-3">
                   <h6 className="text-sm font-extralight">STANDARD 35%ROI</h6>
                   <h5 className="text-sm">Amount Invested</h5>
-                  <h2 className="font-bold text-xl">${user.wallet}</h2>
+                  <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                    ${parseFloat(user.wallet)}
+                  </div>
                 </div>
               </div>
 
@@ -58,38 +120,11 @@ const Main = ({ user }) => {
                 </div>
                 <div className="p-3">
                   <h6 className="text-sm font-extralight">STANDARD 35%ROI</h6>
-                  <h5 className="text-sm">Amount Invested</h5>
-                  <h2 className="font-bold text-xl">$472.50</h2>
-                </div>
-              </div>
-
-              {/* capital */}
-              <div className="bg-lightteal min-w-full rounded-md">
-                <div className="border-b text-xs flex border-white font-light">
-                  <div className="border-r border-white p-1 px-3">
-                    Investment Date
+                  <h5 className="text-sm">Amount Expected</h5>
+                  <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                    {" "}
+                    ${parseFloat(user.wallet) * 50}
                   </div>
-                  <div className="p-1 px-3">17th Feb, 2020</div>
-                </div>
-                <div className="p-3">
-                  <h6 className="text-sm font-extralight">GOLD 60%ROI</h6>
-                  <h5 className="text-sm">Amount Invested</h5>
-                  <h2 className="font-bold text-xl">$5,500.00</h2>
-                </div>
-              </div>
-
-              {/* total income */}
-              <div className="bg-lightteal min-w-full rounded-md">
-                <div className="border-b text-xs flex border-white font-light">
-                  <div className="border-r border-white p-1 px-3">
-                    Withdrawal Date
-                  </div>
-                  <div className="p-1 px-3">17th March, 2020</div>
-                </div>
-                <div className="p-3">
-                  <h6 className="text-sm font-extralight">GOLD 60%ROI</h6>
-                  <h5 className="text-sm">Amount Invested</h5>
-                  <h2 className="font-bold text-xl">$8,800.00</h2>
                 </div>
               </div>
             </div>
@@ -104,13 +139,17 @@ const Main = ({ user }) => {
                   <span>Show:</span>
                 </div>
               </div>
-              <div className="flex text-xs justify-between border-b border-gray-200 p-2 px-4">
+              <div className="flex text-xs items-center justify-between border-b border-gray-200 p-2 px-4">
                 <div className="font-semibold">Capital</div>
-                <div className="text-gray-500">$5,850.00</div>
+                <div className="text-white bg-yellow-600 rounded-full px-3 py-1.5">
+                  ${user.wallet}
+                </div>
               </div>
-              <div className="flex text-xs justify-between border-b border-gray-200 p-2 px-4">
+              <div className="flex text-xs items-center justify-between border-b border-gray-200 p-2 px-4">
                 <div className="font-semibold">Interest</div>
-                <div className="text-gray-500">$2,850.00</div>
+                <div className="text-white bg-yellow-600 rounded-full px-3 py-1.5">
+                  ${parseFloat(user.wallet) * 50}
+                </div>
               </div>
               <div className="my-2 mt-10 p-2 py-4 text-center">
                 <Link to="/invest">
@@ -120,12 +159,17 @@ const Main = ({ user }) => {
                 </Link>
               </div>
             </div>
-            <div className="py-8 px-4 border border-gray-100 shadow-lg my-5">
-              <p>Safely withdraw your money here on the due date</p>
-              <div className="my-2 mt-10 p-2 py-4 text-center">
+            <div className="py-2 px-4 border border-gray-100 shadow-lg my-5 grid">
+              <p className="capitalize text-lg text-gray-600">
+                Safely withdraw your money here on the due date
+              </p>
+              <div className="flex justify-center my-2 p-2">
+                <FcMoneyTransfer className="w-24 h-24" />
+              </div>
+              <div className="my-2 flex justify-center p-2">
                 <Link
                   to="/withdraw"
-                  className="btnTrans border-pink-700 p-2 px-8 w-8/10 mx-auto text-pink-600 text-sm hover:bg-pink-600 hover:text-white"
+                  className="btnTrans text-center border-pink-700 p-2 px-8 w-8/10 mx-auto text-pink-600 text-sm hover:bg-pink-600 hover:text-white"
                 >
                   WITHDRAW
                 </Link>
