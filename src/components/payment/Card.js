@@ -91,7 +91,7 @@ const Card = ({
         <img src={paybg} alt="payment background" />
       </div>
       <div className="flex justify-between items-center mt-6">
-        <Link to="#" onClick={() => handleStep(1)}>
+        <Link to="#" onClick={() => handleStep(2)}>
           <BiArrowBack className="w-10 h-8 text-gray-500" />
         </Link>
         <button

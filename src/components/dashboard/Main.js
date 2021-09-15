@@ -9,7 +9,7 @@ import { FcMoneyTransfer } from "react-icons/fc";
 
 const Main = ({ user }) => {
   const navMenu = [
-    { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
+    // { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
     { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
     {
       img: "",

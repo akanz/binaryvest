@@ -2,6 +2,9 @@ import {
   ALL_REQUESTS_FAILURE,
   ALL_REQUESTS_LOADING,
   ALL_REQUESTS_SUCCESS,
+  AUTH_VER_ERROR,
+  AUTH_VER_LOADING,
+  AUTH_VER_SUCCESS,
   CONFIRM_DEP_FAILURE,
   CONFIRM_VER_FAILURE,
   CONFIRM_VER_LOADING,
@@ -17,35 +20,34 @@ import { setMessage } from "./message";
 import axios from "axios";
 import { tokenConfig } from "./auth";
 
-export const axiosBaseURL = (axios.defaults.baseURL =
-  "https://binaryvest.herokuapp.com");
-export const axiosType = (axios.defaults.headers.post["Content-Type"] =
-  "application/json");
+axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 // user verification
 export const verify = (data) => async (dispatch, getState) => {
   const customHeader = {
     headers: {
-      "Content-type": '*/*',
+      "Content-type": "multipart/form-data",
       Authorization: `Bearer ${getState().auth.token}`,
     },
   };
-  console.log(data);
-  const body = JSON.stringify({
-    name: data.username,
-    phone: data.phone_no,
-    label: data.id_type,
-    ssn: data.ssn,
-    avatar: data.imgData,
-    // avatar: data.backPage,
-  });
-  console.log(body);
+  console.table([...data]);
+  // console.log(data.frontPage, data.imgData)
+  // const body = {
+  //   name: data.username,
+  //   phone: data.phone_no,
+  //   label: data.id_type,
+  //   ssn: data.ssn,
+  //   avatar: data.imgData,
+  //   avatar: data.backPage,
+  // };
+  // console.log(body);
   dispatch({
     type: VERIFICATION_LOADING,
   });
 
   try {
-    const res = await axios.post("/user/verify", body, customHeader);
+    const res = await axios.post("/user/verify", data, customHeader);
     const response = await res.data;
     console.log(response);
     dispatch({
@@ -54,23 +56,32 @@ export const verify = (data) => async (dispatch, getState) => {
     });
     dispatch(
       setMessage(
-        "Verification Successful",
+        "Documents upload Successful, We will get back to you soon",
         response.status,
         VERIFICATION_SUCCESS
       )
     );
+    setTimeout(() => {
+      window.location.replace('/dashboard')
+    }, 3000);
   } catch (err) {
     console.log(err.response);
     dispatch({
       type: VERIFICATION_FAILURE,
     });
-    dispatch(
-      setMessage(
-        err.response.data.error,
-        err.response.status,
-        VERIFICATION_FAILURE
-      )
-    );
+    if(err === undefined){
+      dispatch(setMessage('Network/Undefined error occurred', 504, VER_REQUEST_FAILURE))
+    }
+    else {
+      dispatch(
+        setMessage(
+          err.response.data.error,
+          err.response.status,
+          VERIFICATION_FAILURE
+        )
+      );
+    }
+   
   }
 };
 
@@ -91,6 +102,9 @@ export const getAllRequests = () => async (dispatch, getState) => {
     });
     dispatch(setMessage("Gotten all requests", 200, ALL_REQUESTS_SUCCESS));
   } catch (error) {
+    if(error !== undefined){
+
+    }
     dispatch({
       type: ALL_REQUESTS_FAILURE,
     });
@@ -154,5 +168,34 @@ export const verifyReq =
         type: CONFIRM_VER_FAILURE,
       });
       dispatch(setMessage("Verification failed", 400, CONFIRM_DEP_FAILURE));
+    }
+  };
+
+// verify a user directly
+export const verifyDirectly =
+  ({ id, status }) =>
+  async (dispatch, getState) => {
+    dispatch({
+      type: AUTH_VER_LOADING,
+    });
+
+    try {
+      const res = await (
+        await axios.patch(
+          `/admin/verify/user/${id}`,
+          { isVerified: status },
+          tokenConfig(getState)
+        )
+      ).data;
+      console.log(res)
+      dispatch({
+        type: AUTH_VER_SUCCESS,
+        payload: res
+      });
+    } catch (error) {
+      dispatch({
+        type: AUTH_VER_ERROR,
+      })
+      dispatch(setMessage('Unable to verify',400, AUTH_VER_ERROR))
     }
   };

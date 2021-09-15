@@ -3,7 +3,7 @@ import React from 'react'
 const Successmessage = ({children}) => {
     return (
         <div
-      className={`message bg-blueish `}
+      className={`message bg-turquoise `}
     >
         {children}
     </div>

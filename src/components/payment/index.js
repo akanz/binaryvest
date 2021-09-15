@@ -19,7 +19,7 @@ const Payment = () => {
   const admin = useSelector((state) => state.admin);
   const [payMethod, setPayMethod] = useState("");
   const [step, setsStep] = useState(1);
-  const [proofOfPay, setProofOfPay] = useState("");
+  const [proofOfPay, setProofOfPay] = useState(null);
   const [packageOptions, setPackageOptions] = useState("");
   const [packageOption, setPackageOption] = useState({
     name: "",
@@ -38,6 +38,7 @@ const Payment = () => {
   const dispatch = useDispatch("");
   // console.log(cardDets);
   // console.log(cardMsg);
+  // console.log(proofOfPay)
   const history = useHistory();
 
   useEffect(() => {
@@ -51,14 +52,18 @@ const Payment = () => {
 
   const onSubmit = async (values) => {
     if (payMethod === 1) {
-      const data = { ...values, packageOption, proofOfPay };
-      console.log(data);
-      dispatch(deposit(data));
+      const formData = new FormData();
+      formData.append('planId', packageOption.id)
+      formData.append('amount', values.amount)
+      formData.append('email', values.email)
+      formData.append('avatar', proofOfPay)
+      // const data = { ...values, packageOption, proofOfPay };
+      console.table([...formData]);
+      dispatch(deposit(formData));
 
       setTimeout(() => {
         dispatch(clearMessage());
-        history.push("/dashboard");
-      }, 5000);
+      }, 2000);
     } else {
       console.log(cardDets);
       setTimeout(() => {
@@ -191,22 +196,19 @@ const Payment = () => {
                                 placeholder={`Deposit an amount between  $${packageOption.minAmount} - $${packageOption.maxAmount}`}
                               />
                               <div className="text-right mt-8">
-                                {formik.values.email !== "" &&
-                                  formik.values.amount !== "" &&
-                                  isNaN(formik.values.amount) === false &&
-                                  parseFloat(formik.values.amount) >=
-                                    opt.minAmount &&
-                                  parseFloat(formik.values.amount) <=
-                                    opt.maxAmount && (
-                                    <div className="flex justify-between items-center">
-                                      <div>
-                                        <Link
-                                          to="#"
-                                          onClick={() => setsStep(1)}
-                                        >
-                                          <BiArrowBack className="w-10 h-8 text-gray-500" />
-                                        </Link>
-                                      </div>
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <Link to="#" onClick={() => setsStep(1)}>
+                                      <BiArrowBack className="w-10 h-8 text-gray-500" />
+                                    </Link>
+                                  </div>
+                                  {formik.values.email !== "" &&
+                                    formik.values.amount !== "" &&
+                                    isNaN(formik.values.amount) === false &&
+                                    parseFloat(formik.values.amount) >=
+                                      opt.minAmount &&
+                                    parseFloat(formik.values.amount) <=
+                                      opt.maxAmount && (
                                       <div>
                                         <Link
                                           to="#"
@@ -216,8 +218,8 @@ const Payment = () => {
                                           next
                                         </Link>
                                       </div>
-                                    </div>
-                                  )}
+                                    )}
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -230,6 +232,7 @@ const Payment = () => {
                     handleProofOfPay={setProofOfPay}
                     proofOfPay={proofOfPay}
                     amount={formik.values.amount}
+                    email={formik.values.email}
                     handleStep={setsStep}
                   />
                 )}

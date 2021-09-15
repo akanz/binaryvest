@@ -16,3 +16,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+input:-webkit-autofill {
+  box-shadow: inset 0 0 0px 9999px white !important;
+  -webkit-box-shadow: inset 0 0 0px 9999px white !important;
+}

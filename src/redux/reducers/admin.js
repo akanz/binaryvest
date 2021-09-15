@@ -2,6 +2,9 @@ import {
   ALL_USERS_ERROR,
   ALL_USERS_LOADED,
   ALL_USERS_LOADING,
+  AUTH_VER_ERROR,
+  AUTH_VER_LOADING,
+  AUTH_VER_SUCCESS,
   CONFIRM_DEP_LOADING,
   CONFIRM_DEP_SUCCESS,
   CREATE_PLAN_FAILURE,
@@ -38,6 +41,7 @@ const adminReducer = (state = initialState, action) => {
     case GET_PLAN_LOADING:
     case CREATE_PLAN_LOADING:
     case UPDATE_PLAN_LOADING:
+    case AUTH_VER_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -55,12 +59,14 @@ const adminReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case GET_USER_SUCCESS:
+    case AUTH_VER_SUCCESS:
       return {
         ...state,
         user: action.payload,
         isLoading: false,
       };
     case GET_USER_ERROR:
+    case AUTH_VER_ERROR:
       return {
         ...state,
         user: {},

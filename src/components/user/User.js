@@ -41,14 +41,17 @@ const User = () => {
             <h2>@{user.data.username} </h2>
             <h2>E-mail: {user.data.email}</h2>
             <h2>Wallet Balance: {user.data.wallet}</h2>
-            <h3 className='font-semibold my-1'>
+            <h3 className='font-medium my-1'>
             {user.data.isVerified ? (
               <div className='flex items-center text-green-700'>
                 <VscVerified />
-                Verified
+                <span className='ml-1'>Verified</span> 
               </div>
             ) : (
-              <div className='text-red-600'>Not Verified</div>
+              <div className='flex items-center text-gray-700'>
+                <VscVerified />
+                <span className='ml-1'>Not verified</span>
+              </div>
             )}
           </h3>
           </div>

@@ -29,18 +29,18 @@ const Request = () => {
           <div>User Verified</div>
         </div>
       )}
-      {!ver.isLoading && (
+      {!ver.isLoading  && (
         <div className="shadow rounded">
-          <div className="p-2 h-96 border-b border-gray-300">
-            {ver.request.metadata.map((img, i) => (
+          {ver.request.metadata.map((img, i) => (
+            <div key={i} className="p-2 h-96 border-b border-gray-300">
               <img
-                key={i}
                 className="w-full h-full object-cover"
                 src={img.path}
                 alt=""
               />
-            ))}
-          </div>
+            </div>
+          ))}
+
           <div className="text-xl text-gray-700 p-2">@{ver.request.name}</div>
           <div className="flex p-2 text-lg items-center justify-between text-gray-700">
             <h3>

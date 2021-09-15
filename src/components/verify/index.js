@@ -50,8 +50,7 @@ const Verify = () => {
     front: false,
     back: false,
   });
-console.log(otherState)
-
+  console.log(otherState);
 
   // set state of the ID type
   const handleFrontPage = (e) => {
@@ -64,9 +63,9 @@ console.log(otherState)
       "application/pdf",
     ];
     if (selected && ALLOWED_TYPES.includes(selected.type)) {
+      setOtherState({ ...otherState, frontPage: selected });
       let reader = new FileReader();
       reader.onloadend = () => {
-        setOtherState({ ...otherState, frontPage: selected });
         setImgPreview({ ...imgPreview, frontPage: reader.result });
       };
       reader.readAsDataURL(selected);
@@ -84,9 +83,9 @@ console.log(otherState)
       "application/pdf",
     ];
     if (selected && ALLOWED_TYPES.includes(selected.type)) {
+      setOtherState({ ...otherState, backPage: selected });
       let reader = new FileReader();
       reader.onloadend = () => {
-        setOtherState({ ...otherState, backPage: selected });
         setImgPreview({ ...imgPreview, backPage: reader.result });
       };
       reader.readAsDataURL(selected);
@@ -105,19 +104,22 @@ console.log(otherState)
   };
 
   const onSubmit = async (values) => {
-    const imgData = new FormData();
-    imgData.append("file", otherState.frontPage);
-
-    const imgData2 = new FormData();
-    imgData2.append("file", otherState.backPage);
     dispatch(clearMessage());
-    const data = { ...values, ...otherState, imgData, imgData2 };
-    console.log(data);
-    dispatch(verify(data));
-
+    const formData = new FormData();
+    formData.append('name', otherState.username)
+    formData.append('phone', values.phone_no)
+    formData.append('label', otherState.id_type)
+    formData.append('ssn', values.ssn)
+    formData.append("avatar", otherState.frontPage);
+    formData.append('avatar', otherState.backPage)
+    
+  //  console.log(values)
+  //   const data = { ...values, ...otherState };
+  console.log([...formData])
+    dispatch(verify(formData));
     setTimeout(() => {
       dispatch(clearMessage());
-    }, 3000);
+    }, 2000);
   };
 
   return (

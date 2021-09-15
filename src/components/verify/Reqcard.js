@@ -10,7 +10,10 @@ const Reqcard = ({ ...req }) => {
     dispatch(clearMessage());
     console.log(req._id);
     dispatch(getVerRequest(req._id));
-    dispatch(clearMessage());
+    setTimeout(() => {
+      dispatch(clearMessage());
+    }, 3000);
+    
   };
 
   
@@ -21,16 +24,17 @@ const Reqcard = ({ ...req }) => {
       className="transform hover:scale-110 ease-in-out transition duration-300"
     >
       <div className="shadow rounded" key={req._id}>
-        <div className="p-2 h-56 border-b border-gray-300">
+        
           {req.metadata.map((img, i) => (
+            <div key={i} className="p-2 my-1 w-8/10 mx-auto h-full border-b border-gray-300">
             <img
-              key={i}
               className="w-full h-full object-cover"
               src={img.path}
               alt=""
             />
+            </div>
           ))}
-        </div>
+        
         <div className="p-2 text-lg">
           <h3>@{req.name}</h3>
         </div>

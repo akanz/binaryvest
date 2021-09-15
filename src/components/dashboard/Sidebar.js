@@ -10,7 +10,7 @@ import { VscVerified } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 const Sidebar = ({ user }) => {
   const sideMenu = [
-    { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
+    // { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
     { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
     {
       img: "",
@@ -30,7 +30,7 @@ const Sidebar = ({ user }) => {
     { img: logoutIcon, icon: "", alt: "", name: "Logout", url: "#" },
   ];
   return (
-    <div className="bg-white shadow-xl min-h-screen h-full sticky top-10 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
+    <div className="bg-white shadow-xl min-h-screen h-full sticky top-0 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
         <div className="px-10">
           <img src={user.imageUrl ? user.imageUrl : profPic} alt="" />
