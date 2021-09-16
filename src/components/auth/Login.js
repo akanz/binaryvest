@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, useLocation, Link } from "react-router-dom";
+import { Redirect, useLocation, Link } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import { Formik, Form } from "formik";
 import axios from "axios";
@@ -15,13 +15,10 @@ import BtnLoader from "../otherComps/BtnLoader";
 axios.defaults.baseURL = "https://binaryvest.herokuapp.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const date = new Date();
-
 const Login = () => {
   const dispatch = useDispatch();
   const msg = useSelector((state) => state.message);
   const user = useSelector((state) => state.auth);
-  const [display, setDisplay] = useState(true);
   const { state } = useLocation();
 
   const onSubmit = async (values) => {
@@ -106,7 +103,7 @@ const Login = () => {
             <div className="my-4 text-right">
               <div>
                 <Link
-                  to="/forgot"
+                  to="/forgotpass"
                   className="font-semibold text-blueish cursor-pointer"
                 >
                   Forgot Password?

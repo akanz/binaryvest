@@ -31,17 +31,6 @@ export const verify = (data) => async (dispatch, getState) => {
       Authorization: `Bearer ${getState().auth.token}`,
     },
   };
-  console.table([...data]);
-  // console.log(data.frontPage, data.imgData)
-  // const body = {
-  //   name: data.username,
-  //   phone: data.phone_no,
-  //   label: data.id_type,
-  //   ssn: data.ssn,
-  //   avatar: data.imgData,
-  //   avatar: data.backPage,
-  // };
-  // console.log(body);
   dispatch({
     type: VERIFICATION_LOADING,
   });
@@ -49,7 +38,6 @@ export const verify = (data) => async (dispatch, getState) => {
   try {
     const res = await axios.post("/user/verify", data, customHeader);
     const response = await res.data;
-    console.log(response);
     dispatch({
       type: VERIFICATION_SUCCESS,
       payload: response,
@@ -65,7 +53,6 @@ export const verify = (data) => async (dispatch, getState) => {
       window.location.replace('/dashboard')
     }, 3000);
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: VERIFICATION_FAILURE,
     });
@@ -95,7 +82,6 @@ export const getAllRequests = () => async (dispatch, getState) => {
   try {
     const res = await axios.get("/admin/verify", tokenConfig(getState));
     const response = await res.data;
-    console.log(response);
     dispatch({
       type: ALL_REQUESTS_SUCCESS,
       payload: response,
@@ -126,14 +112,12 @@ export const getVerRequest = (id) => async (dispatch, getState) => {
   try {
     const res = await axios.get(`/admin/verify/${id}`, tokenConfig(getState));
     const response = await res.data;
-    console.log(response);
     dispatch({
       type: VER_REQUEST_SUCCESS,
       payload: response,
     });
     dispatch(setMessage("Request gotten", 200, VER_REQUEST_SUCCESS));
   } catch (error) {
-    console.log(error.response);
     dispatch({
       type: VER_REQUEST_FAILURE,
     });
@@ -157,7 +141,6 @@ export const verifyReq =
         tokenConfig(getState)
       );
       const response = await res.data;
-      console.log(response);
       dispatch({
         type: CONFIRM_VER_SUCCESS,
         payload: response,
@@ -187,7 +170,6 @@ export const verifyDirectly =
           tokenConfig(getState)
         )
       ).data;
-      console.log(res)
       dispatch({
         type: AUTH_VER_SUCCESS,
         payload: res

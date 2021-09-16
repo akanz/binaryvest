@@ -29,7 +29,7 @@ const rules = [
   { title: "– How to transfer your coins to and from exchanges" },
   { title: "– Everything about hardware wallets" },
   { title: "– How to cash out your investment back to fiat" },
-  { title: "– – Cryptocurrency vocabulary and Crypto tax" },
+  { title: "– Cryptocurrency vocabulary and Crypto tax" },
   { title: " – Managing your investment" },
   { title: "– Strategy for analyzing small-cap coins" },
   { title: "– Intelligent investor Mindset" },
@@ -39,14 +39,19 @@ const rules = [
 ];
 const Learn = () => {
   return (
-    <div className="text-gray-700">
+    <div className="text-gray-700 edu">
       <div className="md:p-8 p-4">
         <h3 className="text-xl md:text-4xl text-center my-4">
           Why you should learn to trade with us
         </h3>
-        <div className="my-12 text-lg">
+        <div className="my-12 leading-9 text-lg">
+          <p className='text-xl font-semibold my-2'>
+            We get hundreds of emails/DMs per week with questions about Bitcoin
+            and Altcoins investments and how to actually become a successful
+            Crypto Investor.
+          </p>
           <p>
-            <b className="text-2xl">Crypto</b> as we know is a relatively new
+            <span className="text-xl">Crypto</span> as we know is a relatively new
             asset class and there are lots of mistakes you can make while you
             purchase your coins. Most articles and videos you may come across
             have conflicting information and seem confusing to navigate, but our
@@ -88,8 +93,8 @@ const Learn = () => {
 
       <div className="p-4 md:p-12 text-xl">
         <div className="md:flex items-center">
-          <img className="w-20 h-16 md:w-32 md:h-28" src={presentationIcon} alt="" />
-          <p className="md:ml-6 my-4">
+          {/* <img className="w-20 h-16 md:w-32 md:h-28" src={presentationIcon} alt="" /> */}
+          <p className="my-4 leading-8">
             <b>In this course</b>, we will walk you through all of the different
             ways that you can buy cryptocurrencies, show you how to properly
             secure your coins, wallets, and exchanges, and go over various

@@ -19,9 +19,8 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
     err: "",
   });
 
+  const btcRef = useRef("");
   const ercRef = useRef("");
-  const trcRef = useRef("");
-  const bepRef = useRef("");
 
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
@@ -46,10 +45,8 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
   const copyToClip = (e) => {
     if (e.target.name === "erc") {
       ercRef.current.select();
-    } else if (e.target.name === "trc") {
-      trcRef.current.select();
-    } else {
-      bepRef.current.select();
+    } else if (e.target.name === "btc") {
+      btcRef.current.select();
     }
 
     document.execCommand("copy");
@@ -68,49 +65,37 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
         <Successmessage>{message.message}</Successmessage>
       )}
       <h3 className="text-sm mt-5 text-gray-500 font-light">
-        Deposit the sum of ${amount} into any of the following USDT wallet
+        Deposit the sum of ${amount} into any of the following wallet
         addresses listed below
       </h3>
-      <div className="my-3 flex justify-between text-sm">
+      <div className='mt-4 text-center text-turquoise text-2xl'>BTC Wallet</div>
+      <div className="my-1 flex justify-between text-sm">
+        <span className="font-semibold">Bitcoin</span>
+        <span className="w-7/10">
+          <input
+            className="focus:outline-none w-full"
+            value="151wk5pFgSRFu7k76CumXsQ4DbnFULBvqJ"
+            ref={btcRef}
+            readOnly
+          />
+        </span>
+        <span onClick={copyToClip}>
+          <img name="btc" src={cp} alt="copy wallet address" />
+        </span>
+      </div>
+      <div className='mt-4 text-center text-turquoise text-2xl'>USDT Wallet</div>
+      <div className="my-1 flex justify-between text-sm">
         <span className="font-semibold">ERC20</span>
         <span className="w-7/10">
           <input
             className="focus:outline-none w-full"
-            value="TMH8GGEBMoA3V2hKTBR3gLsJ4pCVNwzXsLd"
+            value="0xa0dce2a9b1da882399b991d47e0b72ee546755c3"
             ref={ercRef}
             readOnly
           />
         </span>
         <span onClick={copyToClip}>
           <img name="erc" src={cp} alt="copy wallet address" />
-        </span>
-      </div>
-      <div className="my-3 flex justify-between text-sm">
-        <span className="font-semibold">TRC20</span>
-        <span className="w-7/10">
-          <input
-            className="focus:outline-none w-full"
-            value="second one"
-            ref={trcRef}
-            readOnly
-          />
-        </span>
-        <span onClick={copyToClip}>
-          <img name="trc" src={cp} alt="copy wallet address" />
-        </span>
-      </div>
-      <div className="my-3 flex justify-between text-sm">
-        <span className="font-semibold">BEP2</span>
-        <span className="w-7/10">
-          <input
-            className="focus:outline-none w-full"
-            value="third one"
-            ref={bepRef}
-            readOnly
-          />
-        </span>
-        <span onClick={copyToClip}>
-          <img name="bep" src={cp} alt="copy wallet address" />
         </span>
       </div>
       {copyState && (

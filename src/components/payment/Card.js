@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Cleave from "cleave.js/react";
 import paystack from "../../img/paystack.svg";
 import paybg from "../../img/paybg.svg";
 import { BiArrowBack } from "react-icons/bi";
-import { SpaceBarOutlined } from "@material-ui/icons";
 
 const Card = ({
   cardDets,
@@ -21,6 +20,11 @@ const Card = ({
   const handleCardType = (type) => {
     handleCardDets({ ...cardDets, cardType: type });
   };
+  const handleCard = () => {
+    setcardMsg(
+      "Error occurred while paying with card. Try another payment method"
+    );
+  };
   return (
     <>
       <div className="flex justify-between items-center">
@@ -36,6 +40,18 @@ const Card = ({
         </div>
       </div>
       <div>
+        <div className="w-full my-5 relative border-gray-300 border rounded p-2 hover:border-blue-700">
+          <h4 className="absolute text-xs font-extralight text-gray-500 -top-2 px-1 bg-white">
+            Name on card
+          </h4>
+          <input
+            className="text-sm text-gray-600 font-light w-full focus:outline-none"
+            onChange={(e) => handleChange(e)}
+            name="cardName"
+            type="text"
+            value={cardDets.cardName}
+          />
+        </div>
         <div className="w-full my-5 relative border-gray-300 border rounded p-2 hover:border-blue-700">
           <h4 className="absolute text-xs font-extralight text-gray-500 -top-2 px-1 bg-white">
             Card number
@@ -96,15 +112,12 @@ const Card = ({
         </Link>
         <button
           disabled={
+            cardDets.cardName === "" ||
             cardDets.cardNo === "" ||
             cardDets.cvv === "" ||
             cardDets.date === ""
           }
-          onClick={() =>
-            setcardMsg(
-              "Error occurred while paying with card. Try another payment method"
-            )
-          }
+          onClick={handleCard}
           type="submit"
           className="button cursor-pointer"
         >

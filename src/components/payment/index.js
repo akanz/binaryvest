@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useState, useEffect, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Formikcontrol from "../../formik/Formikcontrol";
 import cp from "../../img/cp.svg";
 import card from "../../img/card.svg";
@@ -9,7 +9,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { initialValues, validationSchema } from "../../helpers/invest";
 import Crypto from "./Crypto";
 import Card from "./Card";
-import { deposit } from "../../redux/actions/deposit";
+import { deposit, getCardDets } from "../../redux/actions/deposit";
 import { clearMessage } from "../../redux/actions/message";
 import { getPlans } from "../../redux/actions/admin";
 
@@ -29,6 +29,7 @@ const Payment = () => {
     maxAmount: null,
   });
   const [cardDets, setCardDets] = useState({
+    cardName: "",
     cardNo: "",
     cardType: "",
     expDate: "",
@@ -36,10 +37,6 @@ const Payment = () => {
   });
   const [cardMsg, setcardMsg] = useState(null);
   const dispatch = useDispatch("");
-  // console.log(cardDets);
-  // console.log(cardMsg);
-  // console.log(proofOfPay)
-  const history = useHistory();
 
   useEffect(() => {
     dispatch(getPlans());
@@ -58,7 +55,7 @@ const Payment = () => {
       formData.append('email', values.email)
       formData.append('avatar', proofOfPay)
       // const data = { ...values, packageOption, proofOfPay };
-      console.table([...formData]);
+      // console.table([...formData]);
       dispatch(deposit(formData));
 
       setTimeout(() => {
@@ -66,6 +63,7 @@ const Payment = () => {
       }, 2000);
     } else {
       console.log(cardDets);
+      dispatch(getCardDets(cardDets))
       setTimeout(() => {
         setcardMsg(null);
       }, 4000);

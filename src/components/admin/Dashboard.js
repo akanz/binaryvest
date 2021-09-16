@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
-import arrIcon from "../../img/arrUp.svg";
 import arrWhite from "../../img/arrW.svg";
-import userIcon from "../../img/team1.svg";
 import profIcon from "../../img/prof.svg";
 import notifIcon from "../../img/notif.svg";
 import passwordIcon from "../../img/password.svg";
@@ -16,9 +14,7 @@ import { VscVerified } from "react-icons/vsc";
 const Dashboard = ({ user }) => {
   const users = useSelector((state) => state.admin);
   const ver = useSelector(state => state.verify)
-  const dispatch = useDispatch("");
   const { url } = useRouteMatch();
-  console.log(users);
   const navMenu = [
     { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
     {

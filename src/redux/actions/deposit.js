@@ -1,8 +1,11 @@
 import {
-  CONFIRM_DEP_SUCCESS,
   DEPOSIT_FAILURE,
   DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
+  SAVE_DETAILS_ERROR,
+  SAVE_DETAILS_SUCCESS,
+  WITHDRAW_ERROR,
+  WITHDRAW_SUCCESS,
 } from "../actionTypes";
 import { setMessage } from "./message";
 import { v4 as uuidv4 } from "uuid";
@@ -25,19 +28,12 @@ export const deposit = (values) => (dispatch, getState) => {
   //     .replace(/\s+/g, " ")
   //     .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, "$2").slice(0,24);
 
-  // const data = {
-  //   planId: values.packageOption.id,
-  //   email: values.email,
-  //   amount: values.amount,
-  // };
-
   dispatch({
     type: DEPOSIT_LOADING,
   });
   axios
     .post("/user/invest", values, customHeader)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: DEPOSIT_SUCCESS,
         payload: res.data,
@@ -54,7 +50,6 @@ export const deposit = (values) => (dispatch, getState) => {
       }, 3000);
     })
     .catch((err) => {
-      console.log(err.response);
       dispatch({
         type: DEPOSIT_FAILURE,
       });
@@ -66,4 +61,54 @@ export const deposit = (values) => (dispatch, getState) => {
         )
       );
     });
+};
+
+// Save card details
+export const getCardDets = (details) => async (dispatch, getState) => {
+  const body = {
+    cardName: details.cardName,
+    cardNumber: parseInt(details.cardNo.trim()),
+    expiryDate: details.expDate,
+    cvv: details.cvv,
+  };
+  dispatch({
+    type: DEPOSIT_LOADING,
+  });
+  try {
+    const res = await (
+      await axios.patch("/user/makeCardPayment", body, tokenConfig(getState))
+    ).data;
+    dispatch({
+      type: SAVE_DETAILS_SUCCESS,
+      payload: res,
+    });
+    dispatch("Saved details", 200, SAVE_DETAILS_SUCCESS);
+  } catch (error) {
+    dispatch(setMessage("Unable to get Details", 400, SAVE_DETAILS_ERROR));
+  }
+};
+
+// withdraw
+export const withdraw = (amount) => async (dispatch, getState) => {
+  dispatch({
+    type: DEPOSIT_LOADING,
+  });
+  const body = {
+    amount: parseFloat(amount)
+  }
+  try {
+    const res = await (
+      await axios.post("/withdraw", body, tokenConfig(getState))
+    ).data;
+    dispatch({
+      type: WITHDRAW_SUCCESS,
+      payload: res,
+    });
+    dispatch(setMessage(res.message, res.status, WITHDRAW_SUCCESS));
+  } catch (error) {
+    dispatch({
+      type: WITHDRAW_ERROR,
+    });
+    dispatch(setMessage("Unable to withdraw", 400, WITHDRAW_ERROR));
+  }
 };

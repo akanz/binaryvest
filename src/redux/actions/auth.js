@@ -6,6 +6,8 @@ import {
   LOGOUT,
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
+  RESET_ERROR,
+  RESET_SUCCESS,
   USER_LOADED,
   USER_LOADING,
 } from "../actionTypes";
@@ -103,6 +105,29 @@ export const logout = () => (dispatch) => {
   dispatch(clearMessage());
 };
 
+// Forgot password
+export const forgotPass =(email)=> async (dispatch)=> {
+    dispatch({
+        type: USER_LOADING,
+    })
+    try {
+      const res = await (await axios.post('/forgotPassword', email)).data
+      dispatch({
+        type: RESET_SUCCESS,
+        payload: res,
+      })
+      dispatch(setMessage('Password reset sent, please check your mail', 200, ))
+    } catch (error) {
+      dispatch({
+        type: RESET_ERROR
+      })
+      if(error !== undefined){
+        dispatch(setMessage(error.response.data.error, error.response.data.status, RESET_ERROR))
+      }
+      
+    }
+}
+
 // check token && load user
 export const loadUser = () => (dispatch, getState) => {
   // user loading
@@ -117,7 +142,6 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data,
       });
-      console.log(res);
     })
     .catch((err) => {
       if (err.response !== undefined) {

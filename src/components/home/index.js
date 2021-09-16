@@ -22,15 +22,15 @@ const Index = () => {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Main} />
-        <Route exact path='/education' component={Education} />
-        <Route exact path='/faqs' component={FAQ} />
-        <Route exact path='/reviews' component={Reviews} />
-        <AdminRoute Route path="/admin" component={Admin} />
-        <Route exact path="/invest" component={Payment} />
-        <Route exact path='/invest/card' component={Card} />
-        <VerifiedRoute exact path='/withdraw' component={Withdraw} />
-        <PrivateRoute exact path="/verification" component={Verify} />
-        <PrivateRoute path="/dashboard" component={Dashboard} />
+          <Route exact path="/education" component={Education} />
+          <Route exact path="/faqs" component={FAQ} />
+          <Route exact path="/reviews" component={Reviews} />
+          <AdminRoute Route path="/admin" component={Admin} />
+          <Route exact path="/invest" component={Payment} />
+          <Route exact path="/invest/card" component={Card} />
+          <VerifiedRoute exact path="/withdraw" component={Withdraw} />
+          <PrivateRoute exact path="/verification" component={Verify} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         <Route component={Error} />
       </Switch>
     </div>

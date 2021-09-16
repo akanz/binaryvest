@@ -26,7 +26,7 @@ const Sidebar = ({ user }) => {
       name: "Withdraw",
       url: "/withdraw",
     },
-    { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
+    // { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
     { img: logoutIcon, icon: "", alt: "", name: "Logout", url: "#" },
   ];
   return (

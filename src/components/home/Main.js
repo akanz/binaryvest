@@ -1,24 +1,31 @@
-import React from 'react'
-import Intro from './Intro'
-import Chart from './Chart'
-import Invest from './Invest'
-import FAQs from './FAQs'
-import Team from './Team'
-import Contact from './Contact'
-import Reviews from './Reviews'
+import React, { Suspense, lazy } from "react";
+import Loader from "../otherComps/Loader";
+import Intro from "./Intro";
+// import Chart from "./Chart";
+import Invest from "./Invest";
+// import FAQs from "./FAQs";
+// import Contact from "./Contact";
+// import Reviews from "./Reviews";
+
+const Chart = lazy(() => import("./Chart")),
+  Reviews = lazy(() => import("./Reviews")),
+  FAQs = lazy(() => import("./FAQs")),
+  Contact = lazy(() => import("./Contact"));
 
 const Main = () => {
-    return (
-        <div>
-            <Intro />
-            <Chart />
-            <Invest />
-            <Reviews />
-            <FAQs />
-            <Team />
-            <Contact />
-        </div>
-    )
-}
+  return (
+    <div>
+      <Suspense fallback={<Loader />}>
+        <Intro />
+        <Chart />
 
-export default Main
+        <Invest />
+        <Reviews />
+        <FAQs />
+        <Contact />
+      </Suspense>
+    </div>
+  );
+};
+
+export default Main;

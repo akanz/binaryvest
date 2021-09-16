@@ -25,7 +25,7 @@ const Main = ({ user }) => {
       name: "Withdraw",
       url: "/withdraw",
     },
-    { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
+    // { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
     { img: logoutIcon, icon: "", alt: "", name: "Logout", url: "#" },
   ];
   console.log(user);
@@ -81,6 +81,13 @@ const Main = ({ user }) => {
             </div>
           </div>
         )}
+        <div className="my-4 p-4 shadow rounded text-xl font-medium text-gray-500">
+          <div className='capitalize'>
+            <span className=''>Name: </span><span className='text-pink-600'>{user.name.firstname}</span> <span className='text-pink-600'>{user.name.lastname}</span>
+          </div>
+          <div>Username: <span className='text-pink-600'>@{user.username}</span> </div>
+          <div>Email: <span className='text-pink-600'>{user.email}</span></div>
+        </div>
         <div className="my-6 lg:flex">
           <div className="border-gray-100 rounded-sm border shadow-md lg:w-7/10 lg:mr-6 px-3 md:px-6 py-2 pb-6">
             <div className="flex justify-between my-1.5 mb-5">

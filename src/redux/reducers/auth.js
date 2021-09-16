@@ -5,6 +5,8 @@ import {
   LOGOUT,
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
+  RESET_ERROR,
+  RESET_SUCCESS,
   USER_LOADED,
   USER_LOADING,
 } from "../actionTypes";
@@ -43,9 +45,19 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
       };
+    case RESET_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        token: null,
+        data: null,
+        isAuthenticated: false,
+        isLoading: false,
+      }
     case AUTH_ERROR:
     case LOGIN_FAILURE:
     case REGISTER_FAILURE:
+    case RESET_ERROR:
     case LOGOUT:
       localStorage.removeItem("userToken");
       return {

@@ -5,7 +5,6 @@ import {
   CONFIRM_DEP_FAILURE,
   CONFIRM_DEP_LOADING,
   CONFIRM_DEP_SUCCESS,
-  CONFIRM_VER_SUCCESS,
   CREATE_PLAN_LOADING,
   CREATE_PLAN_FAILURE,
   CREATE_PLAN_SUCCESS,
@@ -48,7 +47,6 @@ export const allUsers = () => async (dispatch, getState) => {
       setMessage("All users gotten successfully", data.status, ALL_USERS_LOADED)
     );
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: ALL_USERS_ERROR,
     });
@@ -98,7 +96,6 @@ export const createPlan = (data) => (dispatch) => {
   axios
     .post("/admin/createInvestmentPlan", data)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: CREATE_PLAN_SUCCESS,
         payload: res.data,
@@ -108,7 +105,6 @@ export const createPlan = (data) => (dispatch) => {
       );
     })
     .catch((err) => {
-      console.log(err.response);
       dispatch({
         type: CREATE_PLAN_FAILURE,
       });
@@ -135,7 +131,6 @@ export const getPlans = () => async (dispatch) => {
       payload: data,
     });
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: GET_PLANS_FAILURE,
     });
@@ -157,7 +152,6 @@ export const getPlan = (id) => async (dispatch, getState) => {
     });
     dispatch(setMessage("Successfully Gotten plan", 200, GET_PLAN_SUCCESS));
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: GET_PLAN_FAILURE,
     });
@@ -191,7 +185,6 @@ export const updatePlan = (values) => async (dispatch, getState) => {
       setMessage(response.message, response.status, UPDATE_PLAN_SUCCESS)
     );
   } catch (error) {
-    console.log(error.response);
     dispatch(setMessage("Unable to update package", 400, UPDATE_PLAN_FAILURE));
   }
 };
@@ -204,14 +197,12 @@ export const deletePlan = (id) => async (dispatch, getState) => {
   try {
     const res = await axios.delete(`/admin/plan/${id}`, tokenConfig(getState));
     const response = await res.data;
-    console.log(response);
     dispatch({
       type: DELETE_PLAN_SUCCESS,
       payload: response,
     });
     dispatch(setMessage("Deleted plan successfully", 200, DELETE_PLAN_SUCCESS));
   } catch (error) {
-    console.log(error.response);
     dispatch({
       type: DELETE_PLAN_FAILURE,
     });

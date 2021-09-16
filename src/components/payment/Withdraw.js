@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { IoWalletOutline } from "react-icons/io5";
 import BtnLoader from "../otherComps/BtnLoader";
-import { deposit } from "../../redux/actions/deposit";
+import { deposit, withdraw } from "../../redux/actions/deposit";
 import { clearMessage } from "../../redux/actions/message";
 import Successmessage from "../otherComps/Successmessage";
+import Errormessage from "../otherComps/Errormessage";
 
 export const payContext = createContext();
 
@@ -20,8 +21,11 @@ const Withdraw = () => {
   const onSubmit = async (e) => {
     dispatch(clearMessage());
     e.preventDefault();
-    console.log(`${"-"}${amount}`);
-    // dispatch(deposit(amount));
+    dispatch(withdraw(amount));
+
+    setTimeout(() => {
+      dispatch(clearMessage());
+    }, 3000);
   };
 
   return (
@@ -31,8 +35,11 @@ const Withdraw = () => {
           Withdraw
         </h2>
         <div>
-          {!userDeposit.isLoading && message.status === 400 && (
+          {!userDeposit.isLoading && message.status === 200 && (
             <Successmessage>{message.message}</Successmessage>
+          )}
+          {!userDeposit.isLoading && message.status === 400 && (
+            <Errormessage>{message.message}</Errormessage>
           )}
         </div>
         <form onSubmit={onSubmit}>
@@ -66,10 +73,10 @@ const Withdraw = () => {
                   isNaN(amount) ||
                   amount > parseFloat(user.data.wallet)
                 }
-                className="button"
+                className="button flex items-center"
               >
                 {userDeposit.isLoading && <BtnLoader />}
-                Withdraw
+                <span>Withdraw</span>
               </button>
             </div>
           </div>

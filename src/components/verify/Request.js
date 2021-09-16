@@ -23,7 +23,7 @@ const Request = () => {
 
   return (
     <div>
-      {message.status === 200 && (
+      {message.status === 200 && ver.request.status !== 'pending' && (
         <div className="my-3 text-green-700 text-4xl grid justify-items-center p-8">
           <VscVerified className="w-40 h-40" />
           <div>User Verified</div>

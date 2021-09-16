@@ -8,7 +8,7 @@ const Edupackages = [
       { item: "24/7 Live video chat support " },
       { item: "Withdrawals in 1 hour" },
       { item: "Demo Account" },
-      { item: "Copy Trading Tool" },
+      // { item: "Copy Trading Tool" },
       { item: "Bonus +2%" },
     ],
   },
@@ -19,7 +19,7 @@ const Edupackages = [
       { item: "24/7 Live video chat support " },
       { item: "Withdrawals in 1 hour" },
       { item: "Demo Account" },
-      { item: "Copy Trading Tool" },
+      // { item: "Copy Trading Tool" },
       { item: "Bonus +10%" },
       { item: "Masterclass web session" },
       { item: "Personal Success Manager" },
@@ -45,11 +45,10 @@ const Package = () => {
               key={i}
               className="shadow-lg border border-gray-200 bg-white"
             >
-              {console.log(menu)}
               <div className="border-b p-2 border-gray-300 text-xl text-center">
                 {menu.title}
               </div>
-              <div className="p-4 w-9/15 mx-auto">
+              <div className="py-4 px-2 w-9/15 mx-auto">
                 <h3 className="text-center text-lg">{menu.header} </h3>
                 <div className="w-9/10 mx-auto my-4 text-sm text-gray-600">
                   {menu.list.map((list, i) => (

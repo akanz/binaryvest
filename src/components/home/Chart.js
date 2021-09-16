@@ -10,14 +10,26 @@ const Chart = () => {
     <div className="w-9/10 mx-auto grid gap-4 md:grid-cols-2 py-7">
       <div>
         <h1 className="text-3xl my-5">Are you a beginner?</h1>
-        <div>
+        <div className="">
+          <h3 className='text-lg mb-8'>
           No worries. We will teach you all you need to know about crypto right
-          away! Quam varius ut amet viverra id vitae eget a, nam. Tristique at
-          porttitor ornare nullam. Egestas arcu mattis mauris, vitae ac,
-          facilisis id risus. Ac diam, faucibus ipsum sit mattis amet, euismod.
-          Vel libero quis dignissim at nibh pharetra sem. Sollicitudin
-          elementum, sagittis, gravida nullam aliquam nam ligula amet, ultrices.
-          Neque, nisl sed justo, urna interdum non. Sit quis
+          away!
+          </h3>
+          
+          <h2 className="text-xl mt-2">
+            CRYPTOCURRENCIES ARE THE FUTURE OF FINANCE
+          </h2>
+          <div>
+            The last technology that grew this fast was the internet. Our 7,500+
+            strong community lets you:
+            <ul className='list-disc list-inside'>
+              <li>Learn from the experts </li>
+              <li>Crowdsource market knowledge</li>
+              <li> and arms you with actionable information</li>
+            </ul>
+            So, if you’re looking for the best place to start your
+            cryptocurrency journey, you’ve found it.
+          </div>
         </div>
         <div className="my-10">
           <Link to="/education">

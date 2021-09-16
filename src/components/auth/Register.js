@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import Formikcontrol from "../../formik/Formikcontrol";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { register } from "../../redux/actions/auth";
 import { initialValues, validationSchema } from "../../helpers/register";
 import { clearMessage } from "../../redux/actions/message";
-import signupImg from "../../img/signup.svg";
 import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
 import BtnLoader from "../otherComps/BtnLoader";

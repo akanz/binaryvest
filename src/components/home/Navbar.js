@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
 import { IoLogInOutline } from "react-icons/io5";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
 import { logout } from "../../redux/actions/auth";
-import menuIcon from "../../img/menu.svg";
 import userIcon from "../../img/user.svg";
 import navReview from "../../img/navreview.svg";
 import navedu from "../../img/navedu.svg";
 import navfaq from "../../img/navfaq.svg";
 import Dropdown from "../../helpers/Dropdown";
-import BVIcon from '../../img/bv_logo.svg'
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {
   const [sideBar, setSideBar] = useState(false);
 
   const dispatch = useDispatch();
-  const msg = useSelector((state) => state.msg);
   const user = useSelector((state) => state.auth);
   const history = useHistory().location.pathname;
-  console.log(history);
 
   const handleClick = () => {
     setSideBar(!sideBar);
@@ -42,10 +38,11 @@ const Navbar = () => {
                 onClick={handleClick}
               >
                 {/* <img src={menuIcon} alt="navbar menu" /> */}
-                <HiMenuAlt3 className='text-blueish h-8 w-8' />
+                <HiMenuAlt3 className="text-blueish h-8 w-8" />
               </button>
               <Link to="/" className="text-blueish logo font-semibold">
-                <span>Binary</span><span className='text-red-600'>Vest</span>
+                <span>Binary</span>
+                <span className="text-red-600">Vest</span>
               </Link>
             </div>
 
@@ -75,8 +72,9 @@ const Navbar = () => {
             } bg-white fixed top-0 z-10 shadow-xl rounded-l-lg left-0 p-5 h-full w-4/5 `}
           >
             <div className="flex justify-between items-center">
-            <Link to="/" className="text-blueish logo font-semibold">
-                <span>Binary</span><span className='text-red-600'>Vest</span>
+              <Link to="/" className="text-blueish logo font-semibold">
+                <span>Binary</span>
+                <span className="text-red-600">Vest</span>
               </Link>
               <div onClick={handleClick}>
                 <GrClose className=" w-6 h-6" />
@@ -197,6 +195,12 @@ const Navbar = () => {
               data={<img src={userIcon} alt="User avatar" />}
               className="top-12"
             >
+              <Link className="items-center" to="#">
+                <div className="text-lg normal-case text-blueish font-medium">
+                  {user.data  && <span>@{user.data.username}</span>}
+                </div>
+              </Link>
+
               <Link className="capitalize items-center" to="/invest">
                 <div className="mr-1">
                   <GiPayMoney className="w-6 h-6" />
