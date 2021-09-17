@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import profIcon from "../../img/prof.svg";
 import passwordIcon from "../../img/password.svg";
@@ -6,8 +6,16 @@ import logoutIcon from "../../img/logout.svg";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { VscVerified } from "react-icons/vsc";
 import { FcMoneyTransfer } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import { getDeposit } from "../../redux/actions/deposit";
+import { getPlans } from "../../redux/actions/admin";
+
+let date, futureDate;
 
 const Main = ({ user }) => {
+  const dispatch = useDispatch("");
+  const deposits = useSelector((state) => state.user.deposits);
+  const plans = useSelector((state) => state.admin.allPackages);
   const navMenu = [
     // { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
     { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
@@ -28,6 +36,11 @@ const Main = ({ user }) => {
     // { img: passwordIcon, icon: "", alt: "", name: "Change Password", url: "" },
     { img: logoutIcon, icon: "", alt: "", name: "Logout", url: "#" },
   ];
+
+  useEffect(() => {
+    dispatch(getDeposit());
+    dispatch(getPlans());
+  }, []);
   console.log(user);
   return (
     <div className="w-9/10 mx-auto md:w-7/15 lg:w-8/10 py-6 md:pt-10 md:pl-6 md:pr-14 ">
@@ -82,14 +95,20 @@ const Main = ({ user }) => {
           </div>
         )}
         <div className="my-4 p-4 shadow rounded text-xl font-medium text-gray-500">
-          <div className='capitalize'>
-            <span className=''>Name: </span><span className='text-pink-600'>{user.name.firstname}</span> <span className='text-pink-600'>{user.name.lastname}</span>
+          <div className="capitalize">
+            <span className="">Name: </span>
+            <span className="text-pink-600">{user.name.firstname}</span>{" "}
+            <span className="text-pink-600">{user.name.lastname}</span>
           </div>
-          <div>Username: <span className='text-pink-600'>@{user.username}</span> </div>
-          <div>Email: <span className='text-pink-600'>{user.email}</span></div>
+          <div>
+            Username: <span className="text-pink-600">@{user.username}</span>{" "}
+          </div>
+          <div>
+            Email: <span className="text-pink-600">{user.email}</span>
+          </div>
         </div>
         <div className="my-6 lg:flex">
-          <div className="border-gray-100 rounded-sm border shadow-md lg:w-7/10 lg:mr-6 px-3 md:px-6 py-2 pb-6">
+          <div className="border-gray-100 rounded-sm border shadow-md lg:w-7/10 lg:mr-6 px-3 lg:px-6 py-2 pb-6">
             <div className="flex justify-between my-1.5 mb-5">
               <div className="text-gray-600 text-xl font-semibold">
                 Wallet Information
@@ -99,41 +118,60 @@ const Main = ({ user }) => {
               </div>
             </div>
 
-            <div className="flex overflow-scroll md:grid md:grid-cols-2 gap-5 text-white">
+            <div className="flex overflow-scroll justify-between text-white">
               {/* capital */}
-              <div className="bg-lightteal min-w-full rounded-md">
-                <div className="border-b text-xs flex border-white font-light">
-                  <div className="border-r border-white p-1 px-3">
-                    Investment Date
-                  </div>
-                  <div className="p-1 px-3">17th Feb, 2020</div>
-                </div>
-                <div className="p-3">
-                  <h6 className="text-sm font-extralight">STANDARD 35%ROI</h6>
-                  <h5 className="text-sm">Amount Invested</h5>
-                  <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
-                    ${parseFloat(user.wallet)}
-                  </div>
-                </div>
-              </div>
+              {deposits.data && deposits.data.map((dep) => (
+                <div key={dep._id} className="min-w-full md:min-w-4/10">
+                    {plans
+                      .filter((plan) => plan._id === dep.planId)
+                      .map((plan) => (
+                        <div key={plan._id}>
+                          {date = new Date(dep.date).toDateString()}
+                          <div className="bg-lightteal min-w-full rounded-md">
+                            <div className="border-b text-xs flex border-white font-light">
+                              <div className="border-r border-white p-1 px-3">
+                                Investment Date
+                              </div>
+                              <div className="p-1 px-3">
+                                {date}
+                              </div>
+                            </div>
+                            <div className="p-3">
+                              <h6 className="text-sm font-light">
+                                <span className="uppercase">{plan.name}</span>
+                                <span>{plan.roi}%</span>ROI
+                              </h6>
+                              <h5 className="text-sm">Amount Invested</h5>
+                              <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                                ${parseFloat(dep.amount)}
+                              </div>
+                            </div>
+                          </div>
 
-              {/* total income */}
-              <div className="bg-lightteal min-w-full rounded-md">
-                <div className="border-b text-xs flex border-white font-light">
-                  <div className="border-r border-white p-1 px-3">
-                    Withdrawal Date
+                          {/* total income */}
+                          <div className="bg-lightteal min-w-full my-2 rounded-md">
+                            <div className="border-b text-xs flex border-white font-light">
+                              <div className="border-r border-white p-1 px-3">
+                                Withdrawal Date
+                              </div>
+                              <div className="p-1 px-3">{date}</div>
+                            </div>
+                            <div className="p-3">
+                              <h6 className="text-sm font-light">
+                              <span className="uppercase">{plan.name}</span>
+                                <span>{plan.roi}%</span>ROI
+                              </h6>
+                              <h5 className="text-sm">Amount Expected</h5>
+                              <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                                {" "}
+                                ${parseFloat(dep.amount) * parseFloat(plan.roi)}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
-                  <div className="p-1 px-3">17th March, 2020</div>
-                </div>
-                <div className="p-3">
-                  <h6 className="text-sm font-extralight">STANDARD 35%ROI</h6>
-                  <h5 className="text-sm">Amount Expected</h5>
-                  <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
-                    {" "}
-                    ${parseFloat(user.wallet) * 50}
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="lg:w-3/10 md:grid md:grid-cols-2 md:gap-x-4 lg:grid-cols-1">

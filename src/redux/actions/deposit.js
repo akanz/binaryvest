@@ -1,4 +1,7 @@
 import {
+  DEPOSITS_ERROR,
+  DEPOSITS_LOADING,
+  DEPOSITS_SUCCESS,
   DEPOSIT_FAILURE,
   DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
@@ -112,3 +115,25 @@ export const withdraw = (amount) => async (dispatch, getState) => {
     dispatch(setMessage("Unable to withdraw", 400, WITHDRAW_ERROR));
   }
 };
+
+// get user deposits
+export const getDeposit=()=> async(dispatch, getState)=> {
+    dispatch({
+      type: DEPOSITS_LOADING
+    })
+    try {
+      const res = await (await axios.get('/user/deposits', tokenConfig(getState))).data
+      console.log(res)
+      dispatch({
+        type: DEPOSITS_SUCCESS,
+        payload: res
+      })
+      dispatch(setMessage())
+    } catch (error) {
+      console.log(error.response)
+        dispatch({
+          type: DEPOSITS_ERROR
+        })
+        dispatch(setMessage())
+    }
+}

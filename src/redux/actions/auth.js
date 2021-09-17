@@ -1,6 +1,8 @@
 import { setMessage, clearMessage } from "./message";
 import {
   AUTH_ERROR,
+  CONFIRM_RESET_FAILURE,
+  CONFIRM_RESET_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -22,7 +24,7 @@ export const register = (data) => (dispatch) => {
 
   dispatch({
     type: USER_LOADING,
-  })
+  });
   axios
     .post("/signup", body)
     .then((response) => {
@@ -38,7 +40,7 @@ export const register = (data) => (dispatch) => {
         )
       );
       setTimeout(() => {
-        window.location.replace('/login')
+        window.location.replace("/login");
       }, 2000);
     })
     .catch((err) => {
@@ -61,7 +63,7 @@ export const register = (data) => (dispatch) => {
 export const login = (data) => (dispatch) => {
   dispatch({
     type: USER_LOADING,
-  })
+  });
   const body = JSON.stringify(data);
   axios
     .post("/login", body)
@@ -106,27 +108,70 @@ export const logout = () => (dispatch) => {
 };
 
 // Forgot password
-export const forgotPass =(email)=> async (dispatch)=> {
+export const forgotPass = (email) => async (dispatch) => {
+  dispatch({
+    type: USER_LOADING,
+  });
+  try {
+    const res = await (await axios.post("/forgotPassword", email)).data;
     dispatch({
-        type: USER_LOADING,
-    })
-    try {
-      const res = await (await axios.post('/forgotPassword', email)).data
-      dispatch({
-        type: RESET_SUCCESS,
-        payload: res,
-      })
-      dispatch(setMessage('Password reset sent, please check your mail', 200, ))
-    } catch (error) {
-      dispatch({
-        type: RESET_ERROR
-      })
-      if(error !== undefined){
-        dispatch(setMessage(error.response.data.error, error.response.data.status, RESET_ERROR))
-      }
-      
+      type: RESET_SUCCESS,
+      payload: res,
+    });
+    dispatch(setMessage("Password reset sent, please check your mail", 200));
+  } catch (error) {
+    dispatch({
+      type: RESET_ERROR,
+    });
+    if (error !== undefined) {
+      dispatch(
+        setMessage(
+          error.response.data.error,
+          error.response.data.status,
+          RESET_ERROR
+        )
+      );
     }
-}
+  }
+};
+
+// Reset password
+export const resetPass = (values) => async (dispatch) => {
+  dispatch({
+    type: USER_LOADING,
+  });
+  const info = {
+    password: values.password,
+    confirmPassword: values.confirmPassword,
+  };
+  try {
+    const res = await (
+      await axios.post(
+        `/resetPassword/${values.ressettoken}`,
+        info
+      )
+    ).data;
+    dispatch({
+      type: CONFIRM_RESET_SUCCESS,
+      payload: res,
+    });
+    dispatch(setMessage(res.message, res.status, CONFIRM_RESET_SUCCESS));
+    setTimeout(() => {
+      window.location.replace("/login");
+    }, 3500);
+  } catch (error) {
+    dispatch({
+      type: CONFIRM_RESET_FAILURE,
+    });
+    dispatch(
+      setMessage(
+        error.response.data.error,
+        error.response.data.status,
+        CONFIRM_RESET_FAILURE
+      )
+    );
+  }
+};
 
 // check token && load user
 export const loadUser = () => (dispatch, getState) => {

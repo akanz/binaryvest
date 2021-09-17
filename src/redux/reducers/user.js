@@ -2,10 +2,12 @@ import {
   CONFIRM_DEP_FAILURE,
   CONFIRM_DEP_LOADING,
   CONFIRM_DEP_SUCCESS,
+  CONFIRM_VER_FAILURE,
   CONFIRM_VER_LOADING,
   CONFIRM_VER_SUCCESS,
-  USER_LOADED,
-  USER_LOADING,
+  DEPOSITS_ERROR,
+  DEPOSITS_LOADING,
+  DEPOSITS_SUCCESS,
   VERIFICATION_FAILURE,
   VERIFICATION_SUCCESS,
 } from "../actionTypes";
@@ -15,6 +17,7 @@ const initialState = {
   isVerified: false,
   isLoading: false,
   documents: null,
+  deposits: [],
   wallet: 0,
   profile_pic: null,
 };
@@ -22,6 +25,7 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case CONFIRM_DEP_LOADING:
+    case DEPOSITS_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -51,9 +55,27 @@ const userReducer = (state = initialState, action) => {
         isVerified: true,
       };
     case CONFIRM_DEP_FAILURE:
-    case VERIFICATION_FAILURE:
       return {
         ...state,
+        user_details: [],
+        isLoading: false,
+      };
+    case CONFIRM_VER_FAILURE:
+      return {
+        ...state,
+        isVerified: false,
+        isLoading: false,
+      };
+    case DEPOSITS_SUCCESS:
+      return {
+        ...state,
+        deposits: action.payload,
+        isLoading: false,
+      };
+    case DEPOSITS_ERROR:
+      return {
+        ...state,
+        deposits: [],
         isLoading: false,
       };
     default:
