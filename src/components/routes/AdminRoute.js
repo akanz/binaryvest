@@ -7,7 +7,7 @@ const AdminRoute = (props) => {
   
   const { component: Component, location, ...rest } = props;
 
-  if (isAdmin.isAuthenticated && isAdmin.data.isAdmin) {
+  if (isAdmin.data && isAdmin.data.isAdmin) {
     return <Route {...rest} render={(props) => <Component {...props} />} />;
   }
 

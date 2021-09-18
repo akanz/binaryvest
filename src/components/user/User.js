@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import profileIcon from "../../img/profile.svg";
-import { getUserById } from "../../redux/actions/admin";
 import Error from "../otherComps/404";
 import Loader from "../otherComps/Loader";
 import { VscVerified } from "react-icons/vsc";
@@ -10,15 +8,6 @@ import { VscVerified } from "react-icons/vsc";
 const User = () => {
   const user = useSelector((state) => state.admin.user);
   const loading = useSelector((state) => state.admin.isLoading);
-  const dispatch = useDispatch("");
-  console.log(user);
-  useEffect(() => {
-    // if (user.data._id !== undefined) {
-    //   dispatch(getUserById(user.data._id));
-    // }
-
-    console.log(user);
-  }, []);
 
   if (user.data === undefined && loading) {
     return <Loader />;
@@ -32,7 +21,11 @@ const User = () => {
       {!loading && user.status === 200 && (
         <div className="">
           <div className="border-b flex justify-center p-4 border-gray-200">
-            <img className='h-96 object-contain' src={user.data.imageUrl} alt="" />
+            <img
+              className="h-96 object-contain"
+              src={user.data.imageUrl}
+              alt=""
+            />
           </div>
           <div className="grid px-4 py-2 content-between">
             <h2>
@@ -41,29 +34,29 @@ const User = () => {
             <h2>@{user.data.username} </h2>
             <h2>E-mail: {user.data.email}</h2>
             <h2>Wallet Balance: {user.data.wallet}</h2>
-            <h3 className='font-medium my-1'>
-            {user.data.isVerified ? (
-              <div className='flex items-center text-green-700'>
-                <VscVerified />
-                <span className='ml-1'>Verified</span> 
-              </div>
-            ) : (
-              <div className='flex items-center text-gray-700'>
-                <VscVerified />
-                <span className='ml-1'>Not verified</span>
-              </div>
-            )}
-          </h3>
+            <h3 className="font-medium my-1">
+              {user.data.isVerified ? (
+                <div className="flex items-center text-green-700">
+                  <VscVerified />
+                  <span className="ml-1">Verified</span>
+                </div>
+              ) : (
+                <div className="flex items-center text-gray-700">
+                  <VscVerified />
+                  <span className="ml-1">Not verified</span>
+                </div>
+              )}
+            </h3>
           </div>
           <div className="p-4 grid md:flex justify-between">
-            <Link to="/admin/deposit">
+            <Link
+              to="/admin/deposit"
+            >
               <button className="button mb-4 min-w-full md:w-3/10 text-xs">
                 Add to user wallet
               </button>
             </Link>
-            <Link
-              to="/admin/verify"
-            >
+            <Link to="/admin/verify">
               <button className="button text-xs min-w-full md:w-3/10">
                 verify user
               </button>

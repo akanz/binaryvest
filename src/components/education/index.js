@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from 'react'
 // import Learn from './Learn'
 import Package from './Package'
 
-const Contact = lazy(()=> import('./Learn')),
+const Contact = lazy(()=> import('../home/Contact')),
       Learn = lazy(()=> import('./Learn'));
 
 const Education = () => {

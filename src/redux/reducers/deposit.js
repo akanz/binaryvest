@@ -1,4 +1,6 @@
 import {
+  ALL_DEPOSITS_LOADING,
+  ALL_DEPOSITS_SUCCESS,
   DEPOSIT_FAILURE,
   DEPOSIT_LOADING,
   DEPOSIT_SUCCESS,
@@ -9,6 +11,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
+  allDeposits: [],
   userDetails: [],
   cardDetails: [],
   packageOption: "",
@@ -21,9 +24,16 @@ const initialState = {
 const depositReducer = (state = initialState, action) => {
   switch (action.type) {
     case DEPOSIT_LOADING:
+    case ALL_DEPOSITS_LOADING:
       return {
         ...state,
         isLoading: true,
+      };
+    case ALL_DEPOSITS_SUCCESS:
+      return {
+        ...state,
+        allDeposits: action.payload,
+        isLoading: false,
       };
     case DEPOSIT_SUCCESS:
       return {

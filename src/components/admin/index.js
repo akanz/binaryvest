@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
-import { allUsers } from "../../redux/actions/admin";
+import { allDeposits, allUsers } from "../../redux/actions/admin";
 import Dashboard from "./Dashboard";
 import Routes from "./Routes";
 import Sidebar from "./Sidebar";
@@ -20,13 +20,12 @@ const Admin = () => {
   useEffect(() => {
     dispatch(allUsers());
     dispatch(getAllRequests());
-    
+    dispatch(allDeposits());
     setTimeout(() => {
-      dispatch(clearMessage())
+      dispatch(clearMessage());
     }, 5000);
-
   }, []);
- 
+
   return (
     <div className="flex text-sm">
       <userContext.Provider value={[user, admin]}>

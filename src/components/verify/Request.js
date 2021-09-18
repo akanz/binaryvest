@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { verifyReq } from "../../redux/actions/verify";
 import { clearMessage } from "../../redux/actions/message";
@@ -10,15 +10,11 @@ const Request = () => {
   const ver = useSelector((state) => state.verify);
   const users = useSelector((state) => state.admin.allUsers);
   const message = useSelector((state) => state.message);
-  const history = useHistory();
 
   const verifyUser = (value) => {
     dispatch(clearMessage());
     dispatch(verifyReq(value));
 
-    setTimeout(() => {
-      history.push("/admin");
-    }, 3000);
   };
 
   return (

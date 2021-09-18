@@ -1,7 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {Link, useHistory } from "react-router-dom";
-import { confirmDeposit } from "../../redux/actions/admin";
+import { Link, useHistory } from "react-router-dom";
+import {
+  addMoney,
+  allUserDeposits,
+  confirmDeposit,
+} from "../../redux/actions/admin";
+import { getDeposit } from "../../redux/actions/deposit";
 import { clearMessage, setMessage } from "../../redux/actions/message";
 import BtnLoader from "../otherComps/BtnLoader";
 import Errormessage from "../otherComps/Errormessage";
@@ -11,6 +16,7 @@ import { userContext } from "./index";
 const ConfirmDeposit = () => {
   const message = useSelector((state) => state.message);
   const admin = useSelector((state) => state.admin);
+  const depRequests = useSelector((state) => state.user);
   const dispatch = useDispatch("");
   const user = useContext(userContext)[0];
   const history = useHistory();
@@ -21,6 +27,10 @@ const ConfirmDeposit = () => {
     amount: 0,
   });
 
+  useEffect(() => {
+    dispatch(allUserDeposits(admin.user.data._id));
+  }, []);
+
   const onSubmit = (e) => {
     dispatch(clearMessage());
     e.preventDefault();
@@ -28,11 +38,8 @@ const ConfirmDeposit = () => {
     dispatch(setMessage());
     setTimeout(() => {
       dispatch(clearMessage());
-
-      history.push("/admin");
     }, 3000);
   };
-
   return (
     <div>
       <div className="text-3xl text-blueish font-semibold text-center my-3 capitalize">
@@ -52,7 +59,7 @@ const ConfirmDeposit = () => {
           />
         </div>
 
-        <div className="my-3 grid">
+        <div className="my-3 mb-2 grid">
           <label className="mb-1 text-gray-500 px-2">username</label>
           <input
             className="form-input border-transparent focus:outline-none"
@@ -60,6 +67,42 @@ const ConfirmDeposit = () => {
             readOnly
           />
         </div>
+        {depRequests.deposits &&
+          depRequests.deposits.map((req) => (
+            <div key={req._id} className="">
+              {" "}
+              {req.status === "pending" && (
+                <div className="flex items-center justify-between border-b border-gray-300 p-2 px-4">
+                  <div className="text-base">
+                    Amount:{" "}
+                    <span className="text-turquoise font-semibold">
+                      ${req.amount}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => dispatch(addMoney(req._id))}
+                      className="button mx-3 flex items-center"
+                    >
+                      {/* {depRequests.isLoading && <BtnLoader />} */}
+                      Confirm
+                    </button>
+
+                    <Link
+                      to="/admin"
+                      className="bg-black flex items-center text-white px-4 rounded uppercase"
+                    >
+                      Deny
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        <h2 className="my-4 mt-12 text-xl text-center font-light">
+          Add Money directly to{" "}
+          <span className="font-semibold">@{user.data.username}'s</span> wallet
+        </h2>
         <div className="my-3 grid">
           <label className="mb-1 text-gray-500 px-2">Amount</label>
           <input
@@ -76,10 +119,13 @@ const ConfirmDeposit = () => {
             className="button flex items-center justify-center font-semibold my-5 w-full md:w-4/5 uppercase"
           >
             {admin.isLoading && <BtnLoader />}
-            authorize deposit
+            add
           </button>
-          <Link to='/admin' className="flex items-center justify-center font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded">
-            deny
+          <Link
+            to="/admin"
+            className="flex items-center justify-center font-semibold my-5 w-full hover md:w-4/5 uppercase bg-darkblue text-white p-2 rounded"
+          >
+            go back
           </Link>
         </div>
       </form>

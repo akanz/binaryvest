@@ -23,8 +23,14 @@ import {
   DELETE_PLAN_LOADING,
   DELETE_PLAN_SUCCESS,
   DELETE_PLAN_FAILURE,
+  ALL_DEPOSITS_LOADING,
+  ALL_DEPOSITS_SUCCESS,
+  ALL_DEPOSITS_FAILURE,
+  USER_DEPS_LOADING,
+  USER_DEPS_SUCCESS,
+  USER_DEPS_FAILURE,
 } from "../actionTypes";
-import { setMessage } from "./message";
+import { clearMessage, setMessage } from "./message";
 import axios from "axios";
 import { tokenConfig } from "./auth";
 
@@ -210,7 +216,70 @@ export const deletePlan = (id) => async (dispatch, getState) => {
   }
 };
 
-// confirm deposit
+// get all deposits
+export const allDeposits = () => async (dispatch, getState) => {
+  dispatch({
+    type: ALL_DEPOSITS_LOADING,
+  });
+  try {
+    const res = await (
+      await axios.get("/admin/all-investments", tokenConfig(getState))
+    ).data;
+    console.log(res.data);
+    dispatch({
+      type: ALL_DEPOSITS_SUCCESS,
+      payload: res.data,
+    });
+    dispatch(
+      setMessage("All deposit requests gotten", 200, ALL_DEPOSITS_SUCCESS)
+    );
+  } catch (error) {
+    console.log(error.response);
+    dispatch({
+      type: ALL_DEPOSITS_FAILURE,
+    });
+    dispatch(
+      setMessage(
+        error.response.data.error,
+        error.response.status,
+        ALL_DEPOSITS_FAILURE
+      )
+    );
+  }
+};
+
+// get user deposits by id (admin view)
+export const allUserDeposits = (id) => async (dispatch, getState) => {
+  console.log(id)
+  dispatch({
+    type: USER_DEPS_LOADING,
+  });
+  try {
+    const res = await (
+      await axios.get(`/admin/users/investments/${id}`, tokenConfig(getState))
+    ).data;
+    console.log(res);
+    dispatch({
+      type: USER_DEPS_SUCCESS,
+      payload: res.data,
+    });
+    dispatch(
+      setMessage("gotten all deposits of the user", 200, USER_DEPS_SUCCESS)
+    );
+    setTimeout(() => {
+      dispatch(clearMessage())
+    }, 3000);
+  } catch (error) {
+    console.log(error.response);
+    dispatch({
+      type: USER_DEPS_FAILURE,
+    });
+    dispatch(setMessage("Unable to get all user deposits", 400, USER_DEPS_FAILURE));
+  }
+};
+
+// Add money to user wallet(the function name is meant to be addMoney
+// but I cant't change it now cause I'll have to change everywhere)
 export const confirmDeposit = (value) => async (dispatch, getState) => {
   dispatch({
     type: CONFIRM_DEP_LOADING,
@@ -243,3 +312,28 @@ export const confirmDeposit = (value) => async (dispatch, getState) => {
   }
 };
 
+// confirm deposit (same for the function above. meant to be confirm deposit)
+
+export const addMoney = (id) => async (dispatch, getState) => {
+  try {
+    const res = await (
+      await axios.post(
+        `/admin/users/approveInvestment/${id}`,
+        { status: true },
+        tokenConfig(getState)
+      )
+    ).data;
+    console.log(res);
+    dispatch(setMessage('Deposit approved', res.status, CONFIRM_DEP_SUCCESS));
+    window.location.replace('/admin')
+  } catch (error) {
+    console.log(error.response);
+    dispatch(
+      setMessage(
+        error.response.data.error,
+        error.response.data.status,
+        CONFIRM_DEP_FAILURE
+      )
+    );
+  }
+};

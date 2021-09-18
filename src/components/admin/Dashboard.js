@@ -13,7 +13,9 @@ import { VscVerified } from "react-icons/vsc";
 
 const Dashboard = ({ user }) => {
   const users = useSelector((state) => state.admin);
-  const ver = useSelector(state => state.verify)
+  const ver = useSelector((state) => state.verify);
+  const deposit = useSelector((state) => state.deposit);
+
   const { url } = useRouteMatch();
   const navMenu = [
     { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
@@ -88,14 +90,23 @@ const Dashboard = ({ user }) => {
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="px-3 py-2 grid h-20 bg-yellow-400 text-gray-700 text-xs rounded-xl">
-              <Link to="/admin/users">
+                <Link to="/admin/users">
                   <h3 className="cursor-pointer hover:underline">
                     Deposit requests
                   </h3>
                 </Link>
+                <div className="flex items-center my-2">
+                  <div className='mr-2'>
+                    {
+                      ver.allRequest.filter((req) => req.status === "pending")
+                        .length
+                    }
+                  </div>
+                  <img src={arrWhite} alt="" />
+                </div>
               </div>
               <div className="px-3 py-2 grid h-20 bg-lightteal text-white text-xs rounded-xl">
-                <Link to="/admin/users">
+                <Link to="/admin/allDeposits">
                   <h3 className="cursor-pointer hover:underline">
                     Registered Users
                   </h3>
@@ -107,11 +118,21 @@ const Dashboard = ({ user }) => {
                 </div>
               </div>
               <div className="px-3 py-2 grid h-20 bg-blue-800 text-white text-xs rounded-xl">
-              <Link to="/admin/allRequests">
+                <Link to="/admin/allRequests">
                   <h3 className="cursor-pointer hover:underline">
                     Verification requests
                   </h3>
                 </Link>
+                <div className="flex items-center my-2">
+                  <div className='mr-2'>
+                    {
+                      deposit.allDeposits.filter(
+                        (req) => req.status === "pending"
+                      ).length
+                    }
+                  </div>
+                  <img src={arrWhite} alt="" />
+                </div>
               </div>
             </div>
           </div>
@@ -130,13 +151,19 @@ const Dashboard = ({ user }) => {
                 </Link>
               </div>
               <div className="flex items-center border-b px-4 py-2 border-gray-200">
-              <Link
-                className="flex items-center justify-between w-full text-blueish text-lg"
-                to="/admin/allRequests"
-              >
-                <div>Verification Requests</div> <div>{ver.allRequest.length}</div>
-              </Link>
-            </div>
+                <Link
+                  className="flex items-center justify-between w-full text-blueish text-lg"
+                  to="/admin/allRequests"
+                >
+                  <div>Verification Requests</div>{" "}
+                  <div>
+                    {
+                      ver.allRequest.filter((req) => req.status === "pending")
+                        .length
+                    }
+                  </div>
+                </Link>
+              </div>
               <div className="flex items-center border-b px-4 py-2 border-gray-200">
                 <Link
                   className="flex items-center justify-between w-full text-blueish text-lg"
@@ -159,12 +186,19 @@ const Dashboard = ({ user }) => {
             <div className="flex items-center border-b px-4 py-2 border-gray-200">
               <Link
                 className="flex items-center justify-between w-full text-blueish text-lg"
-                to="/admin/users"
+                to="/admin/allDeposits"
               >
-                <div>Deposit Requests</div> <div>0</div>
+                <div>Deposit Requests</div>{" "}
+                <div>
+                  {
+                    deposit.allDeposits.filter(
+                      (req) => req.status === "pending"
+                    ).length
+                  }
+                </div>
               </Link>
             </div>
-            
+
             <div className="flex items-center border-b px-4 py-2 border-gray-200">
               <Link
                 className="flex items-center justify-between w-full text-blueish text-lg"

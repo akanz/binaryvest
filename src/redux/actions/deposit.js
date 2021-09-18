@@ -116,21 +116,19 @@ export const withdraw = (amount) => async (dispatch, getState) => {
   }
 };
 
-// get user deposits
+// get user deposits (user view)
 export const getDeposit=()=> async(dispatch, getState)=> {
     dispatch({
       type: DEPOSITS_LOADING
     })
     try {
       const res = await (await axios.get('/user/deposits', tokenConfig(getState))).data
-      console.log(res)
       dispatch({
         type: DEPOSITS_SUCCESS,
         payload: res
       })
       dispatch(setMessage())
     } catch (error) {
-      console.log(error.response)
         dispatch({
           type: DEPOSITS_ERROR
         })

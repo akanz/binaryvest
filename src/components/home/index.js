@@ -26,7 +26,7 @@ const Index = () => {
           <Route exact path="/faqs" component={FAQ} />
           <Route exact path="/reviews" component={Reviews} />
           <AdminRoute Route path="/admin" component={Admin} />
-          <Route exact path="/invest" component={Payment} />
+          <PrivateRoute exact path="/invest" component={Payment} />
           <Route exact path="/invest/card" component={Card} />
           <VerifiedRoute exact path="/withdraw" component={Withdraw} />
           <PrivateRoute exact path="/verification" component={Verify} />

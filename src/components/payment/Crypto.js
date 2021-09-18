@@ -28,13 +28,14 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
       "image/png",
       "image/jpeg",
       "image/heic",
+      "image/webp",
       "application/pdf",
     ];
     if (selected && ALLOWED_TYPES.includes(selected.type)) {
       handleProofOfPay(selected);
       let reader = new FileReader();
       reader.onloadend = () => {
-        setProofPreview({ ...proofPreview, pic: reader.result });
+        setProofPreview({ ...proofPreview, err: false, pic: reader.result });
       };
       reader.readAsDataURL(selected);
     } else {
@@ -65,10 +66,10 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
         <Successmessage>{message.message}</Successmessage>
       )}
       <h3 className="text-sm mt-5 text-gray-500 font-light">
-        Deposit the sum of ${amount} into any of the following wallet
-        addresses listed below
+        Deposit the sum of ${amount} into any of the following wallet addresses
+        listed below
       </h3>
-      <div className='mt-4 text-center text-turquoise text-2xl'>BTC Wallet</div>
+      <div className="mt-4 text-center text-turquoise text-2xl">BTC Wallet</div>
       <div className="my-1 flex justify-between text-sm">
         <span className="font-semibold">Bitcoin</span>
         <span className="w-7/10">
@@ -83,7 +84,9 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
           <img name="btc" src={cp} alt="copy wallet address" />
         </span>
       </div>
-      <div className='mt-4 text-center text-turquoise text-2xl'>USDT Wallet</div>
+      <div className="mt-4 text-center text-turquoise text-2xl">
+        USDT Wallet
+      </div>
       <div className="my-1 flex justify-between text-sm">
         <span className="font-semibold">ERC20</span>
         <span className="w-7/10">
@@ -124,7 +127,7 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
         )}
 
         {proofPreview.err && (
-          <div className="bg-red-600 text-white rounded p-2">
+          <div className="bg-red-600 md:w-5/10 mx-auto text-white rounded-full text-center p-1">
             File Not Supported
           </div>
         )}
@@ -148,33 +151,33 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
                   err: false,
                 });
               }}
-              className="bg-red-600 w-1/10 mx-0 p-0.5 flex justify-center items-center my-2 rounded-full text-white"
+              className="bg-red-600 w-1/10 mx-0 px-0.5 flex justify-center items-center my-2 rounded-full text-white"
             >
               <MdClose className="w-8 h-8" />
             </div>
           )}
         </div>
-        </div>
-        <div className="flex items-center justify-between mt-8">
-          <div className="">
-            <Link to="#" onClick={() => handleStep(2)}>
-              <BiArrowBack className="w-10 h-8 text-gray-500" />
-            </Link>
-          </div>
-          <div className="">
-            <button
-              disabled={!proofOfPay}
-              type="submit"
-              className="button flex items-center justify-center"
-            >
-              {deposit.isLoading && <BtnLoader />}
-              confirm
-            </button>
-          </div>
-        </div>
-
-        <div></div>
       </div>
+      <div className="flex items-center justify-between mt-8">
+        <div className="">
+          <Link to="#" onClick={() => handleStep(2)}>
+            <BiArrowBack className="w-10 h-8 text-gray-500" />
+          </Link>
+        </div>
+        <div className="">
+          <button
+            disabled={!proofOfPay}
+            type="submit"
+            className="button flex items-center justify-center"
+          >
+            {deposit.isLoading && <BtnLoader />}
+            confirm
+          </button>
+        </div>
+      </div>
+
+      <div></div>
+    </div>
   );
 };
 

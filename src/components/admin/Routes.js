@@ -9,10 +9,9 @@ import Packages from "./Packages";
 import Plan from "./Packages/Plan";
 import Allrequests from "../verify/Allrequests";
 import Request from "../verify/Request";
+import AllDeposits from "../deposits/AllDeposits";
 
 const Routes = () => {
-  const history = useHistory().location.pathname.toLowerCase();
-  console.log(history);
   return (
     <div className="w-9/10 md:w-7/10 mx-auto my-14">
       <Switch>
@@ -21,6 +20,7 @@ const Routes = () => {
         <Route exact path="/admin/verify" component={Verify} />
         <Route exact path="/admin/allRequests" component={Allrequests} />
         <Route exact path="/admin/deposit" component={ConfirmDeposit} />
+        <Route exact path="/admin/allDeposits" component={AllDeposits} />
         <Route exact path="/admin/withraw" component={Withdraw} />
         <Route exact path="/admin/createPlan" component={Plan} />
         <Route path="/admin/verify/:id" component={Request} />

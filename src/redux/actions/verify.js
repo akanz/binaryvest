@@ -146,6 +146,7 @@ export const verifyReq =
         payload: response,
       });
       dispatch(setMessage("User verified", 200, CONFIRM_VER_SUCCESS));
+      window.location.replace('/admin')
     } catch (error) {
       dispatch({
         type: CONFIRM_VER_FAILURE,

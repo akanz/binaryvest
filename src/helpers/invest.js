@@ -17,9 +17,9 @@ export const initialValues = {
 };
 export const validationSchema = Yup.object({
   // packageOption: Yup.string().required("Select a package"),
-  email: Yup.string()
-    .email("Email is not valid")
-    .required("Please input your email"),
+  // email: Yup.string()
+  //   .email("Email is not valid")
+  //   .required("Please input your email"),
   amount: Yup.number("Amount is not valid").required("Enter an amount"),
 });
 export const payOptions = [

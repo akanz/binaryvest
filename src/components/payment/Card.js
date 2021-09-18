@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Cleave from "cleave.js/react";
 import paystack from "../../img/paystack.svg";
 import paybg from "../../img/paybg.svg";
 import { BiArrowBack } from "react-icons/bi";
+import BtnLoader from "../otherComps/BtnLoader";
 
 const Card = ({
   cardDets,
@@ -13,6 +14,7 @@ const Card = ({
   handleStep,
   ...props
 }) => {
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     handleCardDets({ ...cardDets, [name]: value });
@@ -21,9 +23,14 @@ const Card = ({
     handleCardDets({ ...cardDets, cardType: type });
   };
   const handleCard = () => {
-    setcardMsg(
-      "Error occurred while paying with card. Try another payment method"
-    );
+    setLoading(true);
+    setTimeout(() => {
+      setcardMsg(
+        "Error occurred while paying with card. Try another payment method"
+      );
+      setLoading(false);
+    }, 2000);
+   
   };
   return (
     <>
@@ -35,7 +42,7 @@ const Card = ({
           <span>{props.email}</span>
           <span className="font-medium">
             <span className="text-gray-700">Pay</span>
-            <span className="text-red-700">${props.amount}</span>
+            <span className="text-red-700 ml-1">${props.amount}</span>
           </span>
         </div>
       </div>
@@ -119,9 +126,10 @@ const Card = ({
           }
           onClick={handleCard}
           type="submit"
-          className="button cursor-pointer"
+          className="button flex items-center cursor-pointer"
         >
-          pay
+          {loading && <BtnLoader />}
+         <span className='ml-1'>pay</span> 
         </button>
       </div>
     </>

@@ -17,6 +17,7 @@ export const payContext = createContext();
 
 const Payment = () => {
   const admin = useSelector((state) => state.admin);
+  const user = useSelector((state) => state.auth.data);
   const [payMethod, setPayMethod] = useState("");
   const [step, setsStep] = useState(1);
   const [proofOfPay, setProofOfPay] = useState(null);
@@ -48,14 +49,15 @@ const Payment = () => {
   }, [admin]);
 
   const onSubmit = async (values) => {
+    console.log(payMethod)
     if (payMethod === 1) {
       const formData = new FormData();
-      formData.append('planId', packageOption.id)
-      formData.append('amount', values.amount)
-      formData.append('email', values.email)
-      formData.append('avatar', proofOfPay)
+      formData.append("planId", packageOption.id);
+      formData.append("amount", values.amount);
+      formData.append("email", user.email);
+      formData.append("avatar", proofOfPay);
       // const data = { ...values, packageOption, proofOfPay };
-      // console.table([...formData]);
+      console.table([...formData]);
       dispatch(deposit(formData));
 
       setTimeout(() => {
@@ -63,7 +65,7 @@ const Payment = () => {
       }, 2000);
     } else {
       console.log(cardDets);
-      dispatch(getCardDets(cardDets))
+      dispatch(getCardDets(cardDets));
       setTimeout(() => {
         setcardMsg(null);
       }, 4000);
@@ -138,12 +140,12 @@ const Payment = () => {
                 {step === 2 && (
                   <div>
                     <div className="my-4">
-                      <Formikcontrol
-                        control="input"
+                      <input
                         type="email"
-                        name="email"
-                        className="form-input border-gray-300 rounded w-full"
-                        placeholder="Email Address"
+                        style={{ border: "0" }}
+                        className="w-full text-2xl"
+                        value={user.email}
+                        readOnly
                       />
                     </div>
                     <div>
@@ -200,7 +202,7 @@ const Payment = () => {
                                       <BiArrowBack className="w-10 h-8 text-gray-500" />
                                     </Link>
                                   </div>
-                                  {formik.values.email !== "" &&
+                                  {
                                     formik.values.amount !== "" &&
                                     isNaN(formik.values.amount) === false &&
                                     parseFloat(formik.values.amount) >=
