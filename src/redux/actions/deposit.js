@@ -1,4 +1,8 @@
 import {
+  CONFIRM_DEP_FAILURE,
+  COURSE_DEP_FAILURE,
+  COURSE_DEP_LOADING,
+  COURSE_DEP_SUCCESS,
   DEPOSITS_ERROR,
   DEPOSITS_LOADING,
   DEPOSITS_SUCCESS,
@@ -97,8 +101,8 @@ export const withdraw = (amount) => async (dispatch, getState) => {
     type: DEPOSIT_LOADING,
   });
   const body = {
-    amount: parseFloat(amount)
-  }
+    amount: parseFloat(amount),
+  };
   try {
     const res = await (
       await axios.post("/withdraw", body, tokenConfig(getState))
@@ -117,21 +121,54 @@ export const withdraw = (amount) => async (dispatch, getState) => {
 };
 
 // get user deposits (user view)
-export const getDeposit=()=> async(dispatch, getState)=> {
+export const getDeposit = () => async (dispatch, getState) => {
+  dispatch({
+    type: DEPOSITS_LOADING,
+  });
+  try {
+    const res = await (
+      await axios.get("/user/deposits", tokenConfig(getState))
+    ).data;
     dispatch({
-      type: DEPOSITS_LOADING
-    })
-    try {
-      const res = await (await axios.get('/user/deposits', tokenConfig(getState))).data
-      dispatch({
-        type: DEPOSITS_SUCCESS,
-        payload: res
-      })
-      dispatch(setMessage())
-    } catch (error) {
-        dispatch({
-          type: DEPOSITS_ERROR
-        })
-        dispatch(setMessage())
-    }
-}
+      type: DEPOSITS_SUCCESS,
+      payload: res,
+    });
+    dispatch(setMessage());
+  } catch (error) {
+    dispatch({
+      type: DEPOSITS_ERROR,
+    });
+    dispatch(setMessage());
+  }
+};
+
+// education payment
+export const eduPayment = (data) => async (dispatch, getState) => {
+  dispatch({
+    type: COURSE_DEP_LOADING,
+  });
+  try {
+    const res = await (
+      await axios.post("/education", data, tokenConfig(getState))
+    ).data;
+    dispatch({
+      type: COURSE_DEP_SUCCESS,
+      payload: res,
+    });
+    dispatch(setMessage("Course payment successful", 200, COURSE_DEP_SUCCESS));
+    setTimeout(() => {
+      window.location.replace('/dashboard')
+    }, 3000);
+  } catch (error) {
+    dispatch({
+      type: COURSE_DEP_FAILURE,
+    });
+    dispatch(
+      setMessage(
+        error.response.data.error,
+        error.response.status,
+        CONFIRM_DEP_FAILURE
+      )
+    );
+  }
+};

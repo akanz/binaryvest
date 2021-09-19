@@ -146,10 +146,7 @@ export const resetPass = (values) => async (dispatch) => {
   };
   try {
     const res = await (
-      await axios.post(
-        `/resetPassword/${values.ressettoken}`,
-        info
-      )
+      await axios.post(`/resetPassword/${values.ressettoken}`, info)
     ).data;
     dispatch({
       type: CONFIRM_RESET_SUCCESS,
@@ -198,6 +195,30 @@ export const loadUser = () => (dispatch, getState) => {
         console.error("Page Not found");
       }
     });
+};
+
+// upload profile picture
+export const upload = (data) => async (dispatch, getState) => {
+  const customHeader = {
+    headers: {
+      "Content-type": "multipart/form-data",
+      Authorization: `Bearer ${getState().auth.token}`,
+    },
+  };
+  dispatch({
+    type: USER_LOADING,
+  });
+  const id = data.get("id");
+  const avatar = data.get("avatar");
+  console.log(avatar);
+  try {
+    const res = await (
+      await axios.post(`/user/upload/${id}`, data, customHeader)
+    ).data;
+    dispatch(setMessage("Profile pic uploaded", 200, "UPLOAD_SUCCESS"));
+  } catch (error) {
+    dispatch(setMessage(error.response.data.error, 400, "UPLOAD_FAIL"));
+  }
 };
 
 // token configuration

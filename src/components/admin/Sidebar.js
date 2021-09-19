@@ -1,5 +1,5 @@
 import React from "react";
-import profPic from "../../img/profilepic.svg";
+import profPic from "../../img/profile.svg";
 import profIcon from "../../img/prof.svg";
 import notifIcon from "../../img/notif.svg";
 import passwordIcon from "../../img/password.svg";

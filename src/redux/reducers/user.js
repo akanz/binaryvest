@@ -5,6 +5,9 @@ import {
   CONFIRM_VER_FAILURE,
   CONFIRM_VER_LOADING,
   CONFIRM_VER_SUCCESS,
+  COURSE_DEP_FAILURE,
+  COURSE_DEP_LOADING,
+  COURSE_DEP_SUCCESS,
   DEPOSITS_ERROR,
   DEPOSITS_LOADING,
   DEPOSITS_SUCCESS,
@@ -22,6 +25,7 @@ const initialState = {
   documents: null,
   deposits: null,
   wallet: 0,
+  education: {},
   profile_pic: null,
 };
 
@@ -30,6 +34,7 @@ const userReducer = (state = initialState, action) => {
     case CONFIRM_DEP_LOADING:
     case DEPOSITS_LOADING:
     case USER_DEPS_LOADING:
+    case COURSE_DEP_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -80,6 +85,18 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         deposits: null,
+        isLoading: false,
+      };
+    case COURSE_DEP_SUCCESS:
+      return {
+        ...state,
+        education: action.payload,
+        isLoading: false,
+      };
+    case COURSE_DEP_FAILURE:
+      return {
+        ...state,
+        education: {},
         isLoading: false,
       };
     default:

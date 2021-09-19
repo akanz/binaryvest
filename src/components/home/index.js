@@ -15,6 +15,7 @@ import FAQ from "../more/FAQ";
 import Reviews from "../more/Reviews";
 import Withdraw from "../payment/Withdraw";
 import Card from "../payment/Card";
+import EduPayment from '../education/payment';
 
 const Index = () => {
   return (
@@ -23,6 +24,7 @@ const Index = () => {
       <Switch>
         <Route exact path="/" component={Main} />
           <Route exact path="/education" component={Education} />
+          <PrivateRoute exact path='/education/payment/:course' component={EduPayment} />
           <Route exact path="/faqs" component={FAQ} />
           <Route exact path="/reviews" component={Reviews} />
           <AdminRoute Route path="/admin" component={Admin} />

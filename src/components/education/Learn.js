@@ -3,6 +3,7 @@ import investIcon from "../../img/investing.png";
 import fundIcon from "../../img/funds.png";
 import pieChart from "../../img/pie-chart.png";
 import presentationIcon from "../../img/presentation.png";
+import { Link } from "react-router-dom";
 
 const returns = [
   { img: investIcon, name: "free financial analysis and tips" },
@@ -110,12 +111,12 @@ const Learn = () => {
         ))}
       </div>
       <div className="mx-auto mb-48 gap-6 w-8/10 text-white md:text-xl grid md:grid-cols-2 justify-items-center content-between">
-        <button className="button uppercase font-extrabold ">
+        <Link to='/education/payment/monthly' className="button uppercase font-extrabold ">
           ENROLL NOW FOR $150 monthly
-        </button>
-        <button className="bg-blueish uppercase p-2 px-8 rounded font-extrabold ">
+        </Link>
+        <Link to='/education/payment/fullPay' className="bg-blueish uppercase p-2 px-8 rounded font-extrabold ">
           ENROLL NOW FOR $1000 lifetime access
-        </button>
+        </Link>
       </div>
     </div>
   );

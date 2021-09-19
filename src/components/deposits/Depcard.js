@@ -44,7 +44,7 @@ const Depcard = ({ ...req }) => {
           {(date = moment(req.date).format("LL"))}
         </span>
       </div>
-      <div className="p-2 grid md:grid-cols-2 gap-x-24 border-t border-gray-300">
+      <div className="p-2 grid md:grid-cols-2 gap-x-24 gap-y-4 border-t border-gray-300">
         <button onClick={acceptDep} className="button flex justify-center">
           Confirm
         </button>

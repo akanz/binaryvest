@@ -1,5 +1,6 @@
 import React from "react";
 import { FaDotCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Edupackages = [
   {
     title: "STANDARD",
@@ -11,10 +12,11 @@ const Edupackages = [
       // { item: "Copy Trading Tool" },
       { item: "Bonus +2%" },
     ],
+    url: "/education/payment/monthly",
   },
   {
     title: "PREMIUM",
-    header: "$1000 one time payment",
+    header: "$1500 one time payment",
     list: [
       { item: "24/7 Live video chat support " },
       { item: "Withdrawals in 1 hour" },
@@ -25,6 +27,7 @@ const Edupackages = [
       { item: "Personal Success Manager" },
       { item: "First 3 risk free trades" },
     ],
+    url: "/education/payment/fullPay",
   },
 ];
 
@@ -33,18 +36,17 @@ const Package = () => {
     <>
       <div className="p-4 md:p-8">
         <div className="my-4 mb-8 text-center text-gray-600">
-          <h2 className='text-xl md:text-3xl font-semibold'>Learn how to Trade and Invest in Crypto</h2>
-          <h3 className='text-sm md:text-lg my-1'>
+          <h2 className="text-xl md:text-3xl font-semibold">
+            Learn how to Trade and Invest in Crypto
+          </h2>
+          <h3 className="text-sm md:text-lg my-1">
             Crypto has a steep learning curve but we are here to flatten it for
             you
           </h3>
         </div>
         <div className="w-8/10 mx-auto grid md:grid-cols-2 gap-4 md:gap-x-24 relative text-gray-700">
           {Edupackages.map((menu, i) => (
-            <div
-              key={i}
-              className="shadow-lg border border-gray-200 bg-white"
-            >
+            <div key={i} className="shadow-lg border border-gray-200 bg-white">
               <div className="border-b p-2 border-gray-300 text-xl text-center">
                 {menu.title}
               </div>
@@ -59,7 +61,9 @@ const Package = () => {
                   ))}
                 </div>
                 <div className="text-center">
-                  <button className="button">Enroll now</button>
+                  <Link to={menu.url} className="button">
+                    Enroll now
+                  </Link>
                 </div>
               </div>
             </div>
@@ -67,8 +71,10 @@ const Package = () => {
         </div>
       </div>
       <div className="bg-darkblue text-white p-6 md:p-10">
-        <div className="md:text-3xl text-xl font-semibold mb-3">7-Day Free Trial</div>
-        <div className='text-lg'>
+        <div className="md:text-3xl text-xl font-semibold mb-3">
+          7-Day Free Trial
+        </div>
+        <div className="text-lg">
           <p>
             Learn how to trade and invest in crypto for free for 7 days. During
             this period you will have full access to course materials, Tutors,
@@ -80,8 +86,8 @@ const Package = () => {
             anytime within these 7 days and you won’t be charged
           </p>
         </div>
-        <div className='text-right mt-6'>
-            <button className='button'>START FREE TRIAL</button>
+        <div className="text-right mt-6">
+          <button className="button">START FREE TRIAL</button>
         </div>
       </div>
     </>
