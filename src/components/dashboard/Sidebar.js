@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import profPic from "../../img/profile.svg";
 import profIcon from "../../img/prof.svg";
 import notifIcon from "../../img/notif.svg";
@@ -16,8 +16,11 @@ const Sidebar = ({ user }) => {
     img: null,
     preview: null,
     err: false,
+    showSet: false,
+    imageHash: Date.now(),
   });
-  console.log(user);
+  const [imgUrl, setImgUrl] = useState(user.imageUrl);
+
   const sideMenu = [
     // { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
     { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
@@ -60,6 +63,7 @@ const Sidebar = ({ user }) => {
           err: false,
           preview: reader.result,
           img: selected,
+          showSet: true,
         });
       };
       reader.readAsDataURL(selected);
@@ -73,16 +77,19 @@ const Sidebar = ({ user }) => {
     formData.append("avatar", prof_pic.img);
     formData.append("id", user._id);
     dispatch(upload(formData));
+    setProf_pic({ ...prof_pic, showSet: false });
+    setImgUrl(user.imageUrl)
   };
+
 
   return (
     <div className="bg-white shadow-xl min-h-screen h-full sticky top-0 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
         <div className="px-10 relative">
-          {user.imageUrl ? (
+          {/* {user.imageUrl ? (
             <img
               className="rounded-full w-32 h-32 object-cover"
-              src={user.imageUrl}
+              src={imgUrl}
               alt=""
             />
           ) : (
@@ -91,8 +98,19 @@ const Sidebar = ({ user }) => {
               src={prof_pic.img ? prof_pic.preview : profPic}
               alt=""
             />
-          )}
-
+          )} */}
+          {imgUrl && !prof_pic.preview && <img
+            className="rounded-full w-32 h-32 object-cover"
+            key={Date.now()}
+            src={`${imgUrl}?${prof_pic.imageHash}`}
+            alt=""
+          />}
+          {prof_pic.preview && <img
+            className="rounded-full w-32 h-32 object-cover"
+            src={prof_pic.img ? prof_pic.preview : profPic}
+            alt=""
+          />}
+         
           <label htmlFor="profPic">
             <div className="absolute bottom-0 right-12 p-2 rounded-full bg-turquoise text-white cursor-pointer">
               <FiCamera className="h-7 w-7" />
@@ -107,7 +125,7 @@ const Sidebar = ({ user }) => {
           />
         </div>
         <div className="my-3 px-5 text-gray-800">
-          {prof_pic.img && (
+          {prof_pic.img && prof_pic.showSet && (
             <div
               onClick={submitPic}
               className="p-2 cursor-pointer rounded-full shadow-md bg-turquoise text-xs mb-3 w-8/10 mx-auto text-center text-white"

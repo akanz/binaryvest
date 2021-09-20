@@ -216,6 +216,7 @@ export const upload = (data) => async (dispatch, getState) => {
       await axios.post(`/user/upload/${id}`, data, customHeader)
     ).data;
     dispatch(setMessage("Profile pic uploaded", 200, "UPLOAD_SUCCESS"));
+    
   } catch (error) {
     dispatch(setMessage(error.response.data.error, 400, "UPLOAD_FAIL"));
   }

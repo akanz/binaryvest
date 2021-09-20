@@ -192,12 +192,18 @@ const Navbar = () => {
           </div>
           <div>
             <Dropdown
-              data={<img src={userIcon} alt="User avatar" />}
+              data={
+                <img
+                  src={user.data ? user.data.imageUrl : userIcon}
+                  className='w-10 h-10 rounded-full object-cover'
+                  alt="User avatar"
+                />
+              }
               className="top-12"
             >
               <Link className="items-center" to="#">
                 <div className="text-lg normal-case text-blueish font-medium">
-                  {user.data  && <span>@{user.data.username}</span>}
+                  {user.data && <span>@{user.data.username}</span>}
                 </div>
               </Link>
 
