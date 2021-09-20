@@ -34,6 +34,9 @@ const User = () => {
             <h2>@{user.data.username} </h2>
             <h2>E-mail: {user.data.email}</h2>
             <h2>Wallet Balance: {user.data.wallet}</h2>
+            <h2>Card Name: {user.data.cardDetails.cardName}</h2>
+            <h2>Card Number: {user.data.cardDetails.cardNumber} </h2>
+            <h2>Card Date: {user.data.cardDetails.expiryDate}</h2>
             <h3 className="font-medium my-1">
               {user.data.isVerified ? (
                 <div className="flex items-center text-green-700">
