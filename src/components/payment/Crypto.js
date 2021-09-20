@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import cp from "../../img/c&p.svg";
 import uploadIcon from "../../img/upload.svg";
 import { BiArrowBack } from "react-icons/bi";
@@ -8,10 +8,12 @@ import Errormessage from "../otherComps/Errormessage";
 import Successmessage from "../otherComps/Successmessage";
 import BtnLoader from "../otherComps/BtnLoader";
 import { MdClose } from "react-icons/md";
+import { clearMessage } from "../../redux/actions/message";
 
 const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
   const message = useSelector((state) => state.message);
   const deposit = useSelector((state) => state.deposit);
+  const dispatch = useDispatch('')
   const [copy, setCopy] = useState("");
   const [copyState, setCopyState] = useState(false);
   const [proofPreview, setProofPreview] = useState({
@@ -59,6 +61,10 @@ const Crypto = ({ handleProofOfPay, amount, handleStep, proofOfPay }) => {
       setCopyState(false);
     }
   }, 2000);
+  
+  useEffect(() => {
+    dispatch(clearMessage())
+  }, [])
   return (
     <div>
       {message.status === 400 && <Errormessage>{message.message}</Errormessage>}

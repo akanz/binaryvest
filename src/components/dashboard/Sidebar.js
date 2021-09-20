@@ -10,6 +10,7 @@ import { FiCamera } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout, upload } from "../../redux/actions/auth";
+import { KeyboardReturnSharp } from "@material-ui/icons";
 const Sidebar = ({ user }) => {
   const [prof_pic, setProf_pic] = useState({
     img: null,
@@ -125,7 +126,13 @@ const Sidebar = ({ user }) => {
           <Link
             key={i}
             to={menu.url}
-            onClick={menu.name.includes("logout") ? handleLogout : ""}
+            onClick={
+              menu.name.includes("logout")
+                ? handleLogout
+                : () => {
+                    return;
+                  }
+            }
           >
             <div className="flex p-3 px-5 border-b border-gray-300 items-center">
               <div className="mr-4">

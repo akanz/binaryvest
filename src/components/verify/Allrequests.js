@@ -12,7 +12,6 @@ const Allrequests = () => {
     dispatch(clearMessage());
   }, []);
  
-  console.log(verify);
 
   return (
     <div>

@@ -60,7 +60,7 @@ const Request = () => {
             <span className="text-gray-600">ID: </span>
             <span className="text-blueish">{ver.request.userId}</span>
           </div>
-          {users
+          {/* {users
             .filter((user) => user._id === ver.request.userId)
             .map((user) => (
               <div>
@@ -68,7 +68,7 @@ const Request = () => {
                 {user.name.firstname}
                 {user._id}
               </div>
-            ))}
+            ))} */}
           <div className="grid md:grid-cols-2 place-items-center">
             <button
               type="submit"

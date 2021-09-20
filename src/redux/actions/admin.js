@@ -225,7 +225,6 @@ export const allDeposits = () => async (dispatch, getState) => {
     const res = await (
       await axios.get("/admin/all-investments", tokenConfig(getState))
     ).data;
-    console.log(res.data);
     dispatch({
       type: ALL_DEPOSITS_SUCCESS,
       payload: res.data,
@@ -234,7 +233,6 @@ export const allDeposits = () => async (dispatch, getState) => {
       setMessage("All deposit requests gotten", 200, ALL_DEPOSITS_SUCCESS)
     );
   } catch (error) {
-    console.log(error.response);
     dispatch({
       type: ALL_DEPOSITS_FAILURE,
     });
@@ -250,7 +248,6 @@ export const allDeposits = () => async (dispatch, getState) => {
 
 // get user deposits by id (admin view)
 export const allUserDeposits = (id) => async (dispatch, getState) => {
-  console.log(id)
   dispatch({
     type: USER_DEPS_LOADING,
   });
@@ -258,7 +255,6 @@ export const allUserDeposits = (id) => async (dispatch, getState) => {
     const res = await (
       await axios.get(`/admin/users/investments/${id}`, tokenConfig(getState))
     ).data;
-    console.log(res);
     dispatch({
       type: USER_DEPS_SUCCESS,
       payload: res.data,
@@ -270,7 +266,6 @@ export const allUserDeposits = (id) => async (dispatch, getState) => {
       dispatch(clearMessage())
     }, 3000);
   } catch (error) {
-    console.log(error.response);
     dispatch({
       type: USER_DEPS_FAILURE,
     });
@@ -323,11 +318,9 @@ export const addMoney = (id) => async (dispatch, getState) => {
         tokenConfig(getState)
       )
     ).data;
-    console.log(res);
     dispatch(setMessage('Deposit approved', res.status, CONFIRM_DEP_SUCCESS));
     window.location.replace('/admin')
   } catch (error) {
-    console.log(error.response);
     dispatch(
       setMessage(
         error.response.data.error,

@@ -12,8 +12,8 @@ import { deposit, getDeposit } from "../../redux/actions/deposit";
 import { getPlans } from "../../redux/actions/admin";
 import moment from "moment";
 let date,
-  futureDate = moment(date).add(1, "months").format("LL");
-
+  futureDate = moment(date).add(1, "months").format("LL"),
+  interest = 0;
 const Main = ({ user }) => {
   const dispatch = useDispatch("");
   const profile = useSelector((state) => state.profile);
@@ -95,7 +95,7 @@ const Main = ({ user }) => {
             </div>
           </div>
         )}
-        <div className="my-4 p-4 shadow rounded text-xl font-medium text-gray-500">
+        <div className="my-4 p-4 shadow rounded text-xl text-gray-500">
           <div className="capitalize">
             <span className="">Name: </span>
             <span className="text-pink-600">{user.name.firstname}</span>{" "}
@@ -205,9 +205,20 @@ const Main = ({ user }) => {
                                 <h5 className="text-sm">Amount Expected</h5>
                                 <div className="flex justify-between">
                                   <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
-                                    ${" "}
-                                    {parseFloat(dep.amount) *
-                                      parseFloat(plan.roi)}
+                                    $
+                                    {parseFloat(dep.amount) +
+                                      (parseFloat(dep.amount) *
+                                        parseFloat(plan.roi)) /
+                                        100}
+                                  </div>
+                                  <div className="hidden">
+                                    {
+                                      (interest +=
+                                        parseFloat(dep.amount) +
+                                        (parseFloat(dep.amount) *
+                                          parseFloat(plan.roi)) /
+                                          100)
+                                    }
                                   </div>
                                   {dep.status.includes("pending") && (
                                     <div className="flex rounded-2xl py-0.5 px-3 ml-2 shadow-md text-xs items-center">
@@ -252,7 +263,7 @@ const Main = ({ user }) => {
               {/* <div className="flex text-xs items-center justify-between border-b border-gray-200 p-2 px-4">
                 <div className="font-semibold">Interest</div>
                 <div className="text-white bg-yellow-600 shadow rounded-full px-3 py-1.5">
-                  ${parseFloat(user.wallet) * 50}
+                  ${interest}
                 </div>
               </div> */}
               <div className="my-2 mt-10 p-2 py-4 text-center">

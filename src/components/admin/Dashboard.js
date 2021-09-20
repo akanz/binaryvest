@@ -34,11 +34,11 @@ const Dashboard = ({ user }) => {
       icon: <HiOutlineUsers className="text-turquoise" />,
     },
     {
-      img: notifIcon,
+      img: '',
       alt: "",
       name: "All Verification requests",
       url: `${url}/allRequests`,
-      icon: "",
+      icon:  <VscVerified />,
     },
     {
       img: "",
@@ -54,13 +54,13 @@ const Dashboard = ({ user }) => {
       url: `${url}/createPlan`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
-    {
-      img: "",
-      alt: "",
-      name: "verify user",
-      url: `${url}/verify`,
-      icon: <VscVerified />,
-    },
+    // {
+    //   img: "",
+    //   alt: "",
+    //   name: "verify user",
+    //   url: `${url}/verify`,
+    //   icon: <VscVerified />,
+    // },
     { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
     { img: logoutIcon, alt: "", name: "Logout", url: "#", icon: "" },
   ];
@@ -90,23 +90,24 @@ const Dashboard = ({ user }) => {
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="px-3 py-2 grid h-20 bg-yellow-400 text-gray-700 text-xs rounded-xl">
-                <Link to="/admin/users">
+                <Link to="/admin/allDeposits">
                   <h3 className="cursor-pointer hover:underline">
                     Deposit requests
                   </h3>
                 </Link>
                 <div className="flex items-center my-2">
-                  <div className='mr-2'>
+                  <div className="mr-2">
                     {
-                      ver.allRequest.filter((req) => req.status === "pending")
-                        .length
+                      deposit.allDeposits.filter(
+                        (req) => req.status === "pending"
+                      ).length
                     }
                   </div>
                   <img src={arrWhite} alt="" />
                 </div>
               </div>
               <div className="px-3 py-2 grid h-20 bg-lightteal text-white text-xs rounded-xl">
-                <Link to="/admin/allDeposits">
+                <Link to="/admin/users">
                   <h3 className="cursor-pointer hover:underline">
                     Registered Users
                   </h3>
@@ -124,11 +125,10 @@ const Dashboard = ({ user }) => {
                   </h3>
                 </Link>
                 <div className="flex items-center my-2">
-                  <div className='mr-2'>
+                  <div className="mr-2">
                     {
-                      deposit.allDeposits.filter(
-                        (req) => req.status === "pending"
-                      ).length
+                      ver.allRequest.filter((req) => req.status === "pending")
+                        .length
                     }
                   </div>
                   <img src={arrWhite} alt="" />

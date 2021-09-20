@@ -56,7 +56,7 @@ const Learn = () => {
             asset class and there are lots of mistakes you can make while you
             purchase your coins. Most articles and videos you may come across
             have conflicting information and seem confusing to navigate, but our
-            goal at <b>Binaryvest </b>is to make cryptocurrency investing very
+            goal at <b>Binaryvest </b>is hear to make cryptocurrency investing very
             easy to understand.
           </p>
           <p>
@@ -112,10 +112,10 @@ const Learn = () => {
       </div>
       <div className="mx-auto mb-48 gap-6 w-8/10 text-white md:text-xl grid md:grid-cols-2 justify-items-center content-between">
         <Link to='/education/payment/monthly' className="button uppercase font-extrabold ">
-          ENROLL NOW FOR $150 monthly
+          ENROLL NOW FOR $250 monthly
         </Link>
         <Link to='/education/payment/fullPay' className="bg-blueish uppercase p-2 px-8 rounded font-extrabold ">
-          ENROLL NOW FOR $1000 lifetime access
+          ENROLL NOW FOR $1500 lifetime access
         </Link>
       </div>
     </div>

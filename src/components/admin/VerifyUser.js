@@ -15,7 +15,6 @@ const Verify = () => {
   const ver = useSelector((state) => state.verify);
   const message = useSelector((state) => state.message);
   const dispatch = useDispatch("");
-  console.log(user);
 
   const handleVerify = (id, status) => {
     dispatch(clearMessage());
