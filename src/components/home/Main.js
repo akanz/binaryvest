@@ -15,8 +15,9 @@ const Chart = lazy(() => import("./Chart")),
 const Main = () => {
   return (
     <div>
-      <Suspense fallback={<Loader />}>
+     
         <Intro />
+        <Suspense fallback={<Loader />}>
         <Chart />
 
         <Invest />
