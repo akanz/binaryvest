@@ -105,6 +105,7 @@ export const logout = () => (dispatch) => {
     type: LOGOUT,
   });
   dispatch(clearMessage());
+  // window.location.replace('/')
 };
 
 // Forgot password

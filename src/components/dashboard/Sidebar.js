@@ -7,7 +7,7 @@ import logoutIcon from "../../img/logout.svg";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { VscVerified } from "react-icons/vsc";
 import { FiCamera } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout, upload } from "../../redux/actions/auth";
 import { KeyboardReturnSharp } from "@material-ui/icons";
@@ -20,7 +20,7 @@ const Sidebar = ({ user }) => {
     imageHash: Date.now(),
   });
   const [imgUrl, setImgUrl] = useState(user.imageUrl);
-
+  const history = useHistory()
   const sideMenu = [
     // { img: profIcon, icon: "", alt: "", name: "Edit Profile", url: "H" },
     { img: "", icon: <GiPayMoney />, alt: "", name: "Deposit", url: "/invest" },
@@ -44,6 +44,7 @@ const Sidebar = ({ user }) => {
   const dispatch = useDispatch("");
   const handleLogout = () => {
     dispatch(logout());
+    history.push('/')
   };
   const uploadPic = (e) => {
     const selected = e.target.files[0];

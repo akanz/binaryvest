@@ -21,6 +21,7 @@ const Admin = () => {
     dispatch(allUsers());
     dispatch(getAllRequests());
     dispatch(allDeposits());
+    localStorage.setItem('isAdmin', admin.isAdmin)
     setTimeout(() => {
       dispatch(clearMessage());
     }, 5000);

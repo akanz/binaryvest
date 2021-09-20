@@ -29,7 +29,7 @@ const Usercard = ({ username, wallet, ...user }) => {
             <span className="mr-1">{name.firstname}</span>
             <span>{name.lastname}</span>
           </h5>
-          <h3 className='my-1'>{user._id}</h3>
+          {/* <h3 className='my-1'>{user._id}</h3> */}
           <h3 className='my-1'>Wallet Balance: {wallet}</h3>
           <h3>
             {isVerified ? (

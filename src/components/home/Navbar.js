@@ -19,12 +19,13 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const history = useHistory().location.pathname;
-
+  const History = useHistory()
   const handleClick = () => {
     setSideBar(!sideBar);
   };
   const handleLogout = () => {
     dispatch(logout());
+    History.push('/')
   };
 
   return (
@@ -194,7 +195,7 @@ const Navbar = () => {
             <Dropdown
               data={
                 <img
-                  src={user.data ? user.data.imageUrl : userIcon}
+                  src={user.data && user.data.imageUrl ? user.data.imageUrl : userIcon}
                   className='w-10 h-10 rounded-full object-cover'
                   alt="User avatar"
                 />

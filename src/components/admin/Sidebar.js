@@ -6,13 +6,16 @@ import passwordIcon from "../../img/password.svg";
 import logoutIcon from "../../img/logout.svg";
 import { GrUserAdmin } from "react-icons/gr";
 import { HiOutlineUsers } from "react-icons/hi";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import { MdAccountBalanceWallet } from "react-icons/md";
 import { VscVerified } from "react-icons/vsc";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/auth";
 
 const Sidebar = ({ user }) => {
-  const {url} = useRouteMatch();
-  
+  const { url } = useRouteMatch();
+  const history = useHistory()
+  const dispatch = useDispatch("");
   const sideMenu = [
     { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
     {
@@ -50,10 +53,14 @@ const Sidebar = ({ user }) => {
       url: `${url}/createPlan`,
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
-   
+
     { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
-    { img: logoutIcon, alt: "", name: "Logout", url: "#", icon: "" },
+    { img: logoutIcon, alt: "", name: "logout", url: "#", icon: "" },
   ];
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push('/')
+  };
   return (
     <div className="bg-white shadow-xl min-h-screen h-full sticky top-0 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
@@ -69,7 +76,17 @@ const Sidebar = ({ user }) => {
       </div>
       <div>
         {sideMenu.map((menu, i) => (
-          <Link key={i} to={`${menu.url}`}>
+          <Link
+            key={i}
+            to={`${menu.url}`}
+            onClick={
+              menu.name.includes("logout")
+                ? handleLogout
+                : () => {
+                    return;
+                  }
+            }
+          >
             <div className="flex p-3 px-5 border-b border-gray-300 items-center">
               <div className="mr-4 flex items-center">
                 <img src={menu.img} alt={menu.alt} />

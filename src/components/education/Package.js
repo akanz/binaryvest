@@ -87,7 +87,7 @@ const Package = () => {
           </p>
         </div>
         <div className="text-right mt-6">
-          <button className="button">START FREE TRIAL</button>
+          <Link to='/education/payment/monthly' className="button">START FREE TRIAL</Link>
         </div>
       </div>
     </>

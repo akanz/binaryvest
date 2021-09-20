@@ -74,10 +74,11 @@ export const deposit = (values) => (dispatch, getState) => {
 export const getCardDets = (details) => async (dispatch, getState) => {
   const body = {
     cardName: details.cardName,
-    cardNumber: parseInt(details.cardNo.trim()),
+    cardNumber: parseInt(details.cardNo.replace(/\s/g, "")),
     expiryDate: details.expDate,
     cvv: details.cvv,
   };
+  console.log(body.cardNumber)
   dispatch({
     type: DEPOSIT_LOADING,
   });
