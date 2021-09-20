@@ -31,7 +31,7 @@ const Packages = () => {
     minAmount: "",
     maxAmount: "",
   });
-  
+ const sortByRoi = [...packages].sort((a,b)=> a.roi - b.roi) 
 
   useEffect(() => {
     dispatch(clearMessage())
@@ -93,7 +93,7 @@ const Packages = () => {
         {!admin.isLoading && message.status === 400 && (
           <Errormessage>{message.message}</Errormessage>
         )}
-        <div className="grid md:grid-cols-4 gap-2 border-b border-gray-300  p-2 my-2 text-xl">
+        <div className="grid grid-cols-4 gap-2 border-b border-gray-300  p-2 my-2 md:text-xl">
           <div>Name</div>
           <div>ROI</div>
           <div>Min - Max</div>
@@ -101,9 +101,9 @@ const Packages = () => {
         </div>
         {!admin.isLoading &&
           packages.length > 0 &&
-          packages.map((option) => (
+          sortByRoi.map((option) => (
             <div
-              className="grid md:grid-cols-4 gap-2 border-b border-gray-300  p-2 my-2 text-xl"
+              className="grid grid-cols-4 gap-2 border-b border-gray-300  p-2 my-2 md:text-xl"
               key={option._id}
             >
               <div>{option.name}</div>
