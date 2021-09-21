@@ -17,14 +17,14 @@ const Routes = () => {
       <Switch>
         <Route exact path="/admin/users" component={Users} />
         <Route exact path="/admin/plans" component={Packages} />
-        <Route exact path="/admin/verify" component={Verify} />
+        <Route exact path="/admin/verify/user/:id" component={Verify} />
         <Route exact path="/admin/allRequests" component={Allrequests} />
-        <Route exact path="/admin/deposit" component={ConfirmDeposit} />
+        <Route exact path="/admin/deposit/:id" component={ConfirmDeposit} />
         <Route exact path="/admin/allDeposits" component={AllDeposits} />
         <Route exact path="/admin/withraw" component={Withdraw} />
         <Route exact path="/admin/createPlan" component={Plan} />
-        <Route path="/admin/verify/:id" component={Request} />
-        <Route path="/admin/:id" component={User} />
+        <Route exact path="/admin/verify/:id" component={Request} />
+        <Route exact path="/admin/user/:id" component={User} />
       </Switch>
     </div>
   );

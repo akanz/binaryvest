@@ -13,7 +13,7 @@ import {
 const initialState = {
   allDeposits: [],
   userDetails: [],
-  cardDetails: [],
+  cardDetails: null,
   packageOption: "",
   isUser: null,
   withdraw: [],

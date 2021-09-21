@@ -25,7 +25,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  allUsers: {},
+  allUsers: [],
   allPackages: [],
   package: [],
   user: {},
@@ -55,7 +55,7 @@ const adminReducer = (state = initialState, action) => {
     case ALL_USERS_ERROR:
       return {
         ...state,
-        allUsers: {},
+        allUsers: [],
         isLoading: false,
       };
     case GET_USER_SUCCESS:

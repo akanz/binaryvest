@@ -9,6 +9,7 @@ import { createContext } from "react";
 import { clearMessage } from "../../redux/actions/message";
 import { getAllRequests } from "../../redux/actions/verify";
 import { getPlans } from "../../helpers/invest";
+import Loader from "../otherComps/Loader";
 
 export const userContext = createContext("");
 
@@ -21,12 +22,15 @@ const Admin = () => {
     dispatch(allUsers());
     dispatch(getAllRequests());
     dispatch(allDeposits());
-    localStorage.setItem('isAdmin', admin.isAdmin)
+   
     setTimeout(() => {
       dispatch(clearMessage());
     }, 5000);
   }, []);
 
+  if(!admin){
+    return <Loader />
+  }
   return (
     <div className="flex text-sm">
       <userContext.Provider value={[user, admin]}>

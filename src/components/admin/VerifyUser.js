@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { VscVerified } from "react-icons/vsc";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { userContext } from ".";
-import { verifyUser } from "../../redux/actions/admin";
+import { getUserById, verifyUser } from "../../redux/actions/admin";
 import { clearMessage } from "../../redux/actions/message";
-import { verifyDirectly } from "../../redux/actions/verify";
+import { getVerRequest, verifyDirectly } from "../../redux/actions/verify";
 import BtnLoader from "../otherComps/BtnLoader";
 import Errormessage from "../otherComps/Errormessage";
+import Loader from "../otherComps/Loader";
 import Successmessage from "../otherComps/Successmessage";
 
 const Verify = () => {
@@ -15,6 +16,7 @@ const Verify = () => {
   const ver = useSelector((state) => state.verify);
   const message = useSelector((state) => state.message);
   const dispatch = useDispatch("");
+  let {id} = useParams();
 
   const handleVerify = (id, status) => {
     dispatch(clearMessage());
@@ -24,6 +26,13 @@ const Verify = () => {
       dispatch(clearMessage());
     }, 3000);
   };
+  useEffect(() => {
+    dispatch(getUserById(id))
+  }, [])
+
+  if(!user){
+    return <Loader />
+  }
   return (
     <div>
       {message.status === 200 && (

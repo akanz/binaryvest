@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Loader from "../otherComps/Loader";
 import Main from "./Main";
 import Sidebar from "./Sidebar";
 
@@ -12,9 +13,9 @@ const Dashboard = () => {
   });
   
 
-  // if (!user) {
-  //   setUsers({ ...users, name: { firstname: "sam", lastname: "akande" } });
-  // }
+  if (!user) {
+    return <Loader />
+  }
   return (
     <div className="flex">
       <Sidebar user={user? user: users} />

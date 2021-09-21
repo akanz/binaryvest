@@ -15,6 +15,7 @@ import Successmessage from "../otherComps/Successmessage";
 import Errormessage from "../otherComps/Errormessage";
 import BtnLoader from "../otherComps/BtnLoader";
 import { clearMessage } from "../../redux/actions/message";
+import Loader from "../otherComps/Loader";
 
 const requirements = [
   { desc: "Government issued", img: correctIcon },
@@ -37,7 +38,7 @@ const Verify = () => {
 
   // Other states
   const [otherState, setOtherState] = useState({
-    username: userDetails.username,
+    username: userDetails ? userDetails.username : "",
     id_type: "",
     frontPage: null,
     backPage: null,
@@ -106,22 +107,25 @@ const Verify = () => {
   const onSubmit = async (values) => {
     dispatch(clearMessage());
     const formData = new FormData();
-    formData.append('name', otherState.username)
-    formData.append('phone', values.phone_no)
-    formData.append('label', otherState.id_type)
-    formData.append('ssn', values.ssn)
+    formData.append("name", otherState.username);
+    formData.append("phone", values.phone_no);
+    formData.append("label", otherState.id_type);
+    formData.append("ssn", values.ssn);
     formData.append("avatar", otherState.frontPage);
-    formData.append('avatar', otherState.backPage)
-    
-  //  console.log(values)
-  //   const data = { ...values, ...otherState };
-  console.log([...formData])
+    formData.append("avatar", otherState.backPage);
+
+    //  console.log(values)
+    //   const data = { ...values, ...otherState };
+    console.log([...formData]);
     dispatch(verify(formData));
     setTimeout(() => {
       dispatch(clearMessage());
     }, 2000);
   };
 
+  if (!userDetails) {
+    return <Loader />;
+  }
   return (
     <div className="w-9/10 md:w-7/10 mx-auto my-14">
       <div></div>

@@ -14,10 +14,10 @@ import { logout } from "../../redux/actions/auth";
 
 const Sidebar = ({ user }) => {
   const { url } = useRouteMatch();
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch("");
   const sideMenu = [
-    { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
+    // { img: profIcon, alt: "", name: "Edit Profile", url: "#", icon: "" },
     {
       img: "",
       alt: "",
@@ -54,18 +54,18 @@ const Sidebar = ({ user }) => {
       icon: <MdAccountBalanceWallet className="text-turquoise" />,
     },
 
-    { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
+    // { img: passwordIcon, alt: "", name: "Change Password", url: "#", icon: "" },
     { img: logoutIcon, alt: "", name: "logout", url: "#", icon: "" },
   ];
   const handleLogout = () => {
     dispatch(logout());
-    history.push('/')
+    history.push("/");
   };
   return (
     <div className="bg-white shadow-xl min-h-screen h-full sticky top-0 border-gray-100 border hidden md:block w-2/15 lg:w-2/10 py-12">
       <div>
         <div className="px-10">
-          <img src={profPic} alt="" />
+          <img src={user.imageUrl ? user.imageUrl : profPic} alt="" />
         </div>
         <div className="my-3 px-5 text-gray-800">
           <h2 className="text-xl font-medium capitalize">

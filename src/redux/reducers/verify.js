@@ -15,7 +15,7 @@ import {
 
 const initialState = {
   allRequest: [],
-  request: {},
+  request: null,
   verifiedUser: {},
   userRequest: {},
   isLoading: false,
@@ -59,7 +59,7 @@ const verificationReducer = (state = initialState, action) => {
     case VER_REQUEST_FAILURE:
       return {
         ...state,
-        request: {},
+        request: null,
         isLoading: false,
       };
     case CONFIRM_VER_FAILURE:

@@ -1,22 +1,35 @@
-import React from "react";
-import { Link} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { verifyReq } from "../../redux/actions/verify";
+import { getVerRequest, verifyReq } from "../../redux/actions/verify";
 import { clearMessage } from "../../redux/actions/message";
 import { VscVerified } from "react-icons/vsc";
+import Loader from "../otherComps/Loader";
+import Error from "../otherComps/404";
 
 const Request = () => {
   const dispatch = useDispatch("");
   const ver = useSelector((state) => state.verify);
   const users = useSelector((state) => state.admin.allUsers);
   const message = useSelector((state) => state.message);
-
+  const {id} = useParams();
+  console.log(id)
+  
   const verifyUser = (value) => {
     dispatch(clearMessage());
     dispatch(verifyReq(value));
 
   };
+  useEffect(() => {
+    dispatch(getVerRequest(id))
+  }, [])
 
+  if(!ver.request && ver.isLoading){
+    return <Loader />
+  }
+  if(!ver.request && !ver.isLoading){
+    return <Error />
+  }
   return (
     <div>
       {message.status === 200 && ver.request.status !== 'pending' && (
@@ -25,7 +38,7 @@ const Request = () => {
           <div>User Verified</div>
         </div>
       )}
-      {!ver.isLoading  && (
+      {!ver.isLoading && ver.request  && (
         <div className="shadow rounded">
           {ver.request.metadata.map((img, i) => (
             <div key={i} className="p-2 h-96 border-b border-gray-300">

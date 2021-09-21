@@ -13,6 +13,7 @@ import {
 
 const initialState = {
   token: localStorage.getItem("userToken"),
+  isAdmin: localStorage.getItem('isAdmin'),
   isAuthenticated: null ,
   isLoading: false,
   data: null,
@@ -39,6 +40,7 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
         localStorage.setItem('userToken', action.payload.token)
+        localStorage.setItem('isAdmin', action.payload.data.isAdmin)
       return {
         ...state,
         ...action.payload,
@@ -60,6 +62,7 @@ const authReducer = (state = initialState, action) => {
     case RESET_ERROR:
     case LOGOUT:
       localStorage.removeItem("userToken");
+      localStorage.removeItem('isAdmin')
       return {
         ...state,
         token: null,

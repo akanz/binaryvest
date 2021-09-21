@@ -1,13 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import Error from "../otherComps/404";
 import Loader from "../otherComps/Loader";
 import { VscVerified } from "react-icons/vsc";
+import { getUserById } from "../../redux/actions/admin";
 
 const User = () => {
   const user = useSelector((state) => state.admin.user);
   const loading = useSelector((state) => state.admin.isLoading);
+  let {id} = useParams();
+  const dispatch = useDispatch("");
+
+  useEffect(() => {
+      dispatch(getUserById(id));
+  }, []);
 
   if (user.data === undefined && loading) {
     return <Loader />;
@@ -15,6 +22,7 @@ const User = () => {
   if (user.data === undefined) {
     return <Error />;
   }
+
   return (
     <div className="mx-auto w-9/10 rounded shadow lg:w-7/10 text-lg">
       {loading && <Loader />}
@@ -34,9 +42,14 @@ const User = () => {
             <h2>@{user.data.username} </h2>
             <h2>E-mail: {user.data.email}</h2>
             <h2>Wallet Balance: {user.data.wallet}</h2>
-            <h2>Card Name: {user.data.cardDetails.cardName}</h2>
-            <h2>Card Number: {user.data.cardDetails.cardNumber} </h2>
-            <h2>Card Date: {user.data.cardDetails.expiryDate}</h2>
+            {user.data.cardDetails && (
+              <>
+                <h2>Card Name: {user.data.cardDetails.cardName}</h2>
+                <h2>Card Number: {user.data.cardDetails.cardNumber} </h2>
+                <h2>Card Date: {user.data.cardDetails.expiryDate}</h2>{" "}
+              </>
+            )}
+
             <h3 className="font-medium my-1">
               {user.data.isVerified ? (
                 <div className="flex items-center text-green-700">
@@ -52,14 +65,12 @@ const User = () => {
             </h3>
           </div>
           <div className="p-4 grid md:flex justify-between">
-            <Link
-              to="/admin/deposit"
-            >
+            <Link to={`/admin/deposit/${id}`}>
               <button className="button mb-4 min-w-full md:w-3/10 text-xs">
                 Add to user wallet
               </button>
             </Link>
-            <Link to="/admin/verify">
+            <Link to={`/admin/verify/user/${id}`}>
               <button className="button text-xs min-w-full md:w-3/10">
                 verify user
               </button>
