@@ -112,7 +112,7 @@ const Main = ({ user }) => {
           <div className="border-gray-100 rounded-sm border shadow-md lg:w-7/10 lg:mr-6 px-3 lg:px-6 py-2 pb-6">
             <div className="flex justify-between my-1.5 mb-5">
               <div className="text-gray-600 text-xl font-semibold">
-                Wallet Information
+                Investment History
               </div>
               <div>
                 <span>Show:</span>
@@ -172,13 +172,26 @@ const Main = ({ user }) => {
                               <h5 className="text-sm">Amount Invested</h5>
 
                               <div className="flex justify-between">
-                                <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                                <div
+                                  className={`${
+                                    parseFloat(user.wallet) <
+                                    parseFloat(dep.amount)
+                                      ? "opacity-70"
+                                      : ""
+                                  } font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2`}
+                                >
                                   ${parseFloat(dep.amount)}
                                 </div>
                                 {dep.status.includes("pending") && (
                                   <div className="flex rounded-2xl py-0.5 px-3 ml-2 shadow-md text-xs items-center">
                                     <span className="mr-1">pending </span>
                                     <RiChatSmile3Line className="w-4 h-4" />
+                                  </div>
+                                )}
+                                {parseFloat(user.wallet) <
+                                  parseFloat(dep.amount) && (
+                                  <div className="flex py-0.5 px-3 ml-2 text-xs items-center">
+                                    <span className="mr-1">Withdrawn </span>
                                   </div>
                                 )}
                               </div>
@@ -204,7 +217,12 @@ const Main = ({ user }) => {
                                 </h6>
                                 <h5 className="text-sm">Amount Expected</h5>
                                 <div className="flex justify-between">
-                                  <div className="font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2">
+                                  <div className={`${
+                                    parseFloat(user.wallet) <
+                                    parseFloat(dep.amount)
+                                      ? "opacity-70"
+                                      : ""
+                                  } font-bold text-sm w-6/10 mx-auto text-center bg-darkblue rounded-full my-2 p-2`}>
                                     $
                                     {parseFloat(dep.amount) +
                                       (parseFloat(dep.amount) *
@@ -224,6 +242,12 @@ const Main = ({ user }) => {
                                     <div className="flex rounded-2xl py-0.5 px-3 ml-2 shadow-md text-xs items-center">
                                       <span className="mr-1">pending </span>
                                       <RiChatSmile3Line className="w-4 h-4" />
+                                    </div>
+                                  )}
+                                  {parseFloat(user.wallet) <
+                                    parseFloat(dep.amount) && (
+                                    <div className="flex py-0.5 px-3 ml-2 text-xs items-center">
+                                      <span className="mr-1">Withdrawn </span>
                                     </div>
                                   )}
                                 </div>

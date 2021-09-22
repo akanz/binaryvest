@@ -6,13 +6,11 @@ import chart2 from "../../img/chat_2.jpg";
 import chart3 from "../../img/chat_3.jpg";
 import sc1 from "../../img/sc1.jpg";
 import sc2 from "../../img/sc2.jpg";
-import sc3 from "../../img/sc3.jpg";
 import sc4 from "../../img/sc4.jpg";
 
 const reviews = [
   { img: '', reviewImg: sc1, alt: "" },
   { img: '', reviewImg: sc2, alt: "" },
-  { img: '', reviewImg: sc3, alt: "" },
   { img: '', reviewImg: sc4, alt: "" },
   {
     desc: " They were so helpful. I literally went from a complete novice to tutoring people via zoom every week! ",
