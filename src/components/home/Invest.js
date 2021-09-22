@@ -30,7 +30,7 @@ const pckgs = [
     desc: "Profit ranges from $17 to $175 monthly",
   },
   {
-    name: "Ruby - 45% ROI",
+    name: "Silver - 45% ROI",
     amount: "$500 - $4.9K",
     desc: "Profit ranges from $225 to $2250 monthly",
   },

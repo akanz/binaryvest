@@ -49,7 +49,7 @@ const Payment = () => {
   }, [admin]);
 
   const onSubmit = async (values) => {
-    console.log(payMethod)
+    console.log(payMethod);
     if (payMethod === 1) {
       const formData = new FormData();
       formData.append("planId", packageOption.id);
@@ -156,33 +156,35 @@ const Payment = () => {
                           name="packageOption"
                           options={packageOptions}
                         /> */}
-                        {packageOptions.map((option) => (
-                          <div
-                            className="flex items-center my-1.5 text-gray-700"
-                            key={option._id}
-                          >
-                            <input
-                              color="teal"
-                              className="form-radio mr-2.5"
-                              type="radio"
-                              id={option._id}
-                              name={option.name}
-                              value={option._id}
-                              checked={packageOption.id === option._id}
-                              onChange={() =>
-                                setPackageOption({
-                                  ...packageOption,
-                                  id: option._id,
-                                  name: option.name,
-                                  roi: option.roi,
-                                  minAmount: option.minAmount,
-                                  maxAmount: option.maxAmount,
-                                })
-                              }
-                            />
-                            <label htmlFor={option.name}>{option.name}</label>
-                          </div>
-                        ))}
+                        {[...packageOptions]
+                          .sort((a, b) => a.roi - b.roi)
+                          .map((option) => (
+                            <div
+                              className="flex items-center my-1.5 text-gray-700"
+                              key={option._id}
+                            >
+                              <input
+                                color="teal"
+                                className="form-radio mr-2.5"
+                                type="radio"
+                                id={option._id}
+                                name={option.name}
+                                value={option._id}
+                                checked={packageOption.id === option._id}
+                                onChange={() =>
+                                  setPackageOption({
+                                    ...packageOption,
+                                    id: option._id,
+                                    name: option.name,
+                                    roi: option.roi,
+                                    minAmount: option.minAmount,
+                                    maxAmount: option.maxAmount,
+                                  })
+                                }
+                              />
+                              <label htmlFor={option.name}>{option.name}</label>
+                            </div>
+                          ))}
                       </div>
 
                       <div className="my-4">
@@ -193,7 +195,11 @@ const Payment = () => {
                               <Formikcontrol
                                 control="input"
                                 name="amount"
-                                placeholder={`Deposit an amount between  $${packageOption.minAmount} - $${packageOption.maxAmount}`}
+                                placeholder={
+                                  packageOption.minAmount < 500000
+                                    ? `$${packageOption.minAmount} - $${packageOption.maxAmount}`
+                                    : `$${packageOption.minAmount} and above`
+                                }
                               />
                               <div className="text-right mt-8">
                                 <div className="flex justify-between items-center">
@@ -202,8 +208,7 @@ const Payment = () => {
                                       <BiArrowBack className="w-10 h-8 text-gray-500" />
                                     </Link>
                                   </div>
-                                  {
-                                    formik.values.amount !== "" &&
+                                  {formik.values.amount !== "" &&
                                     isNaN(formik.values.amount) === false &&
                                     parseFloat(formik.values.amount) >=
                                       opt.minAmount &&
