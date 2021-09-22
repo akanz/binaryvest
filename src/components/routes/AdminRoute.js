@@ -8,7 +8,7 @@ const AdminRoute = (props) => {
   
   const { component: Component, location, ...rest } = props;
 
-  if(!isAdmin.data){
+  if(!isAdmin.data && isAdmin.isAuthenticated){
     return <Loader />
   }
 

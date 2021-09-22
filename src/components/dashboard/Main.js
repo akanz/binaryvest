@@ -129,7 +129,7 @@ const Main = ({ user }) => {
                     <div className="p-1 px-3">{date}</div>
                   </div>
                   <div className="p-3">
-                    <h6 className="bg-pink-600 shadow rounded-full w-6/10 mx-auto md:w-3/10 text-center my-3  px-4 py-1">
+                    <h6 className="bg-pink-600 shadow rounded-full w-6/10 mx-auto md:w-5/10 text-center my-3  px-4 py-1">
                       <Link to="/invest" className="hover:font-semibold">
                         Make Deposit
                       </Link>

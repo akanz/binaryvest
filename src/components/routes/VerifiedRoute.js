@@ -8,7 +8,7 @@ const VerifiedRoute = (props) => {
   
   const { component: Component, location, ...rest } = props;
 
-  if(!isAuth.isAuthenticated){
+  if(!isAuth.data && isAuth.isAuthenticated){
     return <Loader />
   }
   if (isAuth.isAuthenticated && isAuth.data.isVerified) {
