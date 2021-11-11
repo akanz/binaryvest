@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { GrClose } from "react-icons/gr";
 import { IoLogInOutline } from "react-icons/io5";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
@@ -12,33 +11,34 @@ import navedu from "../../img/navedu.svg";
 import navfaq from "../../img/navfaq.svg";
 import Dropdown from "../../helpers/Dropdown";
 import { HiMenuAlt3 } from "react-icons/hi";
-import {motion, useCycle} from 'framer-motion'
-import { useDimensions } from "../otherComps/useDimensions";
+import { motion, useCycle } from "framer-motion";
+import { GiBookshelf } from "react-icons/gi";
+import { CgClose } from "react-icons/cg";
 
 const Navbar = () => {
   const [sideBar, setSideBar] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const history = useHistory().location.pathname;
-  const History = useHistory()
+  const History = useHistory();
   const handleClick = () => {
     setSideBar(!sideBar);
   };
   const handleLogout = () => {
     dispatch(logout());
-    History.push('/')
+    History.push("/");
   };
 
   const navVariant = {
     hidden: {
       opacity: 0,
-      x: '-100%'
+      x: "-100%",
     },
     visible: {
       opacity: 1,
-      x: 0
-    }
-  }
+      x: 0,
+    },
+  };
 
   return (
     <div className="h-14 shadow font-medium justify-center items-center">
@@ -81,10 +81,10 @@ const Navbar = () => {
           </div>
           <motion.div
             variants={navVariant}
-            animate={sideBar? "hidden": "visible" }
-            className={`transform transition duration-300 ease-in-out ${
+            animate={sideBar ? "hidden" : "visible"}
+            className={`transform bg-darkblue text-white transition duration-300 ease-in-out ${
               sideBar ? "" : "-translate-x-full"
-            } bg-white fixed top-0 z-10 shadow-xl rounded-l-lg left-0 p-5 h-full w-4/5 `}
+            } bg-white fixed top-0 z-10 shadow-xl rounded-l-lg left-0 p-5 h-full w-full `}
           >
             <div className="flex justify-between items-center">
               <Link to="/" className="text-blueish logo font-semibold">
@@ -92,10 +92,10 @@ const Navbar = () => {
                 <span className="text-red-600">Vest</span>
               </Link>
               <div onClick={handleClick}>
-                <GrClose className=" w-6 h-6" />
+                <CgClose className="w-9 h-9 font-semibold" />
               </div>
             </div>
-            <div className="w-9/10 mx-auto text-gray-600 text-lg capitalize font-light tracking-wider my-5">
+            <div className="w-9/10 mx-auto text-2xl text-center capitalize font-light tracking-wider my-5">
               <div
                 className={`${history === "/" ? "active" : ""} sideBar`}
                 onClick={handleClick}
@@ -108,9 +108,9 @@ const Navbar = () => {
                 } sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/education" className="flex items-center">
+                <Link to="/education" className="flex items-center justify-center mb-4">
                   <div>
-                    <img src={navedu} className="w-6" alt="" />
+                    <GiBookshelf />
                   </div>
                   <div className="ml-2">Education</div>
                 </Link>
@@ -119,7 +119,7 @@ const Navbar = () => {
                 className={`${history === "/invest" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/invest" className="flex items-center">
+                <Link to="/invest" className="flex items-center justify-center mb-4">
                   <div>
                     <GiPayMoney />
                   </div>
@@ -130,7 +130,7 @@ const Navbar = () => {
                 className={`${history === "/withdraw" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/withdraw" className="flex items-center">
+                <Link to="/withdraw" className="flex items-center justify-center mb-4">
                   <div>
                     <GiReceiveMoney />
                   </div>
@@ -142,7 +142,7 @@ const Navbar = () => {
                   className={`${history === "/admin" ? "active" : ""} sideBar`}
                   onClick={handleClick}
                 >
-                  <Link to="/admin" className="flex items-center">
+                  <Link to="/admin" className="flex items-center justify-center mb-4">
                     <div>
                       <BiUser />
                     </div>
@@ -155,7 +155,7 @@ const Navbar = () => {
                 className={`${history === "/profile" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/dashboard" className="flex items-center">
+                <Link to="/dashboard" className="flex items-center justify-center mb-4">
                   <div>
                     <BiUser />
                   </div>
@@ -166,9 +166,9 @@ const Navbar = () => {
                 className={`${history === "/reviews" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/reviews" className="flex items-center">
+                <Link to="/reviews" className="flex items-center justify-center mb-4">
                   <div>
-                    <img src={navReview} className="w-6" alt="" />
+                    
                   </div>
                   <div className="ml-2">Reviews</div>
                 </Link>
@@ -177,9 +177,9 @@ const Navbar = () => {
                 className={`${history === "/faq" ? "active" : ""} sideBar`}
                 onClick={handleClick}
               >
-                <Link to="/faqs" className="flex items-center">
+                <Link to="/faqs" className="flex items-center justify-center mb-4">
                   <div>
-                    <img src={navfaq} className="w-6" alt="" />
+                    
                   </div>
                   <div className="ml-2">FAQs</div>
                 </Link>
@@ -209,8 +209,12 @@ const Navbar = () => {
             <Dropdown
               data={
                 <img
-                  src={user.data && user.data.imageUrl ? user.data.imageUrl : userIcon}
-                  className='w-10 h-10 rounded-full object-cover'
+                  src={
+                    user.data && user.data.imageUrl
+                      ? user.data.imageUrl
+                      : userIcon
+                  }
+                  className="w-10 h-10 rounded-full object-cover"
                   alt="User avatar"
                 />
               }
