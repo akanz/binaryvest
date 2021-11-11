@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+import { iconVariants } from "./Invest";
 
 const useStyles = makeStyles((theme) => ({}));
 
 const FAQs = () => {
   const classes = useStyles();
+  const faqControl = useAnimation();
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      faqControl.start("end");
+    } else {
+      faqControl.start("start");
+    }
+  }, [faqControl, inView]);
+
   return (
     <div className="w-9/10 mx-auto p-8">
       <h1 className="text-4xl text-center mb-8">Frequently Asked Questions</h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <motion.div
+        // ref={ref}
+        // variants={iconVariants}
+        // initial="start"
+        // animate={faqControl}
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+      >
         {/* accordion 1 */}
-        <div className="">
+        <div>
           <h3 className="text-turquoise text-xl py-2">General</h3>
           <Accordion>
             <AccordionSummary
@@ -389,7 +410,7 @@ const FAQs = () => {
             </AccordionDetails>
           </Accordion>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

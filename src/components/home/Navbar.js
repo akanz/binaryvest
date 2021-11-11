@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
@@ -12,10 +12,11 @@ import navedu from "../../img/navedu.svg";
 import navfaq from "../../img/navfaq.svg";
 import Dropdown from "../../helpers/Dropdown";
 import { HiMenuAlt3 } from "react-icons/hi";
+import {motion, useCycle} from 'framer-motion'
+import { useDimensions } from "../otherComps/useDimensions";
 
 const Navbar = () => {
   const [sideBar, setSideBar] = useState(false);
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const history = useHistory().location.pathname;
@@ -27,6 +28,17 @@ const Navbar = () => {
     dispatch(logout());
     History.push('/')
   };
+
+  const navVariant = {
+    hidden: {
+      opacity: 0,
+      x: '-100%'
+    },
+    visible: {
+      opacity: 1,
+      x: 0
+    }
+  }
 
   return (
     <div className="h-14 shadow font-medium justify-center items-center">
@@ -67,7 +79,9 @@ const Navbar = () => {
               )}
             </div>
           </div>
-          <div
+          <motion.div
+            variants={navVariant}
+            animate={sideBar? "hidden": "visible" }
             className={`transform transition duration-300 ease-in-out ${
               sideBar ? "" : "-translate-x-full"
             } bg-white fixed top-0 z-10 shadow-xl rounded-l-lg left-0 p-5 h-full w-4/5 `}
@@ -171,7 +185,7 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <div
